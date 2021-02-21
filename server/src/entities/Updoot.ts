@@ -13,6 +13,9 @@ export class Updoot extends BaseEntity {
   @Column({ type: "int" })
   value: number;
 
+  @Column({ type: "varchar"})
+  text: string;
+
   @PrimaryColumn()
   userId: number;
 

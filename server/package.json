@@ -1,5 +1,5 @@
 {
-  "name": "lireddit-server",
+  "name": "ecommerce-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,10 +10,11 @@
     "dev": "nodemon dist/index.js",
     "start": "node dist/index.js",
     "start2": "ts-node src/index.ts",
-    "dev2": "nodemon --exec ts-node src/index.ts"
+    "dev2": "nodemon --exec ts-node src/index.ts",
+    "typeorm": "ts-node ./node_modules/typeorm/cli -f ./ormconfig.json"
   },
   "keywords": [],
-  "author": "",
+  "author": "robby awaldi",
   "license": "ISC",
   "devDependencies": {
     "@types/connect-redis": "^0.0.14",
