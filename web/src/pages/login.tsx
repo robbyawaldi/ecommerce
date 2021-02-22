@@ -6,8 +6,6 @@ import { InputField } from "../components/InputField";
 import { useLoginMutation, MeQuery, MeDocument } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
-import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
 import NextLink from "next/link";
 import { withApollo } from "../utils/withApollo";
 
@@ -17,7 +15,7 @@ const Login: React.FC<{}> = ({}) => {
   return (
     <Wrapper variant="small">
       <Formik
-        initialValues={{ usernameOrEmail: "", password: "" }}
+        initialValues={{ email: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
           const response = await login({
             variables: values,

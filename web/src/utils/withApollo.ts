@@ -1,6 +1,5 @@
 import { createWithApollo } from "./createWithApollo";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { PaginatedPosts } from "../generated/graphql";
 import { NextPageContext } from "next";
 
 const createClient = (ctx: NextPageContext) =>
@@ -17,18 +16,7 @@ const createClient = (ctx: NextPageContext) =>
       typePolicies: {
         Query: {
           fields: {
-            posts: {
-              keyArgs: [],
-              merge(
-                existing: PaginatedPosts | undefined,
-                incoming: PaginatedPosts
-              ): PaginatedPosts {
-                return {
-                  ...incoming,
-                  posts: [...(existing?.posts || []), ...incoming.posts],
-                };
-              },
-            },
+            
           },
         },
       },

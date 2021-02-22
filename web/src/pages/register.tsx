@@ -6,8 +6,6 @@ import { InputField } from "../components/InputField";
 import { useRegisterMutation, MeQuery, MeDocument } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
-import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
 import { withApollo } from "../utils/withApollo";
 
 interface registerProps {}
@@ -18,7 +16,7 @@ const Register: React.FC<registerProps> = ({}) => {
   return (
     <Wrapper variant="small">
       <Formik
-        initialValues={{ email: "", username: "", password: "" }}
+        initialValues={{ email: "", name: "", password: "", roleId: 0 }}
         onSubmit={async (values, { setErrors }) => {
           const response = await register({
             variables: { options: values },
