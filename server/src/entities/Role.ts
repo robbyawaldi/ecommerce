@@ -1,3 +1,4 @@
+
 import { ObjectType, Field } from "type-graphql";
 import {
   Entity,
@@ -5,17 +6,17 @@ import {
   UpdateDateColumn,
   Column,
   BaseEntity,
-  PrimaryColumn,
-  ManyToOne,
+  PrimaryGeneratedColumn,
+  OneToMany,
 } from "typeorm";
-import { Role } from "./Role";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class Role extends BaseEntity {
   @Field()
-  @PrimaryColumn()
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Field()
   @Column({ unique: true })
@@ -23,17 +24,10 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ unique: true })
-  email!: string;
-
-  @Column()
-  password!: string;
-
-  @Column()
-  roleId: number;
+  slug!: string;
   
-  @Field(() => Role)
-  @ManyToOne(() => Role, (role) => role.users)
-  role: Role;
+  @OneToMany(() => User, (user) => user.role )
+  users: User[]
 
   @Field(() => String)
   @CreateDateColumn()

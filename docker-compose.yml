@@ -1,6 +1,22 @@
 version: '3'
 
-services: 
+services:
+  db:
+    image: postgres
+    environment: 
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+    networks: 
+      - shopping_app
+
+  redis:
+    image: redis
+    networks: 
+      - shopping_app
+       
   server:
     build:
       context: ./server
@@ -19,7 +35,7 @@ services:
       - server
     networks: 
       - shopping_app
-    
+
   nginx:
     build:
       context: ./nginx
@@ -27,27 +43,12 @@ services:
     depends_on:
       - server
       - web
+      - db
+      - redis
     ports: 
       - 80:80
     networks: 
       - shopping_app
-  
-  db:
-    image: postgres
-    environment: 
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    volumes: 
-      - pgdata:/var/lib/postgresql/data
-    networks: 
-      - shopping_app
-
-  redis:
-    image: redis
-    networks: 
-      - shopping_app
-
 
 networks: 
   shopping_app:

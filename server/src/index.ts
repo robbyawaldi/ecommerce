@@ -4,20 +4,16 @@ import { __prod__, COOKIE_NAME } from "./constants";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { HelloResolver } from "./resolvers/hello";
-import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
 import Redis from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import cors from "cors";
 import { createConnection } from "typeorm";
-import { Post } from "./entities/Post";
 import { User } from "./entities/User";
 import path from "path";
-import { Updoot } from "./entities/Updoot";
 import { createUserLoader } from "./utils/createUserLoader";
-import { createUpdootLoader } from "./utils/createUpdootLoader";
+import { Role } from "./entities/Role";
 
 const main = async () => {
   await createConnection({
@@ -26,7 +22,7 @@ const main = async () => {
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Post, User, Updoot],
+    entities: [User, Role],
   });
 
   const app = express();
@@ -62,7 +58,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, PostResolver, UserResolver],
+      resolvers: [UserResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({
@@ -70,7 +66,6 @@ const main = async () => {
       res,
       redis,
       userLoader: createUserLoader(),
-      updootLoader: createUpdootLoader(),
     }),
   });
 

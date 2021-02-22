@@ -10,19 +10,19 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     ];
   }
 
-  if (options.username.length <= 2) {
+  if (options.name.length <= 2) {
     return [
       {
-        field: "username",
+        field: "name",
         message: "length must be greater than 2",
       },
     ];
   }
 
-  if (options.username.includes("@")) {
+  if (options.name.includes("@")) {
     return [
       {
-        field: "username",
+        field: "name",
         message: "cannot include an @",
       },
     ];
