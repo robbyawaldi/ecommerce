@@ -17,7 +17,7 @@ export const SideBar: React.FC<SideBarProps> = ({ }) => {
     }
 
     return (
-        <nav className={`bg-teal-200 h-screen flex flex-col transition-all duration-300 ${minimize ? 'w-16' : 'md:w-1/6'}`}>
+        <nav className={`bg-gradient-to-b from-teal-200 to-blueocean h-full flex flex-col transition-all duration-300 ${minimize ? 'w-16' : 'md:w-1/6'}`}>
             <div className="flex-none h-20 flex items-center justify-center">
                 <FaDev />
             </div>
@@ -30,7 +30,7 @@ export const SideBar: React.FC<SideBarProps> = ({ }) => {
                                 <div className="flex-none">
                                     {item.icon}
                                 </div>
-                                <span className={`text-md flex-grow font-bold transition duration-150 ${minimize ? 'opacity-0' : ''}`}>{item.title}</span>
+                                <span className={`text-md flex-grow transition duration-150 ${minimize ? 'opacity-0' : ''}`}>{item.title}</span>
                             </div>
                         </Link>
                     </li>

@@ -6,8 +6,8 @@ interface AdmHeaderProps {
 
 export const AdmHeader: React.FC<AdmHeaderProps> = ({}) => {
         return (
-            <div className="px-3 py-2 flex w-full h-14 justify-between">
-                <div className="text-xl">
+            <div className="py-2 flex w-full h-14 md:justify-between justify-end">
+                <div className="text-xl md:inline hidden">
                     Admin Siti Hajar
                 </div>
                 <figure className="justify-self-center space-x-2 flex items-center">

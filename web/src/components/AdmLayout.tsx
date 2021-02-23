@@ -7,9 +7,9 @@ interface AdmLayoutProps {
 
 export const AdmLayout: React.FC<AdmLayoutProps> = ({ children }) => {
     return (
-        <div className="flex">
+        <div className="flex items-stretch h-screen">
             <SideBar />
-            <div className="w-full z-10">
+            <div className="w-full z-10 bg-gray-50 px-2 overflow-y-auto">
                 <AdmHeader />
                 {children}
             </div>

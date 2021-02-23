@@ -12,10 +12,9 @@ const Login: React.FC<{}> = ({}) => {
         onSubmit={async (values, { setErrors }) => {
             console.log(values)
         }}
-        
       >
         {({ isSubmitting }) => (
-          <Form className="p-8 md:rounded-lg bg-white w-screen h-screen flex-none md:max-w-md md:max-h-80 min-w-min">
+          <Form className="p-8 md:rounded-lg bg-white w-screen h-screen flex-none md:max-w-md md:max-h-80 min-w-min flex flex-col">
             <h1 className="text-center text-2xl font-semibold">Login</h1>
             <InputField
               name="email"
@@ -31,7 +30,8 @@ const Login: React.FC<{}> = ({}) => {
               />
             </Box>
             <Button
-              mt={4}
+              mt={5}
+              ml="auto"
               type="submit"
               isLoading={isSubmitting}
               colorScheme="teal"

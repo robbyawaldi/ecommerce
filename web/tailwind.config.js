@@ -7,7 +7,8 @@ module.exports = {
     extend: {
       colors: {
         indigo: colors.indigo,
-        teal: colors.teal
+        teal: colors.teal,
+        blueocean: '#12A7D6'
       }
     },
   },
