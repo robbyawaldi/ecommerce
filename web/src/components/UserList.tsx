@@ -1,15 +1,35 @@
-import { Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
+import { Table, Thead, Tr, Th, Tbody, Td, useDisclosure } from '@chakra-ui/react';
 import React from 'react'
 import Link from 'next/link'
+import { ModalConfirm } from './ModalConfirm';
+import { useRouter } from 'next/router';
 
 interface UserListProps {
 
 }
 
 export const UserList: React.FC<UserListProps> = ({ }) => {
-    const handleDelete = (id: string, e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault()
-        console.log(id)
+    const [users, setUsers] = React.useState([
+        { id: "akdkAJD", name: "Robby Awaldi", email: "robbyawaldi@gmail.com", role: { id: 2, name: "Admin" } }
+    ])
+    const router = useRouter()
+    const { isOpen, onClose } = useDisclosure({
+        isOpen: typeof router.query.delete == 'string',
+        onClose: () => {
+            router.replace('', '')
+        }
+    })
+
+    const handleDelete = React.useCallback(() => {
+        setUsers(users => users.filter(user => user.id !== router.query.delete))
+        router.replace('', '')
+    }, [router.query])
+
+    const modalProps = {
+        isOpen,
+        onClose,
+        title: "Delete User",
+        onAccept: handleDelete
     }
 
     return (
@@ -26,26 +46,35 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        <Tr>
-                            <Td>
-                                <Link href="/">
-                                    <span className="font-semibold">
-                                        robbyawaldi@gmail.com
-                            </span>
-                                </Link>
-                            </Td>
-                            <Td>Robby Awaldi</Td>
-                            <Td>admin</Td>
-                            <Td className="space-x-3">
-                                <Link href="/">
-                                    <a className="font-semibold">Edit</a>
-                                </Link>
-                                <a className="font-semibold" onClick={handleDelete.bind(this, "sSdfaf")}>Delete</a>
-                            </Td>
-                        </Tr>
+                        {users.map(user => (
+                            <Tr key={user.id}>
+                                <Td>
+                                    <Link href={`/adm/users/edit/${user.id}`}>
+                                        <span className="font-semibold cursor-pointer">
+                                            {user.email}
+                                        </span>
+                                    </Link>
+                                </Td>
+                                <Td>{user.name}</Td>
+                                <Td>{user.role.name}</Td>
+                                <Td className="space-x-3">
+                                    <Link href={`/adm/users/edit/${user.id}`}>
+                                        <a className="font-semibold">Edit</a>
+                                    </Link>
+                                    <Link href={`/adm/users?delete=${user.id}&email=${user.email}`}>
+                                        <a className="font-semibold">Delete</a>
+                                    </Link>
+                                </Td>
+                            </Tr>
+                        ))}
                     </Tbody>
                 </Table>
             </div>
+            <ModalConfirm {...modalProps} >
+                <p>
+                    Are you sure to delete {router.query.email}
+                </p>
+            </ModalConfirm>
         </section>
     );
 }

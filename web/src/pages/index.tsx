@@ -2,9 +2,9 @@ import { withApollo } from "../utils/withApollo";
 
 const Index = () => {
   return (
-    <>
+    <div>
       hello world
-    </>
+    </div>
   );
 };
 

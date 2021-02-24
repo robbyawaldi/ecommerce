@@ -20,7 +20,7 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.1.7",
+    "next": "^10.0.7",
     "next-apollo": "^5.0.0",
     "next-urql": "^1.1.0",
     "react": "^17.0.1",
@@ -30,10 +30,10 @@
     "urql": "^2.0.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "1.17.7",
-    "@graphql-codegen/typescript": "1.17.7",
-    "@graphql-codegen/typescript-operations": "1.17.7",
-    "@graphql-codegen/typescript-react-apollo": "^2.0.6",
+    "@graphql-codegen/cli": "1.20.1",
+    "@graphql-codegen/typescript": "1.21.0",
+    "@graphql-codegen/typescript-operations": "1.17.14",
+    "@graphql-codegen/typescript-react-apollo": "2.2.1",
     "@graphql-codegen/typescript-urql": "^2.0.0",
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "@types/node": "^14.0.27",

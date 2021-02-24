@@ -1,19 +1,20 @@
 import { Box, Select, Button, FormControl, FormLabel } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import React from 'react'
-import { useRegisterMutation } from '../generated/graphql';
-import { toErrorMap } from '../utils/toErrorMap';
 import { InputField } from './InputField';
 
-interface CreateUserProps { }
+interface EditUserProps { }
 
-export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
-    const [register] = useRegisterMutation()
+export const EditUser: React.FC<EditUserProps> = ({ }) => {
+    const router = useRouter()
+    const id = router.query.id
+
+    console.log(id)
 
     return (
         <section className="bg-white w-full rounded-md p-5 shadow-lg my-5 max-w-md">
-            <h1 className="text-lg border-b-2 h-10">Create New User</h1>
+            <h1 className="text-lg border-b-2 h-10">Edit User</h1>
             <Formik
                 initialValues={{
                     name: "",
@@ -22,15 +23,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                     roleId: 2
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await register({
-                        variables: values,
-                    });
-                    if (response.data?.register.errors) {
-                        setErrors(toErrorMap(response.data.register.errors));
-                    } else if (response.data?.register.user) {
-                        // worked
-                        router.push("/adm/users");
-                    }
+                    console.log(values)
                 }}
             >
                 {({ isSubmitting }) => (
@@ -68,7 +61,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                             isLoading={isSubmitting}
                             colorScheme="teal"
                         >
-                            create
+                            Edit
                             </Button>
                     </Form>
                 )}
