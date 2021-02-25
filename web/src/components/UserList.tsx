@@ -1,35 +1,37 @@
-import { Table, Thead, Tr, Th, Tbody, Td, useDisclosure } from '@chakra-ui/react';
+import { Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
 import React from 'react'
 import Link from 'next/link'
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
+import { useUsersQuery } from '../generated/graphql';
 
-interface UserListProps {
-
-}
+interface UserListProps { }
 
 export const UserList: React.FC<UserListProps> = ({ }) => {
-    const [users, setUsers] = React.useState([
-        { id: "akdkAJD", name: "Robby Awaldi", email: "robbyawaldi@gmail.com", role: { id: 2, name: "Admin" } }
-    ])
-    const router = useRouter()
-    const { isOpen, onClose } = useDisclosure({
-        isOpen: typeof router.query.delete == 'string',
-        onClose: () => {
-            router.replace('', '')
-        }
+    const { data, error, loading } = useUsersQuery({
+        variables: {
+            limit: 5
+        },
+        notifyOnNetworkStatusChange: true
     })
+    const router = useRouter()
 
-    const handleDelete = React.useCallback(() => {
-        setUsers(users => users.filter(user => user.id !== router.query.delete))
-        router.replace('', '')
-    }, [router.query])
 
-    const modalProps = {
-        isOpen,
-        onClose,
-        title: "Delete User",
-        onAccept: handleDelete
+    if (!loading && !data) {
+        return (
+            <div>
+                <div>you got query failed for some reason</div>
+                <div>{error?.message}</div>
+            </div>
+        )
+    }
+
+    if (!data && loading) {
+        return <div>loading...</div>
+    }
+
+    const handleDelete = () => {
+        // setUsers(users => users.filter(user => user.id !== router.query.delete))
     }
 
     return (
@@ -46,7 +48,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {users.map(user => (
+                        {data?.users.users.map((user) => (
                             <Tr key={user.id}>
                                 <Td>
                                     <Link href={{
@@ -67,7 +69,10 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                                     }}>
                                         <a className="font-semibold">Edit</a>
                                     </Link>
-                                    <Link href={`/adm/users?delete=${user.id}&email=${user.email}`}>
+                                    <Link href={{
+                                        pathname: '/adm/users',
+                                        query: { delete: user.id, email: user.email }
+                                    }}>
                                         <a className="font-semibold">Delete</a>
                                     </Link>
                                 </Td>
@@ -76,11 +81,11 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                     </Tbody>
                 </Table>
             </div>
-            <ModalConfirm {...modalProps} >
+            {/* <ModalConfirm {...modalProps} >
                 <p>
                     Are you sure to delete {router.query.email}
                 </p>
-            </ModalConfirm>
+            </ModalConfirm> */}
         </section>
     );
 }

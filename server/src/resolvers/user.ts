@@ -7,6 +7,7 @@ import {
   ObjectType,
   Query,
   UseMiddleware,
+  Int,
 } from "type-graphql";
 import { MyContext } from "../types";
 import { User } from "../entities/User";
@@ -36,6 +37,14 @@ class UserResponse {
   user?: User;
 }
 
+@ObjectType()
+class PaginatedUsers {
+  @Field(() => [User])
+  users: User[];
+  @Field()
+  hasMore: boolean;
+}
+
 @Resolver(User)
 export class UserResolver {
 
@@ -43,6 +52,46 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   me(@Ctx() { req }: MyContext) {
     return User.findOne(req.session.userId, { relations: ["role"] });
+  }
+
+  @Query(() => PaginatedUsers)
+  async users(
+    @Arg('limit', () => Int) limit: number,
+  ): Promise<PaginatedUsers> {
+    const realLimit = Math.min(50, limit)
+    const realLimitPlusOne = realLimit + 1
+
+    // const replacements: any[] = [realLimitPlusOne]
+
+    // const users = await getConnection().query(
+    //   `
+    //   select 
+    //   "User".id as "User_id", 
+    //   "User".name as "User_name", 
+    //   "User".email as "User_email", 
+    //   "User__role".id as "User__role_id", 
+    //   "User__role".name as "User__role_name", 
+    //   "User__role".slug as "User__role_slug"
+    //   from "user" "User" 
+    //   left join "role" "User__role" 
+    //   on "User"."roleId" = "User__role".id
+    //   order by "User"."createdAt" desc 
+    //   limit $1
+    //   `,
+    //   replacements
+    // )
+    const qb = getConnection()
+      .getRepository(User)
+      .createQueryBuilder("user")
+      .leftJoinAndSelect('user.role', 'role')
+      .take(realLimitPlusOne);
+
+    const users = await qb.getMany();
+
+    return {
+      users: users.slice(0, realLimit),
+      hasMore: users.length === realLimitPlusOne
+    }
   }
 
   @Mutation(() => UserResponse)
