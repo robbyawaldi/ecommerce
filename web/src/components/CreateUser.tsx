@@ -1,8 +1,7 @@
 import { Box, Select, Button, FormControl, FormLabel } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import router from 'next/router';
 import React from 'react'
-import { useRegisterMutation } from '../generated/graphql';
+import { useRegisterMutation, UsersDocument } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { InputField } from './InputField';
 
@@ -21,15 +20,21 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                     password: "",
                     roleId: 2
                 }}
-                onSubmit={async (values, { setErrors }) => {
+                onSubmit={async (values, { setErrors, resetForm }) => {
                     const response = await register({
                         variables: values,
+                        refetchQueries: [
+                            {
+                                query: UsersDocument,
+                                variables: { limit: 5 }
+                            }
+                        ]
                     });
                     if (response.data?.register.errors) {
                         setErrors(toErrorMap(response.data.register.errors));
-                    } else if (response.data?.register.user) {
-                        // worked
-                        router.push("/adm/users");
+                    } 
+                    else {
+                        resetForm({})
                     }
                 }}
             >

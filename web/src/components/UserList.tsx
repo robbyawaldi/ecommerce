@@ -14,7 +14,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
         },
         notifyOnNetworkStatusChange: true
     })
-    const router = useRouter()
+    // const router = useRouter()
 
 
     if (!loading && !data) {

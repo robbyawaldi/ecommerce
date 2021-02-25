@@ -5,9 +5,6 @@ mutation Register($name: String!, $email: String!, $password: String!, $roleId: 
     password: $password,
     roleId: $roleId
   }) {
-    user {
-        ...User
-    }
     errors {
       field
       message

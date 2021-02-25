@@ -135,10 +135,7 @@ export type RegisterMutation = (
   { __typename?: 'Mutation' }
   & { register: (
     { __typename?: 'UserResponse' }
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & UserFragment
-    )>, errors?: Maybe<Array<(
+    & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
       & Pick<FieldError, 'field' | 'message'>
     )>> }
@@ -258,16 +255,13 @@ export const RegisterDocument = gql`
   register(
     options: {name: $name, email: $email, password: $password, roleId: $roleId}
   ) {
-    user {
-      ...User
-    }
     errors {
       field
       message
     }
   }
 }
-    ${UserFragmentDoc}`;
+    `;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**

@@ -55,31 +55,14 @@ export class UserResolver {
   }
 
   @Query(() => PaginatedUsers)
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
   async users(
     @Arg('limit', () => Int) limit: number,
   ): Promise<PaginatedUsers> {
     const realLimit = Math.min(50, limit)
     const realLimitPlusOne = realLimit + 1
 
-    // const replacements: any[] = [realLimitPlusOne]
-
-    // const users = await getConnection().query(
-    //   `
-    //   select 
-    //   "User".id as "User_id", 
-    //   "User".name as "User_name", 
-    //   "User".email as "User_email", 
-    //   "User__role".id as "User__role_id", 
-    //   "User__role".name as "User__role_name", 
-    //   "User__role".slug as "User__role_slug"
-    //   from "user" "User" 
-    //   left join "role" "User__role" 
-    //   on "User"."roleId" = "User__role".id
-    //   order by "User"."createdAt" desc 
-    //   limit $1
-    //   `,
-    //   replacements
-    // )
     const qb = getConnection()
       .getRepository(User)
       .createQueryBuilder("user")
@@ -122,6 +105,8 @@ export class UserResolver {
         .returning("*")
         .execute();
       user = result.raw[0];
+
+      console.log('user result ', user)
     } catch (err) {
       if (err.code === "23505") {
         return {
@@ -188,5 +173,15 @@ export class UserResolver {
         resolve(true);
       })
     );
+  }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  async deleteUser(
+    @Arg("id", () => String) id: string,
+  ): Promise<boolean> {
+    await User.delete(id);
+    return true;
   }
 }
