@@ -91,7 +91,7 @@ export type UserFragment = (
   & Pick<User, 'id' | 'name' | 'email'>
   & { role: (
     { __typename?: 'Role' }
-    & Pick<Role, 'id' | 'name'>
+    & Pick<Role, 'id' | 'name' | 'slug'>
   ) }
 );
 
@@ -181,6 +181,7 @@ export const UserFragmentDoc = gql`
   role {
     id
     name
+    slug
   }
 }
     `;

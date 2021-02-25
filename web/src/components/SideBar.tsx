@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { sideBarMenu } from '../static/sideBarMenu'
 import { FaChevronLeft, FaDev } from 'react-icons/fa'
 import useDidMountEffect from '../utils/useDidMountEffect'
+import { useMeQuery } from '../generated/graphql'
 
 interface SideBarProps {
 }
@@ -11,17 +12,35 @@ interface SideBarProps {
 export const SideBar: React.FC<SideBarProps> = ({ }) => {
     const router = useRouter()
     const [minimize, setMinimize] = React.useState(typeof router.query.s == 'string')
+    const [menu, setMenu] = React.useState(sideBarMenu)
+    const { data } = useMeQuery()
+    
+    React.useEffect(() => {
+        if (data?.me) {
+            let menus: string[] = []
+            switch(data.me.role.slug) {
+                case "admin":
+                    menus = ['user', 'product']
+                    setMenu(sideBarMenu.filter(menu => menus.includes(menu.slug)))
+                    break
+                case "data_entry": 
+                    menus = ['product']
+                    setMenu(sideBarMenu.filter(menu => menus.includes(menu.slug)))
+                    break
+            }
+        }
+    }, [data?.me])
 
     useDidMountEffect(() => {
-        const {s, ...query} = router.query
-        
+        const { s, ...query } = router.query
+
         if (minimize) router.push({
             pathname: router.pathname,
-            query: {...query, s: ''}
+            query: { ...query, s: '' }
         })
         else router.push({
             pathname: router.pathname,
-            query: {...query }
+            query: { ...query }
         })
     }, [minimize])
 
@@ -36,7 +55,7 @@ export const SideBar: React.FC<SideBarProps> = ({ }) => {
                 <FaDev />
             </div>
             <ul className="flex-grow">
-                {sideBarMenu.map((item, index) => (
+                {menu.map((item, index) => (
                     <li key={index}>
                         <Link href={`${item.path}${minimize ? '?minimize' : ''}`}>
                             <div className={`flex space-x-3 items-center pl-5 h-16 cursor-pointer 
