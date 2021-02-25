@@ -49,7 +49,10 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                         {users.map(user => (
                             <Tr key={user.id}>
                                 <Td>
-                                    <Link href={`/adm/users/edit/${user.id}`}>
+                                    <Link href={{
+                                        pathname: '/adm/users/edit/[id]',
+                                        query: { id: 'sdsd' }
+                                    }}>
                                         <span className="font-semibold cursor-pointer">
                                             {user.email}
                                         </span>
@@ -58,7 +61,10 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                                 <Td>{user.name}</Td>
                                 <Td>{user.role.name}</Td>
                                 <Td className="space-x-3">
-                                    <Link href={`/adm/users/edit/${user.id}`}>
+                                    <Link href={{
+                                        pathname: '/adm/users/edit/[id]',
+                                        query: { id: 'sdsd' }
+                                    }}>
                                         <a className="font-semibold">Edit</a>
                                     </Link>
                                     <Link href={`/adm/users?delete=${user.id}&email=${user.email}`}>

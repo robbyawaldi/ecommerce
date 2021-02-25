@@ -50,7 +50,6 @@ export class UserResolver {
   @UseMiddleware(isAdmin)
   async register(
     @Arg("options") options: UsernamePasswordInput,
-    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
     const errors = validateRegister(options);
     if (errors) {
@@ -87,11 +86,6 @@ export class UserResolver {
       }
     }
 
-    // store user id session
-    // this will set a cookie on the user
-    // keep them logged in
-    req.session.userId = user.id;
-
     return { user };
   }
 
@@ -101,7 +95,7 @@ export class UserResolver {
     @Arg("password") password: string,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: email }, relations: ['role'] });
     if (!user) {
       return {
         errors: [

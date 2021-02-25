@@ -3,18 +3,32 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { sideBarMenu } from '../static/sideBarMenu'
 import { FaChevronLeft, FaDev } from 'react-icons/fa'
-
+import useDidMountEffect from '../utils/useDidMountEffect'
 
 interface SideBarProps {
 }
 
 export const SideBar: React.FC<SideBarProps> = ({ }) => {
     const router = useRouter()
-    const [minimize, setMinimize] = React.useState(typeof router.query.minimize == 'string')
+    const [minimize, setMinimize] = React.useState(typeof router.query.s == 'string')
+
+    useDidMountEffect(() => {
+        const {s, ...query} = router.query
+        
+        if (minimize) router.push({
+            pathname: router.pathname,
+            query: {...query, s: ''}
+        })
+        else router.push({
+            pathname: router.pathname,
+            query: {...query }
+        })
+    }, [minimize])
 
     const handleMinimize = () => {
         setMinimize(prev => !prev)
     }
+
 
     return (
         <nav className={`bg-gradient-to-b from-teal-200 to-blueocean h-full flex flex-col transition-all duration-300 ${minimize ? 'w-16' : 'md:w-1/6'}`}>

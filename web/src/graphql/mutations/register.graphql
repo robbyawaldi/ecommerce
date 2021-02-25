@@ -6,10 +6,7 @@ mutation Register($name: String!, $email: String!, $password: String!, $roleId: 
     roleId: $roleId
   }) {
     user {
-      id
-      name
-      createdAt
-      updatedAt
+        ...User
     }
     errors {
       field

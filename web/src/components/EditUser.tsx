@@ -7,10 +7,10 @@ import { InputField } from './InputField';
 interface EditUserProps { }
 
 export const EditUser: React.FC<EditUserProps> = ({ }) => {
-    const router = useRouter()
-    const id = router.query.id
+    // const router = useRouter()
+    // const id = router.query.id
 
-    console.log(id)
+    // console.log(id)
 
     return (
         <section className="bg-white w-full rounded-md p-5 shadow-lg my-5 max-w-md">
