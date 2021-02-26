@@ -1,7 +1,7 @@
 import React from 'react'
-import { AdmLayout } from '../../../components/AdmLayout';
-import { CreateUser } from '../../../components/CreateUser';
-import { UserList } from '../../../components/UserList';
+import { AdmLayout } from '../../../components/admin/AdmLayout';
+import { CreateUser } from '../../../components/admin/CreateUser';
+import { UserList } from '../../../components/admin/UserList';
 import { useIsAuth } from '../../../utils/useIsAuth';
 import { withApollo } from '../../../utils/withApollo';
 

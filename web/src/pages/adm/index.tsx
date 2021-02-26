@@ -1,4 +1,4 @@
-import { AdmLayout } from "../../components/AdmLayout"
+import { AdmLayout } from "../../components/admin/AdmLayout"
 import { useIsAuth } from "../../utils/useIsAuth"
 import { withApollo } from "../../utils/withApollo"
 

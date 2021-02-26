@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Box, Button } from "@chakra-ui/react";
-import { InputField } from "../../components/InputField";
+import { InputField } from "../../components/admin/InputField";
 import { withApollo } from "../../utils/withApollo";
 import { MeDocument, MeQuery, useLoginMutation } from "../../generated/graphql";
 import { toErrorMap } from "../../utils/toErrorMap";
