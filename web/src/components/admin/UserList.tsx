@@ -3,19 +3,48 @@ import React from 'react'
 import Link from 'next/link'
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
-import { useUsersQuery } from '../../generated/graphql';
+import { useDeleteUserMutation, UsersDocument, useUsersQuery } from '../../generated/graphql';
 
 interface UserListProps { }
 
 export const UserList: React.FC<UserListProps> = ({ }) => {
+    const [openDeleteModal, setOpenDeleteModal] = React.useState(false)
     const { data, error, loading } = useUsersQuery({
         variables: {
             limit: 5
         },
         notifyOnNetworkStatusChange: true
     })
-    // const router = useRouter()
+    const [deleteUser] = useDeleteUserMutation()
+    const router = useRouter()
 
+    React.useEffect(() => {
+        if (typeof router.query.delete == 'string') {
+            setOpenDeleteModal(true)
+        }
+    }, [router.query.delete])
+
+    const handleDelete = React.useCallback(async () => {
+        const response = await deleteUser({
+            variables: { id: router.query.delete as string },
+            refetchQueries: [
+                {
+                    query: UsersDocument,
+                    variables: { limit: 5 }
+                }
+            ]
+        })
+        if (response.data?.deleteUser) {
+            handleClose()
+        }
+    }, [router.query.delete])
+
+    const handleClose = React.useCallback(() => {
+        setOpenDeleteModal(open => !open)
+        router.replace({
+            pathname: router.pathname
+        })
+    }, [])
 
     if (!loading && !data) {
         return (
@@ -28,10 +57,6 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
 
     if (!data && loading) {
         return <div>loading...</div>
-    }
-
-    const handleDelete = () => {
-        // setUsers(users => users.filter(user => user.id !== router.query.delete))
     }
 
     return (
@@ -81,11 +106,15 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                     </Tbody>
                 </Table>
             </div>
-            {/* <ModalConfirm {...modalProps} >
+            <ModalConfirm
+                title="Delete User"
+                isOpen={openDeleteModal}
+                onAccept={handleDelete}
+                onClose={handleClose}>
                 <p>
                     Are you sure to delete {router.query.email}
                 </p>
-            </ModalConfirm> */}
+            </ModalConfirm>
         </section>
     );
 }
