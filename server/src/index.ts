@@ -46,7 +46,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
-        sameSite: "lax", // csrf
+        // sameSite: "lax", // csrf
         secure: __prod__, // cookie only works in https
         domain: __prod__ ? process.env.DOMAIN : undefined,
       },
@@ -67,6 +67,11 @@ const main = async () => {
       redis,
       userLoader: createUserLoader(),
     }),
+    playground: {
+      settings: {
+        'request.credentials': 'same-origin'
+      }
+    }
   });
 
   apolloServer.applyMiddleware({

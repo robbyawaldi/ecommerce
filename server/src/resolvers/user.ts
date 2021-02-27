@@ -50,8 +50,15 @@ export class UserResolver {
 
   @Query(() => User, { nullable: true })
   @UseMiddleware(isAuth)
-  me(@Ctx() { req }: MyContext) {
+  me(@Ctx() { req }: MyContext): Promise<User | undefined> {
     return User.findOne(req.session.userId, { relations: ["role"] });
+  }
+
+  @Query(() => User, { nullable: true })
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  user(@Arg("id", () => String) id: string): Promise<User | undefined> {
+    return User.findOne(id, { relations: ["role"] });
   }
 
   @Query(() => PaginatedUsers)
@@ -89,9 +96,8 @@ export class UserResolver {
     }
 
     const hashedPassword = await argon2.hash(options.password);
-    let user;
     try {
-      const result = await getConnection()
+      await getConnection()
         .createQueryBuilder()
         .insert()
         .into(User)
@@ -102,11 +108,7 @@ export class UserResolver {
           password: hashedPassword,
           roleId: options.roleId
         })
-        .returning("*")
         .execute();
-      user = result.raw[0];
-
-      console.log('user result ', user)
     } catch (err) {
       if (err.code === "23505") {
         return {
@@ -119,8 +121,7 @@ export class UserResolver {
         };
       }
     }
-
-    return { user };
+    return {}
   }
 
   @Mutation(() => UserResponse)
@@ -173,6 +174,47 @@ export class UserResolver {
         resolve(true);
       })
     );
+  }
+
+  @Mutation(() => UserResponse, { nullable: true })
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  async updateUser(
+    @Arg('id', () => String) id: number,
+    @Arg('options') options: UsernamePasswordInput
+  ): Promise<UserResponse> {
+
+    const errors = validateRegister(options);
+    if (errors) {
+      return { errors };
+    }
+
+    let {password, ...opt} = options
+
+    if (password) {
+      password = await argon2.hash(options.password)
+    }
+
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .update(User)
+        .set(password ? {...opt, password} : {...opt})
+        .where('id = :id', { id })
+        .execute()
+    } catch (err) {
+      if (err.code === "23505") {
+        return {
+          errors: [
+            {
+              field: "name",
+              message: "name already taken",
+            },
+          ],
+        };
+      }
+    }
+    return {}
   }
 
   @Mutation(() => Boolean)

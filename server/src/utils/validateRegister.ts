@@ -1,7 +1,7 @@
 import { UsernamePasswordInput } from "../resolvers/UsernamePasswordInput";
 
 export const validateRegister = (options: UsernamePasswordInput) => {
-  if (!options.email.includes("@")) {
+  if (options.email && !options.email.includes("@")) {
     return [
       {
         field: "email",
@@ -10,7 +10,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     ];
   }
 
-  if (options.name.length <= 2) {
+  if (options.name && options.name.length <= 2) {
     return [
       {
         field: "name",
@@ -19,7 +19,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     ];
   }
 
-  if (options.name.includes("@")) {
+  if (options.name && options.name.includes("@")) {
     return [
       {
         field: "name",
@@ -28,7 +28,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     ];
   }
 
-  if (options.password.length <= 2) {
+  if (options.password && options.password.length <= 2) {
     return [
       {
         field: "password",

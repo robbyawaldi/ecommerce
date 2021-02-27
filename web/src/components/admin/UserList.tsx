@@ -90,7 +90,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                                 <Td className="space-x-3">
                                     <Link href={{
                                         pathname: '/adm/users/edit/[id]',
-                                        query: { id: 'sdsd' }
+                                        query: { id: user.id }
                                     }}>
                                         <a className="font-semibold">Edit</a>
                                     </Link>

@@ -38,7 +38,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                     }
                 }}
             >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, setFieldValue }) => (
                     <Form className="mt-3 md:max-w-md min-w-min flex flex-col">
                         <InputField
                             name="name"
@@ -62,7 +62,13 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                         </Box>
                         <FormControl mt={4}>
                             <FormLabel>Role</FormLabel>
-                            <Select name="roleId" aria-label="role" placeholder="Role">
+                            <Select
+                                name="roleId"
+                                aria-label="role"
+                                placeholder="Role"
+                                onChange={(opt) => {
+                                    setFieldValue('roleId', opt.currentTarget.value)
+                                }}>
                                 <option value={1}>Admin</option>
                                 <option value={2}>Data Entry</option>
                             </Select>
