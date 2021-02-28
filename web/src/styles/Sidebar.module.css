@@ -1,0 +1,48 @@
+.sidebar {
+    @apply  bg-gradient-to-b 
+            from-teal-200 
+            to-blueocean 
+            h-full 
+            flex 
+            flex-col 
+            transition-all 
+            duration-300;
+}
+
+.logo {
+    @apply  flex-none 
+            h-20 flex 
+            items-center 
+            justify-center;
+}
+
+.menu {
+    @apply  flex 
+            space-x-3 
+            items-center 
+            pl-5 
+            h-16 
+            cursor-pointer;
+}
+
+.titleMenu {
+    @apply  flex-grow 
+            transition 
+            duration-150;
+}
+
+.sideButton {
+    @apply  w-12 
+            h-12 
+            bg-white 
+            shadow-md 
+            self-center 
+            rounded-full 
+            mb-10 
+            md:flex 
+            hidden
+            justify-center 
+            items-center 
+            cursor-pointer 
+}
+
