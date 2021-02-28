@@ -8,7 +8,6 @@ import {
     ModalFooter,
     Button
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
 import React from 'react'
 
@@ -19,9 +18,7 @@ interface ModalConfirmProps {
     onAccept: () => void
 }
 
-export const ModalConfirm: React.FC<ModalConfirmProps> = ({ title, isOpen, onClose, children, onAccept }) => {
-    const router = useRouter()
-    
+export const ModalConfirm: React.FC<ModalConfirmProps> = ({ title, isOpen, onClose, children, onAccept }) => {    
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />

@@ -1,0 +1,7 @@
+.form {
+    @apply  mt-3 
+            md:max-w-md 
+            min-w-min 
+            flex 
+            flex-col;
+}

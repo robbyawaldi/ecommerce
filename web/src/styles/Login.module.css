@@ -1,0 +1,28 @@
+.container {
+    @apply  w-full 
+            h-screen 
+            flex 
+            justify-center 
+            items-center 
+            bg-blue-300;
+}
+
+.form {
+    @apply  p-8 
+            md:rounded-lg 
+            bg-white
+            w-screen
+            h-screen 
+            flex-none
+            md:max-w-md 
+            md:max-h-80 
+            min-w-min 
+            flex 
+            flex-col;
+}
+
+.title {
+    @apply  text-center 
+            text-2xl 
+            font-semibold;
+}

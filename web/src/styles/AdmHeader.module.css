@@ -1,0 +1,64 @@
+.header {
+    @apply  py-2 
+            pr-2 
+            flex 
+            w-full 
+            h-14 
+            md:justify-between 
+            justify-end;
+}
+
+.title {
+    @apply  text-xl 
+            md:inline 
+            hidden;
+}
+
+.profile {
+    @apply  flex 
+            justify-end 
+            items-center 
+            w-full 
+            focus:outline-none;
+}
+
+.profileAvatar {
+    @apply  w-9 
+            h-9 
+            rounded-full 
+            ml-3 
+            bg-teal-200;
+}
+
+.logoutButton {
+    @apply  border-none 
+            p-5 
+            w-full 
+            hover:bg-gray-200
+            focus:outline-none;
+}
+
+.dropdown {
+    @apply  relative;
+}
+
+.dropdownContent {
+    @apply  transition-all 
+            duration-300 
+            top-0 
+            opacity-0 
+            w-40 
+            right-0 
+            absolute 
+            bg-white 
+            shadow-xl 
+            mt-1 
+            rounded-lg 
+            border 
+            border-gray-200;
+}
+
+.dropdown:hover .dropdownContent {
+    @apply  top-full 
+            opacity-100;
+}

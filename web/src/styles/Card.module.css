@@ -1,0 +1,14 @@
+.box {
+    @apply  bg-white 
+            w-full 
+            rounded-md 
+            p-5 
+            shadow-lg 
+            my-5;
+}
+
+.title {
+    @apply  text-lg 
+            border-b-2 
+            h-10;
+}

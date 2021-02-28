@@ -10,8 +10,8 @@ export const BackButton: React.FC<BackButtonProps> = ({ }) => {
     const handleBack = () => router.back()
 
     return (
-        <>
-            <FaArrowLeft size={20} className="cursor-pointer" onClick={handleBack}/>
-        </>
+        <button onClick={handleBack}>
+            <FaArrowLeft size={20}/>
+        </button>
     );
 }

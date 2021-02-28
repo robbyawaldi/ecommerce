@@ -6,13 +6,14 @@ import { withApollo } from "../../utils/withApollo";
 import { MeDocument, MeQuery, useLoginMutation } from "../../generated/graphql";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useRouter } from "next/router";
+import styles from '../../styles/Login.module.css'
 
 const Login: React.FC<{}> = ({ }) => {
   const router = useRouter()
   const [login] = useLoginMutation()
 
   return (
-    <div className="w-full h-screen flex justify-center items-center bg-blue-300">
+    <div className={styles.container}>
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
@@ -42,8 +43,8 @@ const Login: React.FC<{}> = ({ }) => {
         }}
       >
         {({ isSubmitting }) => (
-          <Form className="p-8 md:rounded-lg bg-white w-screen h-screen flex-none md:max-w-md md:max-h-80 min-w-min flex flex-col">
-            <h1 className="text-center text-2xl font-semibold">Login</h1>
+          <Form className={styles.form}>
+            <h1 className={styles.title}>Login</h1>
             <InputField
               name="email"
               placeholder="email"

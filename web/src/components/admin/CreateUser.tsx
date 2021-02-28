@@ -4,6 +4,8 @@ import React from 'react'
 import { useRegisterMutation, UsersDocument } from '../../generated/graphql';
 import { toErrorMap } from '../../utils/toErrorMap';
 import { InputField } from './InputField';
+import form from '../../styles/Form.module.css'
+import card from '../../styles/Card.module.css'
 
 interface CreateUserProps { }
 
@@ -11,8 +13,8 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
     const [register] = useRegisterMutation()
 
     return (
-        <section className="bg-white w-full rounded-md p-5 shadow-lg my-5 max-w-md">
-            <h1 className="text-lg border-b-2 h-10">Create New User</h1>
+        <section className={`${card.box} max-w-md`}>
+            <h1 className={card.title}>Create New User</h1>
             <Formik
                 initialValues={{
                     name: "",
@@ -32,14 +34,14 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                     });
                     if (response.data?.register.errors) {
                         setErrors(toErrorMap(response.data.register.errors));
-                    } 
+                    }
                     else {
                         resetForm({})
                     }
                 }}
             >
                 {({ isSubmitting, setFieldValue }) => (
-                    <Form className="mt-3 md:max-w-md min-w-min flex flex-col">
+                    <Form className={form.form}>
                         <InputField
                             name="name"
                             placeholder="name"
@@ -77,10 +79,9 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                             mt={5}
                             type="submit"
                             isLoading={isSubmitting}
-                            colorScheme="teal"
-                        >
+                            colorScheme="teal">
                             create
-                            </Button>
+                        </Button>
                     </Form>
                 )}
             </Formik>

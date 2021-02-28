@@ -5,6 +5,8 @@ import React from 'react'
 import { UsersDocument, useUpdateUserMutation, useUserQuery } from '../../generated/graphql';
 import { toErrorMap } from '../../utils/toErrorMap';
 import { InputField } from './InputField';
+import form from '../../styles/Form.module.css';
+import card from '../../styles/Card.module.css';
 
 interface EditUserProps { }
 
@@ -33,8 +35,8 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
     }
 
     return (
-        <section className="bg-white w-full rounded-md p-5 shadow-lg my-5 max-w-md">
-            <h1 className="text-lg border-b-2 h-10">Edit User</h1>
+        <section className={`${card.box} max-w-md`}>
+            <h1 className={card.title}>Edit User</h1>
             <Formik
                 initialValues={{
                     name: data?.user?.name,
@@ -62,7 +64,7 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
                 }}
             >
                 {({ isSubmitting, setFieldValue }) => (
-                    <Form className="mt-3 md:max-w-md min-w-min flex flex-col">
+                    <Form className={form.form}>
                         <InputField
                             name="name"
                             placeholder="name"
@@ -100,8 +102,7 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
                             mt={5}
                             type="submit"
                             isLoading={isSubmitting}
-                            colorScheme="teal"
-                        >
+                            colorScheme="teal">
                             Edit
                             </Button>
                     </Form>

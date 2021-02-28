@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
 import { useDeleteUserMutation, UsersDocument, useUsersQuery } from '../../generated/graphql';
+import card from '../../styles/Card.module.css'
 
 interface UserListProps { }
 
@@ -60,8 +61,8 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
     }
 
     return (
-        <section className="bg-white w-full rounded-md p-5 shadow-lg my-5">
-            <h1 className="text-lg border-b-2 h-10">User List</h1>
+        <section className={card.box}>
+            <h1 className={card.title}>User List</h1>
             <div className="overflow-x-auto">
                 <Table variant="simple" mt={3}>
                     <Thead>
