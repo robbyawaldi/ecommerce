@@ -9,10 +9,10 @@ export const AdmLayout: React.FC<AdmLayoutProps> = ({ children }) => {
     return (
         <div className={styles.container}>
             <SideBar />
-            <div className={styles.mainContainer}>
+            <main className={styles.mainContainer}>
                 <AdmHeader />
                 {children}
-            </div>
+            </main>
         </div>
     );
 }

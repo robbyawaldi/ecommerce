@@ -28,14 +28,9 @@ const main = async () => {
   const app = express();
 
   const RedisStore = connectRedis(session);
+
   const redis = new Redis(process.env.REDIS_URL);
-  app.set("trust proxy", 1);
-  app.use(
-    cors({
-      origin: process.env.CORS_ORIGIN,
-      credentials: true,
-    })
-  );
+
   app.use(
     session({
       name: COOKIE_NAME,
@@ -56,6 +51,15 @@ const main = async () => {
     })
   );
 
+  app.set("trust proxy", 1);
+
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
+  
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [UserResolver],
