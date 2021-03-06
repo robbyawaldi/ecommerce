@@ -3,7 +3,8 @@
             from-teal-200 
             to-blueocean 
             h-full 
-            flex 
+            sm:flex 
+            hidden
             flex-col 
             transition-all 
             duration-300;
