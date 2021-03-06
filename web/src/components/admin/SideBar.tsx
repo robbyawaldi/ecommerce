@@ -5,7 +5,7 @@ import { sideBarMenu } from '../../static/sideBarMenu'
 import { FaChevronLeft, FaDev } from 'react-icons/fa'
 import useDidMountEffect from '../../utils/useDidMountEffect'
 import { useMeQuery } from '../../generated/graphql'
-import styles from '../../styles/Sidebar.module.css'
+import styles from '../../styles/AdmSidebar.module.css'
 
 interface SideBarProps {}
 
