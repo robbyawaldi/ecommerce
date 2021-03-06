@@ -66,7 +66,7 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
     };
 
     return (
-        <div className="relative w-7/12">
+        <div className="relative">
             <button
                 className={`${styles.button} ${styles.prev} focus:outline-none`}
                 onClick={handlePrev}
