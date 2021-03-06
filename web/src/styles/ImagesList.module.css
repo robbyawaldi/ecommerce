@@ -1,6 +1,5 @@
-.nextButton {
+.button {
     top: 50%;
-    right: -16px;
     position: absolute;
     font-size: 0;
     padding: 0;
@@ -14,9 +13,18 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100%;
-    border-radius: 50%;
-    opacity: 1;
     box-shadow: 0 1px 6px 0 rgb(49 53 59 / 12%);
-    transform: translateY(-50%) rotate(90deg);
+    opacity: 1;
+    border-radius: 50%;
     z-index: 10;
+}
+
+.next {
+    right: -16px;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.prev {
+    left: -16px;
+    transform: translateY(-50%) rotate(-90deg);
 }
