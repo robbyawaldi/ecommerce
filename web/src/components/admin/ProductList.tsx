@@ -12,7 +12,8 @@ const products = [
         images: [
             "https://storage.googleapis.com/hijup-production-sg-core/system/product_image/image/373935/smaller_ALMAS_Pashmina-Dark_Olive_1.jpg",
             "https://storage.googleapis.com/hijup-production-sg-core/system/product_image/image/373936/big_ALMAS_Pashmina-Dark_Olive_2.jpg",
-            "https://storage.googleapis.com/hijup-production-sg-core/system/product_image/image/373937/big_ALMAS_Pashmina-Dark_Olive_3.jpg"
+            "https://storage.googleapis.com/hijup-production-sg-core/system/product_image/image/373937/big_ALMAS_Pashmina-Dark_Olive_3.jpg",
+            "https://storage.googleapis.com/hijup-production-sg-core/system/product_image/image/375843/smaller_177533.jpg"
         ],
         title: "ALMAS Pashmina Dark Olive",
         price: "Rp85.000"

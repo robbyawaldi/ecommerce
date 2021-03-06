@@ -13,7 +13,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
     const [register] = useRegisterMutation()
 
     return (
-        <section className={`${card.box} max-w-md`}>
+        <section className={`${card.box} md:max-w-md`}>
             <h1 className={card.title}>Create New User</h1>
             <Formik
                 initialValues={{

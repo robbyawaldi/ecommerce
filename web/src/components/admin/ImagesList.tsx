@@ -29,7 +29,7 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
     ), [])
 
     React.useEffect(() => {
-        const firstPosition = Math.floor(divider) * 150;
+        const firstPosition = (Math.floor(divider) - (length % 2 === 0 ? 1 : 0) ) * 150;
 
         setTx(index > 0 ? firstPosition + 144 * index : firstPosition);
     }, [index])

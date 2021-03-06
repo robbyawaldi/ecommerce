@@ -1,4 +1,4 @@
-import { AiOutlineUser } from 'react-icons/ai'
+import { FaUsers } from 'react-icons/fa'
 import { AiFillTags } from 'react-icons/ai'
 
 export const sideBarMenu = [
@@ -6,7 +6,7 @@ export const sideBarMenu = [
         title: 'Users',
         slug: 'user',
         path: '/adm/users',
-        icon: <AiOutlineUser />
+        icon: <FaUsers />
     },
     {
         title: 'Products',
