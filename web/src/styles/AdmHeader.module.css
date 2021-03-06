@@ -1,6 +1,5 @@
 .header {
-    @apply  py-2 
-            pr-2 
+    @apply  p-2 
             flex 
             w-full 
             h-14 
@@ -44,8 +43,7 @@
 
 .dropdownContent {
     @apply  transition-all 
-            duration-300 
-            top-0 
+            duration-75
             opacity-0 
             w-40 
             right-0 
@@ -58,7 +56,12 @@
             border-gray-200;
 }
 
+.dropdownContent {
+    right: 20px;
+    top: -30px;
+}
+
 .dropdown:hover .dropdownContent {
-    @apply  top-full 
+    @apply  top-8 
             opacity-100;
 }

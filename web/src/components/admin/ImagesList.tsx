@@ -13,6 +13,7 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
     const [duration, setDuration] = React.useState(0.25)
     const [isfromPortal, setIsFromPortal] = React.useState(false)
     const [isDisabledButton, setIsDisabledButton] = React.useState(false)
+
     const cloneImages = React.useMemo(() => (
         length % 2 === 0
             ? [

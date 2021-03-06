@@ -1,13 +1,13 @@
 .container {
-    @apply  flex 
-            items-stretch 
+    @apply  flex
+            items-stretch
             h-screen;
 }
 
 .mainContainer {
-    @apply  w-full 
-            z-10 
-            bg-gray-50 
-            px-2 
-            overflow-y-auto;
+    @apply  w-full
+            flex
+            flex-col
+            h-screen
+            bg-gray-50;
 }

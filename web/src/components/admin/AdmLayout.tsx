@@ -11,7 +11,9 @@ export const AdmLayout: React.FC<AdmLayoutProps> = ({ children }) => {
             <SideBar />
             <main className={styles.mainContainer}>
                 <AdmHeader />
-                {children}
+                <div className="overflow-y-auto h-full box-border p-2 relative">
+                    {children}
+                </div>
             </main>
         </div>
     );

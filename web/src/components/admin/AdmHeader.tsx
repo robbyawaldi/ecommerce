@@ -2,8 +2,10 @@ import { useRouter } from 'next/router';
 import React from 'react'
 import { useLogoutMutation, useMeQuery } from '../../generated/graphql';
 import styles from '../../styles/AdmHeader.module.css'
+import { Button } from '@chakra-ui/react'
+import { FaDoorOpen } from 'react-icons/fa'
 
-interface AdmHeaderProps {}
+interface AdmHeaderProps { }
 
 export const AdmHeader: React.FC<AdmHeaderProps> = ({ }) => {
     const { data } = useMeQuery()
@@ -27,9 +29,9 @@ export const AdmHeader: React.FC<AdmHeaderProps> = ({ }) => {
                     </button>
                 ) : null}
                 <div className={styles.dropdownContent}>
-                    <button className={styles.logoutButton} onClick={handleLogout}>
+                    <Button leftIcon={<FaDoorOpen />} isFullWidth className={styles.logoutButton} onClick={handleLogout}>
                         Logout
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>
