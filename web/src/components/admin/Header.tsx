@@ -5,9 +5,9 @@ import styles from '../../styles/AdmHeader.module.css'
 import { Button } from '@chakra-ui/react'
 import { FaDoorOpen } from 'react-icons/fa'
 
-interface AdmHeaderProps { }
+interface HeaderProps { }
 
-export const AdmHeader: React.FC<AdmHeaderProps> = ({ }) => {
+export const Header: React.FC<HeaderProps> = ({ }) => {
     const { data } = useMeQuery()
     const [logout] = useLogoutMutation()
     const router = useRouter()

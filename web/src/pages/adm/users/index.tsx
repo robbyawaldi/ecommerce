@@ -1,5 +1,5 @@
 import React from 'react'
-import { AdmLayout } from '../../../components/admin/AdmLayout';
+import { Layout } from '../../../components/admin/Layout';
 import { CreateUser } from '../../../components/admin/CreateUser';
 import { UserList } from '../../../components/admin/UserList';
 import { useIsAuth } from '../../../utils/useIsAuth';
@@ -9,11 +9,11 @@ const Users = () => {
     useIsAuth()
     
     return (
-        <AdmLayout>
+        <Layout>
             <h1 className="font-semibold text-lg">User Management</h1>
             <UserList />
             <CreateUser />
-        </AdmLayout>
+        </Layout>
     )
 }
 

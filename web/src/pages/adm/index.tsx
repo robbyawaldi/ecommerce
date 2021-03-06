@@ -1,4 +1,4 @@
-import { AdmLayout } from "../../components/admin/AdmLayout"
+import { Layout } from "../../components/admin/Layout"
 import { useIsAuth } from "../../utils/useIsAuth"
 import { withApollo } from "../../utils/withApollo"
 
@@ -6,9 +6,9 @@ const Adm = () => {
     useIsAuth()
 
     return (
-        <AdmLayout>
+        <Layout>
             <h1>helllo world</h1>
-        </AdmLayout>
+        </Layout>
     )
 }
 

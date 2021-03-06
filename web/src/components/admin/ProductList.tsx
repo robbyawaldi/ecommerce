@@ -76,9 +76,10 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                     <div className="flex flex-col">
                         <div>{product.title}</div>
                         <div className="font-bold text-sm">{product.price}</div>
-                        <div className="flex mt-3 justify-between w-2/6">
+                        <div className="flex mt-3 w-full">
                             <Tooltip label="Edit Product">
                                 <IconButton
+                                mr={2}
                                     colorScheme="teal"
                                     aria-label="edit product"
                                     size="sm"

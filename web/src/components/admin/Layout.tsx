@@ -1,17 +1,19 @@
 import React from 'react'
-import { AdmHeader } from './AdmHeader'
+import { Header } from './Header'
 import { SideBar } from './SideBar'
 import styles from '../../styles/AdmLayout.module.css'
+import { BottomNavbar } from './BottomNavbar'
 
-interface AdmLayoutProps { }
+interface LayoutProps { }
 
-export const AdmLayout: React.FC<AdmLayoutProps> = ({ children }) => {
+export const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
         <div className={styles.container}>
             <SideBar />
+            <BottomNavbar />
             <main className={styles.mainContainer}>
-                <AdmHeader />
-                <div className="overflow-y-auto h-full box-border p-2 relative">
+                <Header />
+                <div className="overflow-y-auto h-full box-border p-2 pb-28 relative">
                     {children}
                 </div>
             </main>
