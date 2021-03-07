@@ -19,7 +19,7 @@ export class ProductResolver {
             return {
                 ...product,
                 images: product.images.map(image => {
-                    return {...image, image: `${req.get('host')}/images/${image.image}`}
+                    return {...image, image: `${req.protocol}://${req.get('host')}/images/${image.image}`}
                 })
             } as Product
         })
