@@ -14,6 +14,11 @@ import { User } from "./entities/User";
 import path from "path";
 import { createUserLoader } from "./utils/createUserLoader";
 import { Role } from "./entities/Role";
+import { Product } from "./entities/Product";
+import { Size } from "./entities/Size";
+import { Category } from "./entities/Category";
+import { Image } from "./entities/Image";
+import { ProductResolver } from "./resolvers/product";
 
 const main = async () => {
   await createConnection({
@@ -22,7 +27,14 @@ const main = async () => {
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [User, Role],
+    entities: [
+      User,
+      Role,
+      Product,
+      Size,
+      Category,
+      Image,
+    ],
   });
 
   const app = express();
@@ -59,10 +71,15 @@ const main = async () => {
       credentials: true,
     })
   );
-  
+
+  app.use(express.static('public'))
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [
+        UserResolver,
+        ProductResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res }) => ({
