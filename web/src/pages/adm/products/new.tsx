@@ -1,5 +1,6 @@
 import React from 'react'
 import { BackButton } from '../../../components/admin/BackButton';
+import { CreateProduct } from '../../../components/admin/CreateProduct';
 import { Layout } from '../../../components/admin/Layout';
 import { useIsAuth } from '../../../utils/useIsAuth';
 import { withApollo } from '../../../utils/withApollo';
@@ -10,7 +11,7 @@ const NewProduct = () => {
     return (
         <Layout>
             <BackButton />
-            <h1 className="font-semibold text-lg">Add New Product</h1>
+            <CreateProduct />
         </Layout>
     )
 }

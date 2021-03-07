@@ -84,6 +84,8 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   updateUser?: Maybe<UserResponse>;
   deleteUser: Scalars['Boolean'];
+  product: Product;
+  deleteProduct: Scalars['Boolean'];
 };
 
 
@@ -108,6 +110,16 @@ export type MutationDeleteUserArgs = {
   id: Scalars['String'];
 };
 
+
+export type MutationProductArgs = {
+  options: ProductInput;
+};
+
+
+export type MutationDeleteProductArgs = {
+  id: Scalars['String'];
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -127,6 +139,13 @@ export type UsernamePasswordInput = {
   roleId?: Maybe<Scalars['Int']>;
 };
 
+export type ProductInput = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  price: Scalars['Int'];
+  stockAvailable: Scalars['Boolean'];
+};
+
 export type UserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'name' | 'email'>
@@ -134,6 +153,16 @@ export type UserFragment = (
     { __typename?: 'Role' }
     & Pick<Role, 'id' | 'name' | 'slug'>
   ) }
+);
+
+export type DeleteProductMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteProductMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteProduct'>
 );
 
 export type DeleteUserMutationVariables = Exact<{
@@ -172,6 +201,22 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 export type LogoutMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'logout'>
+);
+
+export type ProductMutationVariables = Exact<{
+  title: Scalars['String'];
+  description: Scalars['String'];
+  price: Scalars['Int'];
+  stockAvailable: Scalars['Boolean'];
+}>;
+
+
+export type ProductMutation = (
+  { __typename?: 'Mutation' }
+  & { product: (
+    { __typename?: 'Product' }
+    & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
+  ) }
 );
 
 export type RegisterMutationVariables = Exact<{
@@ -281,6 +326,36 @@ export const UserFragmentDoc = gql`
   }
 }
     `;
+export const DeleteProductDocument = gql`
+    mutation DeleteProduct($id: String!) {
+  deleteProduct(id: $id)
+}
+    `;
+export type DeleteProductMutationFn = Apollo.MutationFunction<DeleteProductMutation, DeleteProductMutationVariables>;
+
+/**
+ * __useDeleteProductMutation__
+ *
+ * To run a mutation, you first call `useDeleteProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProductMutation, { data, loading, error }] = useDeleteProductMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteProductMutation(baseOptions?: Apollo.MutationHookOptions<DeleteProductMutation, DeleteProductMutationVariables>) {
+        return Apollo.useMutation<DeleteProductMutation, DeleteProductMutationVariables>(DeleteProductDocument, baseOptions);
+      }
+export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProductMutation>;
+export type DeleteProductMutationResult = Apollo.MutationResult<DeleteProductMutation>;
+export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
 export const DeleteUserDocument = gql`
     mutation DeleteUser($id: String!) {
   deleteUser(id: $id)
@@ -379,6 +454,47 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const ProductDocument = gql`
+    mutation Product($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!) {
+  product(
+    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable}
+  ) {
+    id
+    title
+    description
+    price
+    stockAvailable
+  }
+}
+    `;
+export type ProductMutationFn = Apollo.MutationFunction<ProductMutation, ProductMutationVariables>;
+
+/**
+ * __useProductMutation__
+ *
+ * To run a mutation, you first call `useProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [productMutation, { data, loading, error }] = useProductMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *      price: // value for 'price'
+ *      stockAvailable: // value for 'stockAvailable'
+ *   },
+ * });
+ */
+export function useProductMutation(baseOptions?: Apollo.MutationHookOptions<ProductMutation, ProductMutationVariables>) {
+        return Apollo.useMutation<ProductMutation, ProductMutationVariables>(ProductDocument, baseOptions);
+      }
+export type ProductMutationHookResult = ReturnType<typeof useProductMutation>;
+export type ProductMutationResult = Apollo.MutationResult<ProductMutation>;
+export type ProductMutationOptions = Apollo.BaseMutationOptions<ProductMutation, ProductMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($name: String!, $email: String!, $password: String!, $roleId: Int!) {
   register(

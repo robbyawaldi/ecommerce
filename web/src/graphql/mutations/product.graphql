@@ -1,0 +1,19 @@
+mutation Product(
+  $title: String!,
+  $description: String!,
+  $price: Int!,
+  $stockAvailable: Boolean!
+) {
+  product(options: {
+  	title: $title
+    description: $description
+    price: $price
+    stockAvailable: $stockAvailable
+  }) {
+    id
+    title
+    description
+    price
+    stockAvailable
+  }
+}

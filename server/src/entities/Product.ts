@@ -39,15 +39,15 @@ export class Product extends BaseEntity {
 
     @ManyToMany(() => Size)
     @JoinTable()
-    sizes: Size[];
+    sizes?: Size[];
 
     @ManyToMany(() => Category)
     @JoinTable()
-    categories: Category[]
+    categories?: Category[]
 
     @Field(() => [Image])
     @OneToMany(() => Image, (image) => image.product)
-    images: Image[];
+    images?: Image[];
 
     @Field(() => String)
     @CreateDateColumn()

@@ -35,7 +35,7 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
     }
 
     return (
-        <section className={`${card.box} max-w-md`}>
+        <section className={`${card.box} md:max-w-md`}>
             <h1 className={card.title}>Edit User</h1>
             <Formik
                 initialValues={{

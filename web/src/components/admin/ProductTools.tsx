@@ -13,7 +13,7 @@ export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
 
     return (
         <div className="flex p-2 w-full justify-between">
-            <Tooltip label="Add New Product">
+            <Tooltip label="Add Product">
                 <Button 
                     onClick={() => router.push('products/new')}
                     leftIcon={<AiOutlinePlus />} 
