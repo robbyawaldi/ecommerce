@@ -6,7 +6,7 @@ import toRupiah from '@develoka/angka-rupiah-js';
 import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
 import { InputField } from './InputField';
-import { useProductQuery } from '../../generated/graphql';
+import { useProductQuery, useUpdateProductMutation } from '../../generated/graphql';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface EditProductProps { }
@@ -14,6 +14,7 @@ interface EditProductProps { }
 export const EditProduct: React.FC<EditProductProps> = ({ }) => {
     const router = useRouter()
     const id = React.useMemo(() => router.query.id, [router.query])
+    const [updateProduct] = useUpdateProductMutation()
     const { data, error, loading } = useProductQuery({
         variables: {
             id: id as string
@@ -37,7 +38,14 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                     stockAvailable: data?.product?.stockAvailable
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
-                    console.log(values)
+                    const response = await updateProduct({
+                        variables: {
+                            id: id as string,
+                            ...values
+                        },
+                    })
+                    resetForm({})
+                    router.back()
                 }}>
                 {({ isSubmitting, values, setFieldValue }) => (
                     <Form className={form.form}>

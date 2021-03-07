@@ -1,12 +1,12 @@
 import { InputType, Field, Int } from "type-graphql";
 @InputType()
 export class ProductInput {
-    @Field()
+    @Field({ nullable: true })
     title: string;
-    @Field()
+    @Field({ nullable: true })
     description: string;
-    @Field(() => Int)
+    @Field(() => Int, { nullable: true })
     price: number;
-    @Field(() => Boolean)
+    @Field(() => Boolean, { nullable: true })
     stockAvailable: boolean;
 }

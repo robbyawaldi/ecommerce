@@ -11,8 +11,8 @@ import { ulid } from "ulid";
 import { Product } from "../entities/Product";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
+import { getUrlImages } from "../utils/getUrlImages";
 import { ProductInput } from "./ProductInput";
-
 
 @Resolver(Product)
 export class ProductResolver {
@@ -23,12 +23,7 @@ export class ProductResolver {
     ): Promise<Product[]> {
         let products = await Product.find({ relations: ['images'] })
         products = products.map(product => {
-            return {
-                ...product,
-                images: product.images?.map(image => {
-                    return { ...image, image: `${req.protocol}://${req.get('host')}/images/${image.image}` }
-                })
-            } as Product
+            return { ...product, images: getUrlImages(product, req) } as Product
         })
         return products
     }
@@ -39,13 +34,9 @@ export class ProductResolver {
         @Ctx() { req }: MyContext
     ): Promise<Product | undefined> {
         let product = await Product.findOne(id, { relations: ['images'] })
-        product = {
-            ...product,
-            images: product?.images?.map(image => {
-                return { ...image, image: `${req.protocol}://${req.get('host')}/images/${image.image}` }
-            })
-        } as Product
         return product
+            ? { ...product, images: getUrlImages(product, req) } as Product
+            : undefined
     }
 
     @Mutation(() => Product)
@@ -76,6 +67,30 @@ export class ProductResolver {
         }
 
         return product
+    }
+
+    @Mutation(() => Product)
+    @UseMiddleware(isAuth)
+    async updateProduct(
+        @Arg('id', () => String) id: string,
+        @Arg('options') options: ProductInput,
+        @Ctx() { req }: MyContext
+    ): Promise<Product | undefined> {
+        try {
+            await getConnection()
+                .createQueryBuilder()
+                .update(Product)
+                .set(options)
+                .where('id = :id', { id })
+                .execute()
+        } catch (err) {
+            console.error(err)
+        }
+
+        let product = await Product.findOne(id, { relations: ['images'] })
+        return product
+            ? { ...product, images: getUrlImages(product, req) } as Product
+            : undefined
     }
 
     @Mutation(() => Boolean)
