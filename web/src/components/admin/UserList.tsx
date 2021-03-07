@@ -5,6 +5,7 @@ import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
 import { useDeleteUserMutation, UsersDocument, useUsersQuery } from '../../generated/graphql';
 import card from '../../styles/Card.module.css'
+import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface UserListProps { }
 
@@ -47,17 +48,9 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
         })
     }, [])
 
-    if (!loading && !data) {
-        return (
-            <div>
-                <div>you got query failed for some reason</div>
-                <div>{error?.message}</div>
-            </div>
-        )
-    }
-
-    if (!data && loading) {
-        return <div>loading...</div>
+    const errorMessage = loadingOrQueryFailed(data, loading, error)
+    if (errorMessage) {
+        return errorMessage
     }
 
     return (

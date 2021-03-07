@@ -8,6 +8,7 @@ import { ProductsDocument, useDeleteProductMutation, useProductsQuery } from '..
 import toRupiah from '@develoka/angka-rupiah-js';
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
+import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface ProductListProps { }
 
@@ -45,17 +46,9 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
         })
     }, [])
 
-    if (!loading && !data) {
-        return (
-            <div>
-                <div>you got query failed for some reason</div>
-                <div>{error?.message}</div>
-            </div>
-        )
-    }
-
-    if (!data && loading) {
-        return <div>loading...</div>
+    const errorMessage = loadingOrQueryFailed(data, loading, error)
+    if (errorMessage) {
+        return errorMessage
     }
 
     return (

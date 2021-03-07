@@ -7,6 +7,7 @@ import { toErrorMap } from '../../utils/toErrorMap';
 import { InputField } from './InputField';
 import form from '../../styles/Form.module.css';
 import card from '../../styles/Card.module.css';
+import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface EditUserProps { }
 
@@ -21,17 +22,9 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
         notifyOnNetworkStatusChange: true
     })
 
-    if (!loading && !data) {
-        return (
-            <div>
-                <div>you got query failed for some reason</div>
-                <div>{error?.message}</div>
-            </div>
-        )
-    }
-
-    if (!data && loading) {
-        return <div>loading...</div>
+    const errorMessage = loadingOrQueryFailed(data, loading, error)
+    if (errorMessage) {
+        return errorMessage
     }
 
     return (

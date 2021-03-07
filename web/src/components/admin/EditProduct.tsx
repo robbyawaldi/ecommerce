@@ -7,30 +7,23 @@ import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
 import { InputField } from './InputField';
 import { useProductQuery } from '../../generated/graphql';
+import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface EditProductProps { }
 
 export const EditProduct: React.FC<EditProductProps> = ({ }) => {
     const router = useRouter()
     const id = React.useMemo(() => router.query.id, [router.query])
-    const {data, error, loading } = useProductQuery({
+    const { data, error, loading } = useProductQuery({
         variables: {
             id: id as string
         },
         notifyOnNetworkStatusChange: true
     })
 
-    if (!loading && !data) {
-        return (
-            <div>
-                <div>you got query failed for some reason</div>
-                <div>{error?.message}</div>
-            </div>
-        )
-    }
-
-    if (!data && loading) {
-        return <div>loading...</div>
+    const errorMessage = loadingOrQueryFailed(data, loading, error)
+    if (errorMessage) {
+        return errorMessage
     }
 
     return (
