@@ -80,7 +80,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                             type="submit"
                             isLoading={isSubmitting}
                             colorScheme="teal">
-                            create
+                            Create
                         </Button>
                     </Form>
                 )}

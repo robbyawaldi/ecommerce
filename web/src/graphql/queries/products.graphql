@@ -1,14 +1,5 @@
 query Products {
   products {
-    id
-    title
-    description
-    price
-  	stockAvailable
-    images {
-      id
-      image
-      sequence
-    }
+    ...Product
   }
 }

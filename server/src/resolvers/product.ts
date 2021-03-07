@@ -19,23 +19,38 @@ export class ProductResolver {
 
     @Query(() => [Product], { nullable: true })
     async products(
-        @Ctx() {req} : MyContext
+        @Ctx() { req }: MyContext
     ): Promise<Product[]> {
         let products = await Product.find({ relations: ['images'] })
         products = products.map(product => {
             return {
                 ...product,
                 images: product.images?.map(image => {
-                    return {...image, image: `${req.protocol}://${req.get('host')}/images/${image.image}`}
+                    return { ...image, image: `${req.protocol}://${req.get('host')}/images/${image.image}` }
                 })
             } as Product
         })
         return products
     }
 
+    @Query(() => Product, { nullable: true })
+    async product(
+        @Arg("id", () => String) id: string,
+        @Ctx() { req }: MyContext
+    ): Promise<Product | undefined> {
+        let product = await Product.findOne(id, { relations: ['images'] })
+        product = {
+            ...product,
+            images: product?.images?.map(image => {
+                return { ...image, image: `${req.protocol}://${req.get('host')}/images/${image.image}` }
+            })
+        } as Product
+        return product
+    }
+
     @Mutation(() => Product)
     @UseMiddleware(isAuth)
-    async product(
+    async createProduct(
         @Arg('options') options: ProductInput
     ): Promise<Product | undefined> {
         let product
@@ -56,7 +71,7 @@ export class ProductResolver {
                 .execute()
 
             product = result.raw[0]
-        } catch(err) {
+        } catch (err) {
             console.error(err)
         }
 

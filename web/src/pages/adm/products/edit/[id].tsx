@@ -1,17 +1,19 @@
-import { useRouter } from 'next/router'
 import React from 'react'
+import { BackButton } from '../../../../components/admin/BackButton'
+import { EditProduct } from '../../../../components/admin/EditProduct'
+import { Layout } from '../../../../components/admin/Layout'
 import { useIsAuth } from '../../../../utils/useIsAuth'
 import { withApollo } from '../../../../utils/withApollo'
 
 const Product = () => {
-    const router = useRouter()
-    const id = router.query.id
-    useIsAuth()
-    return (
-      <>
-        {id}
-      </>
-    )
+  useIsAuth()
+  
+  return (
+    <Layout>
+      <BackButton />
+      <EditProduct />
+    </Layout>
+  )
 }
 
 export default withApollo({ ssr: true })(Product)

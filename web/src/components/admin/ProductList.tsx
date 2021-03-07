@@ -4,13 +4,46 @@ import { IconButton } from "@chakra-ui/react"
 import { Tooltip } from "@chakra-ui/react"
 import { FaPen } from 'react-icons/fa'
 import { FaEraser } from 'react-icons/fa'
-import { useProductsQuery } from '../../generated/graphql';
+import { ProductsDocument, useDeleteProductMutation, useProductsQuery } from '../../generated/graphql';
 import toRupiah from '@develoka/angka-rupiah-js';
+import { ModalConfirm } from './ModalConfirm';
+import { useRouter } from 'next/router';
 
 interface ProductListProps { }
 
 export const ProductList: React.FC<ProductListProps> = ({ }) => {
-    const {data, error, loading } = useProductsQuery()
+    const [openDeleteModal, setOpenDeleteModal] = React.useState(false)
+    const { data, error, loading } = useProductsQuery()
+    const [deleteProduct] = useDeleteProductMutation()
+    const router = useRouter()
+
+    React.useEffect(() => {
+        if (typeof router.query.delete == 'string') {
+            setOpenDeleteModal(true)
+        }
+    }, [router.query.delete])
+
+    const handleDelete = React.useCallback(async () => {
+        const response = await deleteProduct({
+            variables: { id: router.query.delete as string },
+            refetchQueries: [
+                {
+                    query: ProductsDocument
+                }
+            ]
+        })
+
+        if (response.data?.deleteProduct) {
+            handleClose()
+        }
+    }, [router.query.delete])
+
+    const handleClose = React.useCallback(() => {
+        setOpenDeleteModal(false)
+        router.replace({
+            pathname: router.pathname
+        })
+    }, [])
 
     if (!loading && !data) {
         return (
@@ -35,11 +68,15 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                     }, [])} />
                     <div className="flex flex-col">
                         <div>{product.title}</div>
-                        <div className="font-bold text-sm">{toRupiah(product.price, {floatingPoint: 0})}</div>
+                        <div className="font-bold text-sm">{toRupiah(product.price, { floatingPoint: 0 })}</div>
                         <div className="flex mt-3 w-full">
                             <Tooltip label="Edit Product">
                                 <IconButton
-                                mr={2}
+                                    onClick={() => router.push({
+                                        pathname: 'products/edit/[id]',
+                                        query: { id: product.id }
+                                    })}
+                                    mr={2}
                                     colorScheme="teal"
                                     aria-label="edit product"
                                     size="sm"
@@ -48,6 +85,10 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                             </Tooltip>
                             <Tooltip label="Delete Product">
                                 <IconButton
+                                    onClick={() => router.replace({
+                                        pathname: router.pathname,
+                                        query: { delete: product.id, title: product.title }
+                                    })}
                                     colorScheme="orange"
                                     aria-label="delete product"
                                     size="sm"
@@ -58,6 +99,16 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                     </div>
                 </div>
             ))}
+            <ModalConfirm
+                title="Delete Product"
+                isOpen={openDeleteModal}
+                onAccept={handleDelete}
+                onClose={handleClose}>
+                <p>
+                    Are you sure to delete {router.query.title}
+                </p>
+            </ModalConfirm>
+
         </section>
     );
 }

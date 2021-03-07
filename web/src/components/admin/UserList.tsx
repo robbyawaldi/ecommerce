@@ -41,7 +41,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
     }, [router.query.delete])
 
     const handleClose = React.useCallback(() => {
-        setOpenDeleteModal(open => !open)
+        setOpenDeleteModal(false)
         router.replace({
             pathname: router.pathname
         })

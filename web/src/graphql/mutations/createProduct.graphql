@@ -1,10 +1,10 @@
-mutation Product(
+mutation CreateProduct(
   $title: String!,
   $description: String!,
   $price: Int!,
   $stockAvailable: Boolean!
 ) {
-  product(options: {
+  createProduct(options: {
   	title: $title
     description: $description
     price: $price

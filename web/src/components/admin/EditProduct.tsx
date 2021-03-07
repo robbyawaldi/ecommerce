@@ -1,40 +1,50 @@
-import { Form, Formik } from 'formik';
 import React from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
-import { InputField } from './InputField';
-import { Box, Button, Checkbox, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Checkbox, Button } from '@chakra-ui/react';
 import toRupiah from '@develoka/angka-rupiah-js';
-import { ProductsDocument, useCreateProductMutation } from '../../generated/graphql';
+import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
+import { InputField } from './InputField';
+import { useProductQuery } from '../../generated/graphql';
 
-interface CreateProductProps { }
+interface EditProductProps { }
 
-export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
-    const [product] = useCreateProductMutation()
+export const EditProduct: React.FC<EditProductProps> = ({ }) => {
     const router = useRouter()
+    const id = React.useMemo(() => router.query.id, [router.query])
+    const {data, error, loading } = useProductQuery({
+        variables: {
+            id: id as string
+        },
+        notifyOnNetworkStatusChange: true
+    })
+
+    if (!loading && !data) {
+        return (
+            <div>
+                <div>you got query failed for some reason</div>
+                <div>{error?.message}</div>
+            </div>
+        )
+    }
+
+    if (!data && loading) {
+        return <div>loading...</div>
+    }
 
     return (
         <section className={`${card.box} md:max-w-md`}>
-            <h1 className={card.title}>Add Product</h1>
+            <h1 className={card.title}>Edit Product</h1>
             <Formik
                 initialValues={{
-                    title: '',
-                    description: '',
-                    price: 0,
-                    stockAvailable: true
+                    title: data?.product?.title,
+                    description: data?.product?.description,
+                    price: data?.product?.price ?? 0,
+                    stockAvailable: data?.product?.stockAvailable
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
-                    const response = await product({
-                        variables: values,
-                        refetchQueries: [
-                            {
-                                query: ProductsDocument
-                            }
-                        ]
-                    })
-                    resetForm({})
-                    router.back()
+                    console.log(values)
                 }}>
                 {({ isSubmitting, values, setFieldValue }) => (
                     <Form className={form.form}>
@@ -74,7 +84,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             type="submit"
                             isLoading={isSubmitting}
                             colorScheme="teal">
-                            Create
+                            Edit
                         </Button>
                     </Form>
                 )}

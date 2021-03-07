@@ -1,0 +1,12 @@
+fragment Product on Product {
+  id
+  title
+  description
+  price
+  stockAvailable
+  images {
+    id
+    image
+    sequence
+  }
+}
