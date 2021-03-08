@@ -19,6 +19,8 @@ import { Size } from "./entities/Size";
 import { Category } from "./entities/Category";
 import { Image } from "./entities/Image";
 import { ProductResolver } from "./resolvers/product";
+import { ImageResolver } from "./resolvers/image";
+import { graphqlUploadExpress } from "graphql-upload";
 
 const main = async () => {
   await createConnection({
@@ -74,11 +76,14 @@ const main = async () => {
 
   app.use(express.static('public'))
 
+  app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
         UserResolver,
         ProductResolver,
+        ImageResolver,
       ],
       validate: false,
     }),
@@ -92,7 +97,8 @@ const main = async () => {
       settings: {
         'request.credentials': 'same-origin'
       }
-    }
+    },
+    uploads: false
   });
 
   apolloServer.applyMiddleware({

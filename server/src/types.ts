@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Redis } from "ioredis";
+import { Stream } from "stream";
 import { createUserLoader } from "./utils/createUserLoader";
 
 export type MyContext = {
@@ -8,3 +9,10 @@ export type MyContext = {
   res: Response;
   userLoader: ReturnType<typeof createUserLoader>;
 };
+
+export type Upload = {
+  filename: string;
+  mimetype: string;
+  encoding: string;
+  createReadStream: () => Stream;
+}
