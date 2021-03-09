@@ -7,6 +7,8 @@ import { Box, Button, Checkbox, FormControl, FormLabel, Input } from '@chakra-ui
 import toRupiah from '@develoka/angka-rupiah-js';
 import { ProductsDocument, useCreateProductMutation } from '../../generated/graphql';
 import { useRouter } from 'next/router';
+import { UploadImage } from './UploadImage';
+import styles from '../../styles/CreateProduct.module.css'
 
 interface CreateProductProps { }
 
@@ -69,6 +71,14 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 Stock Available
                             </Checkbox>
                         </div>
+
+                        <div className={`${styles.uploadImageContainer}`}>
+                            <UploadImage />
+                            <UploadImage />
+                            <UploadImage />
+                            <UploadImage />
+                        </div>
+
                         <Button
                             mt={5}
                             type="submit"
