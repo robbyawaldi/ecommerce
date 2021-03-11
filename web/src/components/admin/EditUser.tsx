@@ -1,7 +1,7 @@
 import { Box, Select, Button, FormControl, FormLabel } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
-import React from 'react'
+import React, { useMemo } from 'react'
 import { UsersDocument, useUpdateUserMutation, useUserQuery } from '../../generated/graphql';
 import { toErrorMap } from '../../utils/toErrorMap';
 import { InputField } from './InputField';
@@ -13,7 +13,7 @@ interface EditUserProps { }
 
 export const EditUser: React.FC<EditUserProps> = ({ }) => {
     const router = useRouter()
-    const id = React.useMemo(() => router.query.id, [router.query])
+    const id = useMemo(() => router.query.id, [router.query])
     const [updateUser] = useUpdateUserMutation()
     const { data, error, loading } = useUserQuery({
         variables: {

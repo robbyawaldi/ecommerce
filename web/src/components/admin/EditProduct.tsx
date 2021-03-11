@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
 import { Box, FormControl, FormLabel, Input, Checkbox, Button } from '@chakra-ui/react';
@@ -13,7 +13,7 @@ interface EditProductProps { }
 
 export const EditProduct: React.FC<EditProductProps> = ({ }) => {
     const router = useRouter()
-    const id = React.useMemo(() => router.query.id, [router.query])
+    const id = useMemo(() => router.query.id, [router.query])
     const [updateProduct] = useUpdateProductMutation()
     const { data, error, loading } = useProductQuery({
         variables: {

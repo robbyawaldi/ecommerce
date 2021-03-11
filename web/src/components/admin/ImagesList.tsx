@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import styles from '../../styles/ImagesList.module.css'
 
 interface ImagesListProps {
@@ -6,15 +6,15 @@ interface ImagesListProps {
 }
 
 export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
-    const length = React.useMemo(() => images.length, [])
-    const divider = React.useMemo(() => length / 2, [])
-    const [index, setIndex] = React.useState(1)
-    const [tx, setTx] = React.useState(0)
-    const [duration, setDuration] = React.useState(0.25)
-    const [isfromPortal, setIsFromPortal] = React.useState(false)
-    const [isDisabledButton, setIsDisabledButton] = React.useState(false)
+    const length = useMemo(() => images.length, [])
+    const divider = useMemo(() => length / 2, [])
+    const [index, setIndex] = useState(1)
+    const [tx, setTx] = useState(0)
+    const [duration, setDuration] = useState(0.25)
+    const [isfromPortal, setIsFromPortal] = useState(false)
+    const [isDisabledButton, setIsDisabledButton] = useState(false)
 
-    const cloneImages = React.useMemo(() => (
+    const cloneImages = useMemo(() => (
         length % 2 === 0
             ? [
                 ...images.slice(divider, length),
@@ -28,20 +28,20 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
             ]
     ), [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         const firstPosition = (Math.floor(divider) - (length % 2 === 0 ? 1 : 0) ) * 150;
 
         setTx(index > 0 ? firstPosition + 144 * index : firstPosition);
     }, [index])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (isfromPortal) {
             setDuration(0)
             setIsFromPortal(false)
         }
     }, [isfromPortal])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (duration == 0) setDuration(0.25)
     }, [index])
 

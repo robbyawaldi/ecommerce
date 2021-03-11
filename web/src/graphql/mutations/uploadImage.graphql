@@ -1,6 +1,6 @@
-mutation UploadImage($image: Upload!) {
-  uploadImage(image: $image) {
+mutation UploadImage($file: Upload!) {
+  uploadImage(file: $file) {
     uploaded
-    filename
+    url
   }
 }

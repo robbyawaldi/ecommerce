@@ -138,7 +138,7 @@ export type MutationDeleteProductArgs = {
 
 
 export type MutationUploadImageArgs = {
-  image: Scalars['Upload'];
+  file: Scalars['Upload'];
 };
 
 export type UserResponse = {
@@ -170,7 +170,7 @@ export type ProductInput = {
 export type ImageUploadResponse = {
   __typename?: 'ImageUploadResponse';
   uploaded: Scalars['Boolean'];
-  filename?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 
@@ -313,7 +313,7 @@ export type UpdateUserMutation = (
 );
 
 export type UploadImageMutationVariables = Exact<{
-  image: Scalars['Upload'];
+  file: Scalars['Upload'];
 }>;
 
 
@@ -321,7 +321,7 @@ export type UploadImageMutation = (
   { __typename?: 'Mutation' }
   & { uploadImage: (
     { __typename?: 'ImageUploadResponse' }
-    & Pick<ImageUploadResponse, 'uploaded' | 'filename'>
+    & Pick<ImageUploadResponse, 'uploaded' | 'url'>
   ) }
 );
 
@@ -707,10 +707,10 @@ export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutati
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const UploadImageDocument = gql`
-    mutation UploadImage($image: Upload!) {
-  uploadImage(image: $image) {
+    mutation UploadImage($file: Upload!) {
+  uploadImage(file: $file) {
     uploaded
-    filename
+    url
   }
 }
     `;
@@ -729,7 +729,7 @@ export type UploadImageMutationFn = Apollo.MutationFunction<UploadImageMutation,
  * @example
  * const [uploadImageMutation, { data, loading, error }] = useUploadImageMutation({
  *   variables: {
- *      image: // value for 'image'
+ *      file: // value for 'file'
  *   },
  * });
  */

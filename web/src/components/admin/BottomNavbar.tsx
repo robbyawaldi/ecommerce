@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconContext } from 'react-icons'
 import { useMeQuery } from '../../generated/graphql'
 import { sideBarMenu } from '../../static/sideBarMenu'
@@ -9,10 +9,10 @@ interface BottomNavbarProps { }
 
 export const BottomNavbar: React.FC<BottomNavbarProps> = ({ }) => {
     const router = useRouter()
-    const [menu, setMenu] = React.useState(sideBarMenu)
+    const [menu, setMenu] = useState(sideBarMenu)
     const { data } = useMeQuery()
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (data?.me) {
             let menus: string[] = []
             switch (data.me.role.slug) {

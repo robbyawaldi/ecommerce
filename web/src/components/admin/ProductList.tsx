@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ImagesList } from './ImagesList';
 import { IconButton } from "@chakra-ui/react"
 import { Tooltip } from "@chakra-ui/react"
@@ -13,18 +13,18 @@ import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 interface ProductListProps { }
 
 export const ProductList: React.FC<ProductListProps> = ({ }) => {
-    const [openDeleteModal, setOpenDeleteModal] = React.useState(false)
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const { data, error, loading } = useProductsQuery()
     const [deleteProduct] = useDeleteProductMutation()
     const router = useRouter()
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (typeof router.query.delete == 'string') {
             setOpenDeleteModal(true)
         }
     }, [router.query.delete])
 
-    const handleDelete = React.useCallback(async () => {
+    const handleDelete = useCallback(async () => {
         const response = await deleteProduct({
             variables: { id: router.query.delete as string },
             refetchQueries: [
@@ -39,7 +39,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
         }
     }, [router.query.delete])
 
-    const handleClose = React.useCallback(() => {
+    const handleClose = useCallback(() => {
         setOpenDeleteModal(false)
         router.replace({
             pathname: router.pathname

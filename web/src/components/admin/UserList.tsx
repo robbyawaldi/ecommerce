@@ -1,5 +1,5 @@
 import { Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
@@ -10,7 +10,7 @@ import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 interface UserListProps { }
 
 export const UserList: React.FC<UserListProps> = ({ }) => {
-    const [openDeleteModal, setOpenDeleteModal] = React.useState(false)
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const { data, error, loading } = useUsersQuery({
         variables: {
             limit: 5
@@ -20,13 +20,13 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
     const [deleteUser] = useDeleteUserMutation()
     const router = useRouter()
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (typeof router.query.delete == 'string') {
             setOpenDeleteModal(true)
         }
     }, [router.query.delete])
 
-    const handleDelete = React.useCallback(async () => {
+    const handleDelete = useCallback(async () => {
         const response = await deleteUser({
             variables: { id: router.query.delete as string },
             refetchQueries: [
@@ -41,7 +41,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
         }
     }, [router.query.delete])
 
-    const handleClose = React.useCallback(() => {
+    const handleClose = useCallback(() => {
         setOpenDeleteModal(false)
         router.replace({
             pathname: router.pathname

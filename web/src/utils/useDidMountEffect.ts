@@ -1,9 +1,9 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
 
 const useDidMountEffect = (func: Function, deps: any) => {
-    const didMount = React.useRef(false);
+    const didMount = useRef(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (didMount.current) func();
         else didMount.current = true;
     }, deps);

@@ -74,9 +74,9 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
 
                         <div className={`${styles.uploadImageContainer}`}>
                             <UploadImage />
+                            {/* <UploadImage />
                             <UploadImage />
-                            <UploadImage />
-                            <UploadImage />
+                            <UploadImage /> */}
                         </div>
 
                         <Button
