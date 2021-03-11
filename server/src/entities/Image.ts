@@ -28,7 +28,7 @@ export class Image extends BaseEntity {
   @Column()
   productId!: string;
 
-  @ManyToOne(() => Product, (product) => product.images)
+  @ManyToOne(() => Product, (product) => product.images, { onDelete: "CASCADE" })
   product: Product;
 
   @Field(() => String)
