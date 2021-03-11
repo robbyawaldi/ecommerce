@@ -11,7 +11,9 @@ class ImageUploadResponse {
     @Field(() => Boolean)
     uploaded: boolean;
     @Field(() => String, { nullable: true })
-    url?: string
+    url?: string;
+    @Field(() => String, { nullable: true})
+    image?: string;
 }
 
 @Resolver(Image)
@@ -35,7 +37,8 @@ export class ImageResolver {
                 )
                 .on('finish', () => resolver({
                     uploaded: true,
-                    url: getImageUrl(fileName, req)
+                    url: getImageUrl(fileName, req),
+                    image: fileName
                 }))
                 .on("error", () => resolver({
                     uploaded: false

@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React from 'react'
+import React, { useReducer } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
 import { InputField } from './InputField';
@@ -9,12 +9,41 @@ import { ProductsDocument, useCreateProductMutation } from '../../generated/grap
 import { useRouter } from 'next/router';
 import { UploadImage } from './UploadImage';
 import styles from '../../styles/CreateProduct.module.css'
+import { Action, ProductImage, State } from '../../types/images';
+import { randomId } from '../../utils/randomId';
 
 interface CreateProductProps { }
+
+function reducer(state: State, action: Action) {
+    switch (action.type) {
+        case "ADD":
+            return {
+                images: [...state.images, { id: randomId(), image: undefined, url: undefined }]
+            }
+        case "UPDATE":
+            return {
+                images: state.images.map((image: ProductImage) =>
+                    image.id === action.id
+                        ? { ...image, image: action.image, url: action.url }
+                        : image)
+            }
+        case "DELETE":
+            return {
+                images: state.images.filter((image: ProductImage) => image.id !== action.id)
+            }
+        default:
+            return state
+    }
+}
 
 export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     const [product] = useCreateProductMutation()
     const router = useRouter()
+    const [{ images }, dispatch] = useReducer(reducer, {
+        images: [
+            { id: randomId(), image: undefined, url: undefined }
+        ]
+    })
 
     return (
         <section className={`${card.box} md:max-w-md`}>
@@ -28,7 +57,10 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     const response = await product({
-                        variables: values,
+                        variables: {
+                            ...values,
+                            images: images.filter(image => image.image !== undefined).map(image => ({image: image.image as string}))
+                        },
                         refetchQueries: [
                             {
                                 query: ProductsDocument
@@ -73,10 +105,12 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                         </div>
 
                         <div className={`${styles.uploadImageContainer}`}>
-                            <UploadImage />
-                            {/* <UploadImage />
-                            <UploadImage />
-                            <UploadImage /> */}
+                            {images.map((image, i) => (
+                                <UploadImage
+                                    key={i}
+                                    image={image}
+                                    dispatch={dispatch} />
+                            ))}
                         </div>
 
                         <Button

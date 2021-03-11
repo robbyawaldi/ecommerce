@@ -3,3 +3,4 @@ node_modules
 # you should add that
 .env
 .env.production
+public/images/*

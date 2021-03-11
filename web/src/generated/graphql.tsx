@@ -165,12 +165,18 @@ export type ProductInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
   stockAvailable?: Maybe<Scalars['Boolean']>;
+  images?: Maybe<Array<ImageInput>>;
+};
+
+export type ImageInput = {
+  image: Scalars['String'];
 };
 
 export type ImageUploadResponse = {
   __typename?: 'ImageUploadResponse';
   uploaded: Scalars['Boolean'];
   url?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 
@@ -197,6 +203,7 @@ export type CreateProductMutationVariables = Exact<{
   description: Scalars['String'];
   price: Scalars['Int'];
   stockAvailable: Scalars['Boolean'];
+  images?: Maybe<Array<ImageInput> | ImageInput>;
 }>;
 
 
@@ -321,7 +328,7 @@ export type UploadImageMutation = (
   { __typename?: 'Mutation' }
   & { uploadImage: (
     { __typename?: 'ImageUploadResponse' }
-    & Pick<ImageUploadResponse, 'uploaded' | 'url'>
+    & Pick<ImageUploadResponse, 'uploaded' | 'url' | 'image'>
   ) }
 );
 
@@ -417,9 +424,9 @@ export const UserFragmentDoc = gql`
 }
     `;
 export const CreateProductDocument = gql`
-    mutation CreateProduct($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!) {
+    mutation CreateProduct($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!, $images: [ImageInput!]) {
   createProduct(
-    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable}
+    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images}
   ) {
     id
     title
@@ -448,6 +455,7 @@ export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutat
  *      description: // value for 'description'
  *      price: // value for 'price'
  *      stockAvailable: // value for 'stockAvailable'
+ *      images: // value for 'images'
  *   },
  * });
  */
@@ -711,6 +719,7 @@ export const UploadImageDocument = gql`
   uploadImage(file: $file) {
     uploaded
     url
+    image
   }
 }
     `;

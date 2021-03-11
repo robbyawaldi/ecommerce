@@ -23,7 +23,7 @@ export class Image extends BaseEntity {
 
   @Field()
   @Column()
-  sequence: number;
+  sequence!: number;
 
   @Column()
   productId!: string;

@@ -16,3 +16,7 @@ export type Upload = {
   encoding: string;
   createReadStream: () => Stream;
 }
+
+export type Image = {
+  image: string;
+}

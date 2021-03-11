@@ -8,6 +8,7 @@ import {
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { ulid } from "ulid";
+import { Image } from "../entities/Image";
 import { Product } from "../entities/Product";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
@@ -44,7 +45,7 @@ export class ProductResolver {
     async createProduct(
         @Arg('options') options: ProductInput
     ): Promise<Product | undefined> {
-        let product
+        let product: Product | undefined
 
         try {
             const result = await getConnection()
@@ -62,6 +63,21 @@ export class ProductResolver {
                 .execute()
 
             product = result.raw[0]
+
+            for (const [sequence, { image }] of options.images.entries()) {
+                await getConnection()
+                    .createQueryBuilder()
+                    .insert()
+                    .into(Image)
+                    .values({
+                        id: ulid(),
+                        image,
+                        sequence,
+                        productId: product?.id
+                    })
+                    .execute()
+            }
+
         } catch (err) {
             console.error(err)
         }

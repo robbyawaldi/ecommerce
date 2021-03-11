@@ -1,4 +1,6 @@
 import { InputType, Field, Int } from "type-graphql";
+import { Image } from "../types";
+import { ImageInput } from "./ImageInput";
 @InputType()
 export class ProductInput {
     @Field({ nullable: true })
@@ -9,4 +11,6 @@ export class ProductInput {
     price: number;
     @Field(() => Boolean, { nullable: true })
     stockAvailable: boolean;
+    @Field(() => [ImageInput], { nullable: true })
+    images: Image[];
 }

@@ -2,24 +2,30 @@ import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
 import { useUploadImageMutation } from '../../generated/graphql';
 import { ImFilePicture } from 'react-icons/im'
+import { CgCloseO } from 'react-icons/cg'
+import { Action, ProductImage } from '../../types/images';
 
-interface UploadImageProps { }
+interface UploadImageProps {
+    dispatch: React.Dispatch<Action>,
+    image: ProductImage
+}
 
-export const UploadImage: React.FC<UploadImageProps> = ({ }) => {
+export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id, image, url } }) => {
     const [uploadImage] = useUploadImageMutation()
-    const [imageUrl, setImageUrl] = useState<string>()
 
     const onDrop = useCallback(
         async ([file]) => {
             const response = await uploadImage({
                 variables: { file }
             })
-
             if (response?.data?.uploadImage.uploaded) {
-                setImageUrl(response.data.uploadImage.url as string)
+                const url: string = response.data.uploadImage.url as string
+                const image: string = response.data.uploadImage.image as string
+                dispatch({ type: "UPDATE", id, image, url })
+                dispatch({ type: "ADD" })
             }
         },
-        [uploadImage]
+        [uploadImage, id]
     )
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -27,8 +33,15 @@ export const UploadImage: React.FC<UploadImageProps> = ({ }) => {
         accept: 'image/*'
     })
 
-    if (imageUrl) {
-        return <img className="rounded-md mx-2 w-32" src={imageUrl} />
+    if (url) {
+        return (
+            <div className="mx-2 w-32 relative">
+                <div className="absolute right-0 w-5 h-5 rounded-full flex justify-center items-center bg-white cursor-pointer">
+                    <CgCloseO size={24} onClick={() => dispatch({ type: "DELETE", id })} />
+                </div>
+                <img className="rounded-md" src={url} />
+            </div>
+        )
     }
 
     return (
