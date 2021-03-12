@@ -80,6 +80,7 @@ export type Image = {
   __typename?: 'Image';
   id: Scalars['String'];
   image: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
   sequence: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -185,7 +186,7 @@ export type ProductFragment = (
   & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
   & { images: Array<(
     { __typename?: 'Image' }
-    & Pick<Image, 'id' | 'image' | 'sequence'>
+    & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
   )> }
 );
 
@@ -407,6 +408,7 @@ export const ProductFragmentDoc = gql`
   images {
     id
     image
+    url
     sequence
   }
 }

@@ -56,9 +56,8 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
             {data?.products?.map(product => (
                 <div key={product.id}
                     className={`bg-white w-full rounded-md shadow-lg p-5 grid grid-flow-col grid-cols-2 gap-8`}>
-                    <ImagesList images={product.images.reduce<string[]>((arr, image) => {
-                        return [...arr, image.image]
-                    }, [])} />
+                    <ImagesList 
+                        images={product.images.reduce<string[]>((arr, image) => [...arr, image.url as string], [])} />
                     <div className="flex flex-col">
                         <div>{product.title}</div>
                         <div className="font-bold text-sm">{toRupiah(product.price, { floatingPoint: 0 })}</div>

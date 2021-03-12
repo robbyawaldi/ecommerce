@@ -8,33 +8,11 @@ import toRupiah from '@develoka/angka-rupiah-js';
 import { ProductsDocument, useCreateProductMutation } from '../../generated/graphql';
 import { useRouter } from 'next/router';
 import { UploadImage } from './UploadImage';
-import styles from '../../styles/CreateProduct.module.css'
-import { Action, ProductImage, State } from '../../types/images';
+import upload from '../../styles/Upload.module.css'
 import { randomId } from '../../utils/randomId';
+import { reducer } from './imageReducer';
 
 interface CreateProductProps { }
-
-function reducer(state: State, action: Action) {
-    switch (action.type) {
-        case "ADD":
-            return {
-                images: [...state.images, { id: randomId(), image: undefined, url: undefined }]
-            }
-        case "UPDATE":
-            return {
-                images: state.images.map((image: ProductImage) =>
-                    image.id === action.id
-                        ? { ...image, image: action.image, url: action.url }
-                        : image)
-            }
-        case "DELETE":
-            return {
-                images: state.images.filter((image: ProductImage) => image.id !== action.id)
-            }
-        default:
-            return state
-    }
-}
 
 export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     const [product] = useCreateProductMutation()
@@ -104,7 +82,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             </Checkbox>
                         </div>
 
-                        <div className={`${styles.uploadImageContainer}`}>
+                        <div className={`${upload.uploadImageContainer}`}>
                             {images.map((image, i) => (
                                 <UploadImage
                                     key={i}

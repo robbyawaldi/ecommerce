@@ -21,6 +21,9 @@ export class Image extends BaseEntity {
   @Column()
   image!: string;
 
+  @Field({ nullable: true })
+  url: string;
+
   @Field()
   @Column()
   sequence!: number;

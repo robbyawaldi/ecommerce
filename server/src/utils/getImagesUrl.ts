@@ -3,7 +3,7 @@ import { Request } from "express";
 
 export function getImagesUrl(product: Product, req: Request) {
     return product.images?.map(image => {
-        return { ...image, image: getImageUrl(image.image, req) }
+        return { ...image, url: getImageUrl(image.image, req) }
     })
 }
 

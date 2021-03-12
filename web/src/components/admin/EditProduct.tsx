@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useReducer } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
+import upload from '../../styles/Upload.module.css'
 import { Box, FormControl, FormLabel, Input, Checkbox, Button } from '@chakra-ui/react';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { Formik, Form } from 'formik';
@@ -8,6 +9,9 @@ import { useRouter } from 'next/router';
 import { InputField } from './InputField';
 import { useProductQuery, useUpdateProductMutation } from '../../generated/graphql';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
+import { reducer } from './imageReducer';
+import { UploadImage } from './UploadImage';
+import { ProductImage } from '../../types/images';
 
 interface EditProductProps { }
 
@@ -21,6 +25,18 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
         },
         notifyOnNetworkStatusChange: true
     })
+    const [{ images }, dispatch] = useReducer(reducer, { images: []})
+
+    useEffect(() => {
+        if (data?.product?.images) {
+            dispatch({ type: "SET", images: data.product.images as ProductImage[] })
+        }
+    }, [])
+
+    useEffect(() => {
+        const img = images.filter((image) => !("__typename" in image))
+        console.log(img)
+    }, [images])
 
     const errorMessage = loadingOrQueryFailed(data, loading, error)
     if (errorMessage) {
@@ -80,6 +96,16 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 Stock Available
                             </Checkbox>
                         </div>
+
+                        <div className={`${upload.uploadImageContainer}`}>
+                            {images.map((image, i) => (
+                                <UploadImage
+                                    key={i}
+                                    image={image}
+                                    dispatch={dispatch} />
+                            ))}
+                        </div>
+
                         <Button
                             mt={5}
                             type="submit"

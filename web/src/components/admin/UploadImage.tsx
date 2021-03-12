@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone';
 import { useUploadImageMutation } from '../../generated/graphql';
 import { ImFilePicture } from 'react-icons/im'
@@ -6,11 +6,11 @@ import { CgCloseO } from 'react-icons/cg'
 import { Action, ProductImage } from '../../types/images';
 
 interface UploadImageProps {
-    dispatch: React.Dispatch<Action>,
-    image: ProductImage
+    dispatch: React.Dispatch<Action>;
+    image: ProductImage;
 }
 
-export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id, image, url } }) => {
+export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id, url, __typename } }) => {
     const [uploadImage] = useUploadImageMutation()
 
     const onDrop = useCallback(
@@ -28,6 +28,13 @@ export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id,
         [uploadImage, id]
     )
 
+    const handleDelete = () => {
+        dispatch({ type: "DELETE", id })
+        if (!__typename) {
+            console.log("test")
+        }
+    }
+
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: 'image/*'
@@ -37,7 +44,7 @@ export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id,
         return (
             <div className="mx-2 w-32 relative">
                 <div className="absolute right-0 w-5 h-5 rounded-full flex justify-center items-center bg-white cursor-pointer">
-                    <CgCloseO size={24} onClick={() => dispatch({ type: "DELETE", id })} />
+                    <CgCloseO size={24} onClick={handleDelete} />
                 </div>
                 <img className="rounded-md" src={url} />
             </div>
