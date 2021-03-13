@@ -57,6 +57,11 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                     const response = await updateProduct({
                         variables: {
                             id: id as string,
+                            images: images
+                                .filter(image => 
+                                    image.image !== undefined
+                                    && !image.__typename)
+                                .map(image => ({image: image.image as string})),
                             ...values
                         },
                     })

@@ -37,7 +37,9 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                     const response = await product({
                         variables: {
                             ...values,
-                            images: images.filter(image => image.image !== undefined).map(image => ({image: image.image as string}))
+                            images: images
+                                .filter(image => image.image !== undefined)
+                                .map(image => ({ image: image.image as string }))
                         },
                         refetchQueries: [
                             {

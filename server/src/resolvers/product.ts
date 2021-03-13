@@ -93,12 +93,27 @@ export class ProductResolver {
         @Ctx() { req }: MyContext
     ): Promise<Product | undefined> {
         try {
+            const { images, ...data} = options
             await getConnection()
                 .createQueryBuilder()
                 .update(Product)
-                .set(options)
+                .set(data)
                 .where('id = :id', { id })
                 .execute()
+
+            for (const [sequence, { image }] of images.entries()) {
+                await getConnection()
+                    .createQueryBuilder()
+                    .insert()
+                    .into(Image)
+                    .values({
+                        id: ulid(),
+                        image,
+                        sequence,
+                        productId: id
+                    })
+                    .execute()
+            }
         } catch (err) {
             console.error(err)
         }

@@ -1,7 +1,7 @@
 mutation CreateProduct(
-  $title: String!,
-  $description: String!,
-  $price: Int!,
+  $title: String!
+  $description: String!
+  $price: Int!
   $stockAvailable: Boolean!
   $images: [ImageInput!]
 ) {

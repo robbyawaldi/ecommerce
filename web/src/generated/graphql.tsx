@@ -97,6 +97,7 @@ export type Mutation = {
   updateProduct: Product;
   deleteProduct: Scalars['Boolean'];
   uploadImage: ImageUploadResponse;
+  deleteImage: Scalars['Boolean'];
 };
 
 
@@ -140,6 +141,11 @@ export type MutationDeleteProductArgs = {
 
 export type MutationUploadImageArgs = {
   file: Scalars['Upload'];
+};
+
+
+export type MutationDeleteImageArgs = {
+  id: Scalars['String'];
 };
 
 export type UserResponse = {
@@ -216,6 +222,16 @@ export type CreateProductMutation = (
   ) }
 );
 
+export type DeleteImageMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteImageMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteImage'>
+);
+
 export type DeleteProductMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -289,6 +305,7 @@ export type UpdateProductMutationVariables = Exact<{
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
   stockAvailable?: Maybe<Scalars['Boolean']>;
+  images?: Maybe<Array<ImageInput> | ImageInput>;
 }>;
 
 
@@ -467,6 +484,36 @@ export function useCreateProductMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
 export type CreateProductMutationResult = Apollo.MutationResult<CreateProductMutation>;
 export type CreateProductMutationOptions = Apollo.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
+export const DeleteImageDocument = gql`
+    mutation DeleteImage($id: String!) {
+  deleteImage(id: $id)
+}
+    `;
+export type DeleteImageMutationFn = Apollo.MutationFunction<DeleteImageMutation, DeleteImageMutationVariables>;
+
+/**
+ * __useDeleteImageMutation__
+ *
+ * To run a mutation, you first call `useDeleteImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteImageMutation, { data, loading, error }] = useDeleteImageMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteImageMutation(baseOptions?: Apollo.MutationHookOptions<DeleteImageMutation, DeleteImageMutationVariables>) {
+        return Apollo.useMutation<DeleteImageMutation, DeleteImageMutationVariables>(DeleteImageDocument, baseOptions);
+      }
+export type DeleteImageMutationHookResult = ReturnType<typeof useDeleteImageMutation>;
+export type DeleteImageMutationResult = Apollo.MutationResult<DeleteImageMutation>;
+export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<DeleteImageMutation, DeleteImageMutationVariables>;
 export const DeleteProductDocument = gql`
     mutation DeleteProduct($id: String!) {
   deleteProduct(id: $id)
@@ -636,10 +683,10 @@ export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const UpdateProductDocument = gql`
-    mutation UpdateProduct($id: String!, $title: String, $description: String, $price: Int, $stockAvailable: Boolean) {
+    mutation UpdateProduct($id: String!, $title: String, $description: String, $price: Int, $stockAvailable: Boolean, $images: [ImageInput!]) {
   updateProduct(
     id: $id
-    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable}
+    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images}
   ) {
     ...Product
   }
@@ -665,6 +712,7 @@ export type UpdateProductMutationFn = Apollo.MutationFunction<UpdateProductMutat
  *      description: // value for 'description'
  *      price: // value for 'price'
  *      stockAvailable: // value for 'stockAvailable'
+ *      images: // value for 'images'
  *   },
  * });
  */

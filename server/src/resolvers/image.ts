@@ -12,7 +12,7 @@ class ImageUploadResponse {
     uploaded: boolean;
     @Field(() => String, { nullable: true })
     url?: string;
-    @Field(() => String, { nullable: true})
+    @Field(() => String, { nullable: true })
     image?: string;
 }
 
@@ -44,5 +44,13 @@ export class ImageResolver {
                     uploaded: false
                 }))
         )
+    }
+
+    @Mutation(() => Boolean)
+    async deleteImage(
+        @Arg("id", () => String) id: string
+    ): Promise<boolean> {
+        await Image.delete(id)
+        return true
     }
 }
