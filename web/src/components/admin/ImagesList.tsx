@@ -6,7 +6,7 @@ interface ImagesListProps {
 }
 
 export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
-    const length = useMemo(() => images.length, [])
+    const length = useMemo(() => images.length, [images])
     const divider = useMemo(() => length / 2, [])
     const [index, setIndex] = useState(1)
     const [tx, setTx] = useState(0)
@@ -15,23 +15,28 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
     const [isDisabledButton, setIsDisabledButton] = useState(false)
 
     const cloneImages = useMemo(() => (
-        length % 2 === 0
-            ? [
-                ...images.slice(divider, length),
-                ...images,
-                ...images.slice(0, divider),
-            ]
-            : [
-                ...images.slice(Math.floor(divider), length),
-                ...images,
-                ...images.slice(0, Math.ceil(divider)),
-            ]
+        length > 1
+            ? length % 2 === 0
+                ? [
+                    ...images.slice(divider, length),
+                    ...images,
+                    ...images.slice(0, divider),
+                ]
+                : [
+                    ...images.slice(Math.floor(divider), length),
+                    ...images,
+                    ...images.slice(0, Math.ceil(divider)),
+                ]
+            : images
     ), [])
 
     useEffect(() => {
-        const firstPosition = (Math.floor(divider) - (length % 2 === 0 ? 1 : 0) ) * 150;
+        const firstPosition = (Math.floor(divider) - (length % 2 === 0 ? 1 : 0)) * 150;
 
-        setTx(index > 0 ? firstPosition + 144 * index : firstPosition);
+        if (length > 1)
+            setTx(index > 0 ? firstPosition + 144 * index : firstPosition);
+        else
+            setTx(0)
     }, [index])
 
     useEffect(() => {
@@ -68,12 +73,17 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
 
     return (
         <div className="relative">
-            <button
-                className={`${styles.button} ${styles.prev} focus:outline-none`}
-                onClick={handlePrev}
-                disabled={isDisabledButton}>
-                prev
-            </button>
+            {
+                length > 1 ? (
+                    <button
+                        className={`${styles.button} ${styles.prev}`}
+                        onClick={handlePrev}
+                        disabled={isDisabledButton}>
+                        prev
+                    </button>
+                ) : null
+            }
+
             <div className={`overflow-x-hidden w-full`}>
                 <div
                     className={`w-full h-full flex`}
@@ -90,12 +100,17 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
                     }
                 </div>
             </div>
-            <button
-                className={`${styles.button} ${styles.next} focus:outline-none`}
-                onClick={handleNext}
-                disabled={isDisabledButton}>
-                next
-            </button>
+            {
+                length > 1 ? (
+                    <button
+                        className={`${styles.button} ${styles.next}`}
+                        onClick={handleNext}
+                        disabled={isDisabledButton}>
+                        next
+                    </button>
+                ) : null
+            }
+
         </div>
     );
 }

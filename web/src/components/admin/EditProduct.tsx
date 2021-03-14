@@ -31,11 +31,10 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
         if (data?.product?.images) {
             dispatch({ type: "SET", images: data.product.images as ProductImage[] })
         }
-    }, [])
+    }, [ data ])
 
     useEffect(() => {
         const img = images.filter((image) => !("__typename" in image))
-        console.log(img)
     }, [images])
 
     const errorMessage = loadingOrQueryFailed(data, loading, error)
@@ -94,10 +93,10 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 />
                             </FormControl>
                             <Checkbox
-                                name="stockAvailabe"
-                                defaultChecked
+                                name="stockAvailable"
+                                defaultChecked={values.stockAvailable}
                                 checked={values.stockAvailable}
-                                onChange={(e) => setFieldValue('stockAvailabe', e.currentTarget.checked)}>
+                                onChange={(e) => setFieldValue('stockAvailable', e.currentTarget.checked)}>
                                 Stock Available
                             </Checkbox>
                         </div>

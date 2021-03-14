@@ -9,6 +9,7 @@ import toRupiah from '@develoka/angka-rupiah-js';
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
+import { IoBagCheckSharp } from 'react-icons/io5'
 
 interface ProductListProps { }
 
@@ -52,45 +53,52 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
     }
 
     return (
-        <section className="grid md:grid-cols-2 gap-2">
-            {data?.products?.map(product => (
-                <div key={product.id}
-                    className={`bg-white w-full rounded-md shadow-lg p-5 grid grid-flow-col grid-cols-2 gap-8`}>
-                    <ImagesList 
-                        images={product.images.reduce<string[]>((arr, image) => [...arr, image.url as string], [])} />
-                    <div className="flex flex-col">
-                        <div>{product.title}</div>
-                        <div className="font-bold text-sm">{toRupiah(product.price, { floatingPoint: 0 })}</div>
-                        <div className="flex mt-3 w-full">
-                            <Tooltip label="Edit Product">
-                                <IconButton
-                                    onClick={() => router.push({
-                                        pathname: 'products/edit/[id]',
-                                        query: { id: product.id }
-                                    })}
-                                    mr={2}
-                                    colorScheme="teal"
-                                    aria-label="edit product"
-                                    size="sm"
-                                    icon={<FaPen />}
-                                />
-                            </Tooltip>
-                            <Tooltip label="Delete Product">
-                                <IconButton
-                                    onClick={() => router.replace({
-                                        pathname: router.pathname,
-                                        query: { delete: product.id, title: product.title }
-                                    })}
-                                    colorScheme="orange"
-                                    aria-label="delete product"
-                                    size="sm"
-                                    icon={<FaEraser />}
-                                />
-                            </Tooltip>
+        <section >
+            <div className="grid md:grid-cols-2 gap-2">
+                {data?.products?.map(product => (
+                    <div key={product.id}
+                        className={`bg-white w-full rounded-md shadow-lg p-5 grid grid-flow-col grid-cols-2 gap-8`}>
+                        <ImagesList
+                            images={product.images.reduce<string[]>((arr, image) => [...arr, image.url as string], [])} />
+                        <div className="flex flex-col">
+                            <div>{product.title}</div>
+                            <div className="flex items-center">
+                                <IoBagCheckSharp className="mr-2"/>
+                                {product.stockAvailable ? 'Stock Ready' : 'Out of Stock'}
+                            </div>
+                            <div className="font-bold text-sm">{toRupiah(product.price, { floatingPoint: 0 })}</div>
+                            <div className="flex mt-3 w-full">
+                                <Tooltip label="Edit Product">
+                                    <IconButton
+                                        onClick={() => router.push({
+                                            pathname: 'products/edit/[id]',
+                                            query: { id: product.id }
+                                        })}
+                                        mr={2}
+                                        colorScheme="teal"
+                                        aria-label="edit product"
+                                        size="sm"
+                                        icon={<FaPen />}
+                                    />
+                                </Tooltip>
+                                <Tooltip label="Delete Product">
+                                    <IconButton
+                                        onClick={() => router.replace({
+                                            pathname: router.pathname,
+                                            query: { delete: product.id, title: product.title }
+                                        })}
+                                        colorScheme="orange"
+                                        aria-label="delete product"
+                                        size="sm"
+                                        icon={<FaEraser />}
+                                    />
+                                </Tooltip>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
+
             <ModalConfirm
                 title="Delete Product"
                 isOpen={openDeleteModal}
@@ -100,7 +108,6 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                     Are you sure to delete {router.query.title}
                 </p>
             </ModalConfirm>
-
         </section>
     );
 }
