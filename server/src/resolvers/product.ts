@@ -5,6 +5,8 @@ import {
     Mutation,
     Arg,
     UseMiddleware,
+    Field,
+    ObjectType,
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { ulid } from "ulid";
@@ -13,7 +15,18 @@ import { Product } from "../entities/Product";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
 import { getImagesUrl } from "../utils/getImagesUrl";
+import { validateProduct } from "../utils/validateProduct";
+import { FieldError } from "./FieldError";
 import { ProductInput } from "./ProductInput";
+
+@ObjectType()
+class ProductResponse {
+    @Field(() => [FieldError], { nullable: true })
+    errors?: FieldError[];
+
+    @Field(() => Product, { nullable: true })
+    product?: Product;
+}
 
 @Resolver(Product)
 export class ProductResolver {
@@ -40,13 +53,17 @@ export class ProductResolver {
             : undefined
     }
 
-    @Mutation(() => Product)
+    @Mutation(() => ProductResponse)
     @UseMiddleware(isAuth)
     async createProduct(
         @Arg('options') options: ProductInput
-    ): Promise<Product | undefined> {
-        let product: Product | undefined
+    ): Promise<ProductResponse> {
+        const errors = validateProduct(options)
+        if (errors) {
+            return { errors }
+        }
 
+        let product
         try {
             const result = await getConnection()
                 .createQueryBuilder()
@@ -80,20 +97,33 @@ export class ProductResolver {
 
         } catch (err) {
             console.error(err)
+            return {
+                errors: [
+                    {
+                        field: "",
+                        message: "something wrong"
+                    }
+                ]
+            }
         }
 
-        return product
+        return { product }
     }
 
-    @Mutation(() => Product)
+    @Mutation(() => ProductResponse)
     @UseMiddleware(isAuth)
     async updateProduct(
         @Arg('id', () => String) id: string,
         @Arg('options') options: ProductInput,
         @Ctx() { req }: MyContext
-    ): Promise<Product | undefined> {
+    ): Promise<ProductResponse> {
+        const errors = validateProduct(options)
+        if (errors) {
+            return { errors }
+        }
+
         try {
-            const { images, ...data} = options
+            const { images, ...data } = options
             await getConnection()
                 .createQueryBuilder()
                 .update(Product)
@@ -119,9 +149,11 @@ export class ProductResolver {
         }
 
         let product = await Product.findOne(id, { relations: ['images'] })
-        return product
-            ? { ...product, images: getImagesUrl(product, req) } as Product
-            : undefined
+        return {
+            product: product
+                ? { ...product, images: getImagesUrl(product, req) } as Product
+                : undefined
+        }
     }
 
     @Mutation(() => Boolean)

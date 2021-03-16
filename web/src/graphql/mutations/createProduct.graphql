@@ -12,10 +12,16 @@ mutation CreateProduct(
     stockAvailable: $stockAvailable
     images: $images
   }) {
-    id
-    title
-    description
-    price
-    stockAvailable
+    errors {
+      field
+      message
+    }
+    product {
+      id
+      title
+      description
+      price
+      stockAvailable
+    }
   }
 }

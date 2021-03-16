@@ -12,7 +12,8 @@ import upload from '../../styles/Upload.module.css'
 import { randomId } from '../../utils/randomId';
 import { reducer } from './imageReducer';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
+import 'react-quill/dist/quill.snow.css';
+import { toErrorMap } from '../../utils/toErrorMap';
 
 interface CreateProductProps { }
 
@@ -49,8 +50,13 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             }
                         ]
                     })
-                    resetForm({})
-                    router.back()
+
+                    if (response.data?.createProduct.errors) {
+                        setErrors(toErrorMap(response.data.createProduct.errors))
+                    } else {
+                        resetForm({})
+                        router.back()
+                    }
                 }}>
                 {({ isSubmitting, values, setFieldValue }) => (
                     <Form className={form.form}>
@@ -79,10 +85,10 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             </Checkbox>
                         </div>
                         <Box mt={4}>
-                            <ReactQuill 
+                            <ReactQuill
                                 placeholder="description"
                                 value={values.description}
-                                onChange={value => setFieldValue('description', value)}/>
+                                onChange={value => setFieldValue('description', value)} />
                         </Box>
 
                         <div className={`${upload.uploadImageContainer}`}>

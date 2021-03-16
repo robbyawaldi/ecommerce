@@ -16,6 +16,12 @@ mutation UpdateProduct(
       images: $images
     }
   ) {
-    ...Product
+    errors {
+      field
+      message
+    }
+    product {
+      ...Product
+    }
   }
 }

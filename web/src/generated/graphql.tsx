@@ -93,8 +93,8 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   updateUser?: Maybe<UserResponse>;
   deleteUser: Scalars['Boolean'];
-  createProduct: Product;
-  updateProduct: Product;
+  createProduct: ProductResponse;
+  updateProduct: ProductResponse;
   deleteProduct: Scalars['Boolean'];
   uploadImage: ImageUploadResponse;
   deleteImage: Scalars['Boolean'];
@@ -167,6 +167,12 @@ export type UsernamePasswordInput = {
   roleId?: Maybe<Scalars['Int']>;
 };
 
+export type ProductResponse = {
+  __typename?: 'ProductResponse';
+  errors?: Maybe<Array<FieldError>>;
+  product?: Maybe<Product>;
+};
+
 export type ProductInput = {
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -217,8 +223,14 @@ export type CreateProductMutationVariables = Exact<{
 export type CreateProductMutation = (
   { __typename?: 'Mutation' }
   & { createProduct: (
-    { __typename?: 'Product' }
-    & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
+    { __typename?: 'ProductResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>>, product?: Maybe<(
+      { __typename?: 'Product' }
+      & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
+    )> }
   ) }
 );
 
@@ -312,8 +324,14 @@ export type UpdateProductMutationVariables = Exact<{
 export type UpdateProductMutation = (
   { __typename?: 'Mutation' }
   & { updateProduct: (
-    { __typename?: 'Product' }
-    & ProductFragment
+    { __typename?: 'ProductResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>>, product?: Maybe<(
+      { __typename?: 'Product' }
+      & ProductFragment
+    )> }
   ) }
 );
 
@@ -447,11 +465,17 @@ export const CreateProductDocument = gql`
   createProduct(
     options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images}
   ) {
-    id
-    title
-    description
-    price
-    stockAvailable
+    errors {
+      field
+      message
+    }
+    product {
+      id
+      title
+      description
+      price
+      stockAvailable
+    }
   }
 }
     `;
@@ -688,7 +712,13 @@ export const UpdateProductDocument = gql`
     id: $id
     options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images}
   ) {
-    ...Product
+    errors {
+      field
+      message
+    }
+    product {
+      ...Product
+    }
   }
 }
     ${ProductFragmentDoc}`;

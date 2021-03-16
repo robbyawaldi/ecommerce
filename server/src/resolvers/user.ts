@@ -19,14 +19,7 @@ import { getConnection } from "typeorm";
 import { ulid } from 'ulid'
 import { isAuth } from "../middleware/isAuth";
 import { isAdmin } from "../middleware/isAdmin";
-
-@ObjectType()
-class FieldError {
-  @Field()
-  field: string;
-  @Field()
-  message: string;
-}
+import { FieldError } from "./FieldError";
 
 @ObjectType()
 class UserResponse {

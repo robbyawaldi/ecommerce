@@ -14,6 +14,7 @@ import { UploadImage } from './UploadImage';
 import { ProductImage } from '../../types/images';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; 
+import { toErrorMap } from '../../utils/toErrorMap';
 
 interface EditProductProps { }
 
@@ -34,10 +35,6 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
             dispatch({ type: "SET", images: data.product.images as ProductImage[] })
         }
     }, [ data ])
-
-    useEffect(() => {
-        const img = images.filter((image) => !("__typename" in image))
-    }, [images])
 
     const errorMessage = loadingOrQueryFailed(data, loading, error)
     if (errorMessage) {
@@ -66,8 +63,13 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                             ...values
                         },
                     })
-                    resetForm({})
-                    router.back()
+
+                    if (response.data?.updateProduct.errors) {
+                        setErrors(toErrorMap(response.data.updateProduct.errors))
+                    } else {
+                        resetForm({})
+                        router.back()
+                    }
                 }}>
                 {({ isSubmitting, values, setFieldValue }) => (
                     <Form className={form.form}>
