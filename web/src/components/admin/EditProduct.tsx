@@ -12,6 +12,8 @@ import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { reducer } from './imageReducer';
 import { UploadImage } from './UploadImage';
 import { ProductImage } from '../../types/images';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; 
 
 interface EditProductProps { }
 
@@ -73,14 +75,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                             name="title"
                             placeholder="title"
                             label="Title" />
-                        <Box mt={4}>
-                            <InputField
-                                textarea
-                                name="description"
-                                placeholder="description"
-                                label="Description" />
-                        </Box>
-                        <div className="grid grid-cols-2 gap-2 justify-items-end">
+                        <div className="grid grid-cols-2 gap-2 mt-4 justify-items-end">
                             <FormControl>
                                 <FormLabel>Price</FormLabel>
                                 <Input
@@ -100,6 +95,12 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 Stock Available
                             </Checkbox>
                         </div>
+                        <Box mt={4}>
+                            <ReactQuill 
+                                placeholder="description"
+                                value={values.description}
+                                onChange={value => setFieldValue('description', value)}/>
+                        </Box>
 
                         <div className={`${upload.uploadImageContainer}`}>
                             {images.map((image, i) => (
