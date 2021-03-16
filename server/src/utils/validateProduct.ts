@@ -1,7 +1,7 @@
 import { ProductInput } from "../resolvers/ProductInput";
 
 export const validateProduct = (options: ProductInput) => {
-    if (options.title && !options.title.match(/\w/g)) {
+    if (options.title && !options.title.match(/\D/g)) {
         return [
             {
                 field: "title",
