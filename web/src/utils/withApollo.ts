@@ -2,6 +2,7 @@ import { createWithApollo } from "./createWithApollo";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { NextPageContext } from "next";
 import { createUploadLink } from 'apollo-upload-client'
+import { Product } from "../generated/graphql";
 
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
@@ -15,7 +16,31 @@ const createClient = (ctx: NextPageContext) =>
             : undefined) || "",
       }
     }),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache(
+      {
+        typePolicies: {
+          Query: {
+            fields: {
+              products: {
+                keyArgs: [],
+                merge(
+                  existing: Product[] | undefined,
+                  incoming: Product[],
+                  { readField }
+                ): Product[] {
+                  return [
+                    ...(existing || []),
+                    ...incoming.filter(a =>
+                      existing?.find(b => readField("id", b) === readField("id", a))
+                      === undefined)
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    ),
   });
 
 export const withApollo = createWithApollo(createClient);

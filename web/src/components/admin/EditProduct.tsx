@@ -12,8 +12,6 @@ import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { reducer } from './imageReducer';
 import { UploadImage } from './UploadImage';
 import { ProductImage } from '../../types/images';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
 import { toErrorMap } from '../../utils/toErrorMap';
 
 interface EditProductProps { }
@@ -28,13 +26,13 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
         },
         notifyOnNetworkStatusChange: true
     })
-    const [{ images }, dispatch] = useReducer(reducer, { images: []})
+    const [{ images }, dispatch] = useReducer(reducer, { images: [] })
 
     useEffect(() => {
         if (data?.product?.images) {
             dispatch({ type: "SET", images: data.product.images as ProductImage[] })
         }
-    }, [ data ])
+    }, [data])
 
     const errorMessage = loadingOrQueryFailed(data, loading, error)
     if (errorMessage) {
@@ -56,10 +54,10 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                         variables: {
                             id: id as string,
                             images: images
-                                .filter(image => 
+                                .filter(image =>
                                     image.image !== undefined
                                     && !image.__typename)
-                                .map(image => ({image: image.image as string})),
+                                .map(image => ({ image: image.image as string })),
                             ...values
                         },
                     })
@@ -98,10 +96,10 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                             </Checkbox>
                         </div>
                         <Box mt={4}>
-                            <ReactQuill 
-                                placeholder="description"
-                                value={values.description}
-                                onChange={value => setFieldValue('description', value)}/>
+                            <InputField
+                                rich
+                                name="description"
+                                label="Description" />
                         </Box>
 
                         <div className={`${upload.uploadImageContainer}`}>

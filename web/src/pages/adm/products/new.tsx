@@ -16,4 +16,4 @@ const NewProduct = () => {
     )
 }
 
-export default withApollo({ ssr: true })(NewProduct)
+export default withApollo({ ssr: false })(NewProduct)

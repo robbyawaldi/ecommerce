@@ -18,6 +18,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
     const { data, error, loading } = useProductsQuery()
     const [deleteProduct] = useDeleteProductMutation()
     const router = useRouter()
+    const id = router.query.delete as string
 
     useEffect(() => {
         if (typeof router.query.delete == 'string') {
@@ -27,12 +28,10 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
 
     const handleDelete = useCallback(async () => {
         const response = await deleteProduct({
-            variables: { id: router.query.delete as string },
-            refetchQueries: [
-                {
-                    query: ProductsDocument
-                }
-            ]
+            variables: { id },
+            update: (cache) => {
+                cache.evict({ id: "Product:" + id })
+            }
         })
 
         if (response.data?.deleteProduct) {
@@ -63,7 +62,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                         <div className="flex flex-col">
                             <div>{product.title}</div>
                             <div className="flex items-center">
-                                <IoBagCheckSharp className="mr-2"/>
+                                <IoBagCheckSharp className="mr-2" />
                                 {product.stockAvailable ? 'Stock Ready' : 'Out of Stock'}
                             </div>
                             <div className="font-bold text-sm">{toRupiah(product.price, { floatingPoint: 0 })}</div>
