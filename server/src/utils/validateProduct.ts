@@ -1,7 +1,7 @@
 import { ProductInput } from "../resolvers/ProductInput";
 
 export const validateProduct = (options: ProductInput) => {
-    if (options.title && !options.title.match(/\D/g)) {
+    if (!options.title.match(/\D/g)) {
         return [
             {
                 field: "title",
@@ -10,7 +10,7 @@ export const validateProduct = (options: ProductInput) => {
         ]
     }
 
-    if (options.price && options.price < 0) {
+    if (options.price < 0) {
         return [
             {
                 field: "price",

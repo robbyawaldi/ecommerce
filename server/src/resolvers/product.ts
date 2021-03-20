@@ -100,8 +100,8 @@ export class ProductResolver {
             return {
                 errors: [
                     {
-                        field: "",
-                        message: "something wrong"
+                        field: '',
+                        message: 'something wrong'
                     }
                 ]
             }

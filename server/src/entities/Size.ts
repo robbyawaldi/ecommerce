@@ -19,6 +19,10 @@ export class Size extends BaseEntity {
   @Column()
   name!: string;
 
+  @Field()
+  @Column({ nullable: true })
+  description?: string
+
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;

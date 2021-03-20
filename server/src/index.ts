@@ -21,6 +21,7 @@ import { Image } from "./entities/Image";
 import { ProductResolver } from "./resolvers/product";
 import { ImageResolver } from "./resolvers/image";
 import { graphqlUploadExpress } from "graphql-upload";
+import { SizeResolver } from "./resolvers/size";
 
 const main = async () => {
   await createConnection({
@@ -84,6 +85,7 @@ const main = async () => {
         UserResolver,
         ProductResolver,
         ImageResolver,
+        SizeResolver,
       ],
       validate: false,
     }),
