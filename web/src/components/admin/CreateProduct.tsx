@@ -3,26 +3,33 @@ import React, { useReducer } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
 import { InputField } from './InputField';
-import { Box, Button, Checkbox, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Box, Button, Checkbox, FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
 import toRupiah from '@develoka/angka-rupiah-js';
-import { ProductsDocument, useCreateProductMutation } from '../../generated/graphql';
+import { ProductsDocument, useCreateProductMutation, useSizesQuery } from '../../generated/graphql';
 import { useRouter } from 'next/router';
 import { UploadImage } from './UploadImage';
 import upload from '../../styles/Upload.module.css'
 import { randomId } from '../../utils/randomId';
 import { reducer } from './imageReducer';
 import { toErrorMap } from '../../utils/toErrorMap';
+import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface CreateProductProps { }
 
 export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     const [product] = useCreateProductMutation()
+    const { data, error, loading } = useSizesQuery()
     const router = useRouter()
     const [{ images }, dispatch] = useReducer(reducer, {
         images: [
             { id: randomId(), image: undefined, url: undefined }
         ]
     })
+
+    const errorMessage = loadingOrQueryFailed({ data, error, loading })
+    if (errorMessage) {
+        return errorMessage
+    }
 
     return (
         <section className={`${card.box} md:max-w-md`}>
@@ -32,7 +39,8 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                     title: '',
                     description: '',
                     price: 0,
-                    stockAvailable: true
+                    stockAvailable: true,
+                    sizes: '',
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     const response = await product({
@@ -81,6 +89,22 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 onChange={(e) => setFieldValue('stockAvailabe', e.currentTarget.checked)}>
                                 Stock Available
                             </Checkbox>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 mt-4 justify-items-end">
+                            <FormControl>
+                                <FormLabel>Sizes</FormLabel>
+                                <Select
+                                    name="sizes"
+                                    aria-label="sizes"
+                                    placeholder="Sizes"
+                                    onChange={(e) => {
+                                        setFieldValue('sizes', e.target.value)
+                                    }}>
+                                    {data?.sizes?.map(size => (
+                                        <option value={size.id}>{size.name}</option>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         </div>
                         <Box mt={4}>
                             <InputField

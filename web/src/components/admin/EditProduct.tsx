@@ -34,7 +34,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
         }
     }, [data])
 
-    const errorMessage = loadingOrQueryFailed(data, loading, error)
+    const errorMessage = loadingOrQueryFailed({ data, error, loading })
     if (errorMessage) {
         return errorMessage
     }

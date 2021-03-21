@@ -48,7 +48,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
         })
     }, [])
 
-    const errorMessage = loadingOrQueryFailed(data, loading, error)
+    const errorMessage = loadingOrQueryFailed({ data, error, loading })
     if (errorMessage) {
         return errorMessage
     }

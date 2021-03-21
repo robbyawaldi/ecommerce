@@ -22,7 +22,7 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
         notifyOnNetworkStatusChange: true
     })
 
-    const errorMessage = loadingOrQueryFailed(data, loading, error)
+    const errorMessage = loadingOrQueryFailed({ data, error, loading })
     if (errorMessage) {
         return errorMessage
     }
@@ -97,7 +97,7 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
                             isLoading={isSubmitting}
                             colorScheme="teal">
                             Edit
-                            </Button>
+                        </Button>
                     </Form>
                 )}
             </Formik>

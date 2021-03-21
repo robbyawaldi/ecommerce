@@ -1,4 +1,14 @@
-export const loadingOrQueryFailed = (data: any, loading: boolean, error: any) => {
+import React, { ReactElement } from 'react'
+
+interface loadingOrQueryFailedProps {
+    data: any;
+    error: any;
+    loading: boolean
+}
+
+type ReactElementOrUndefined = ({ }: loadingOrQueryFailedProps) => ReactElement | undefined
+
+export const loadingOrQueryFailed: ReactElementOrUndefined = ({ data, error, loading }) => {
     let issue;
 
     if (!loading && !data) {

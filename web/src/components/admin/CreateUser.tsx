@@ -68,8 +68,8 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                                 name="roleId"
                                 aria-label="role"
                                 placeholder="Role"
-                                onChange={(opt) => {
-                                    setFieldValue('roleId', opt.currentTarget.value)
+                                onChange={(e) => {
+                                    setFieldValue('roleId', parseInt(e.target.value))
                                 }}>
                                 <option value={1}>Admin</option>
                                 <option value={2}>Data Entry</option>
