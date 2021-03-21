@@ -1,0 +1,5 @@
+query Sizes {
+  sizes {
+    ...Size
+  }
+}

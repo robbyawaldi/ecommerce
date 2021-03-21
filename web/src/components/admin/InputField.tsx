@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import React, { InputHTMLAttributes } from "react";
 import { useField } from "formik";
 import {
@@ -7,7 +8,7 @@ import {
   FormErrorMessage,
   Textarea,
 } from "@chakra-ui/react";
-import ReactQuill from "react-quill";
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {

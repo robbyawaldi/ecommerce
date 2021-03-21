@@ -1,0 +1,5 @@
+fragment Size on Size {
+  id
+  name
+  description
+}

@@ -22,6 +22,7 @@ export type Query = {
   users: PaginatedUsers;
   products?: Maybe<Array<Product>>;
   product?: Maybe<Product>;
+  sizes?: Maybe<Array<Size>>;
 };
 
 
@@ -86,6 +87,15 @@ export type Image = {
   updatedAt: Scalars['String'];
 };
 
+export type Size = {
+  __typename?: 'Size';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   register: UserResponse;
@@ -98,6 +108,9 @@ export type Mutation = {
   deleteProduct: Scalars['Boolean'];
   uploadImage: ImageUploadResponse;
   deleteImage: Scalars['Boolean'];
+  createSize: SizeResponse;
+  updateSize: SizeResponse;
+  deleteSize: Scalars['Boolean'];
 };
 
 
@@ -148,6 +161,22 @@ export type MutationDeleteImageArgs = {
   id: Scalars['String'];
 };
 
+
+export type MutationCreateSizeArgs = {
+  options: SizeInput;
+};
+
+
+export type MutationUpdateSizeArgs = {
+  options: SizeInput;
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteSizeArgs = {
+  id: Scalars['Int'];
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -193,6 +222,17 @@ export type ImageUploadResponse = {
 };
 
 
+export type SizeResponse = {
+  __typename?: 'SizeResponse';
+  errors?: Maybe<Array<FieldError>>;
+  size?: Maybe<Size>;
+};
+
+export type SizeInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
 export type ProductFragment = (
   { __typename?: 'Product' }
   & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
@@ -200,6 +240,11 @@ export type ProductFragment = (
     { __typename?: 'Image' }
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
   )> }
+);
+
+export type SizeFragment = (
+  { __typename?: 'Size' }
+  & Pick<Size, 'id' | 'name' | 'description'>
 );
 
 export type UserFragment = (
@@ -403,6 +448,17 @@ export type ProductsQuery = (
   )>> }
 );
 
+export type SizesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SizesQuery = (
+  { __typename?: 'Query' }
+  & { sizes?: Maybe<Array<(
+    { __typename?: 'Size' }
+    & SizeFragment
+  )>> }
+);
+
 export type UserQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -446,6 +502,13 @@ export const ProductFragmentDoc = gql`
     url
     sequence
   }
+}
+    `;
+export const SizeFragmentDoc = gql`
+    fragment Size on Size {
+  id
+  name
+  description
 }
     `;
 export const UserFragmentDoc = gql`
@@ -925,6 +988,38 @@ export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<P
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const SizesDocument = gql`
+    query Sizes {
+  sizes {
+    ...Size
+  }
+}
+    ${SizeFragmentDoc}`;
+
+/**
+ * __useSizesQuery__
+ *
+ * To run a query within a React component, call `useSizesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSizesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSizesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSizesQuery(baseOptions?: Apollo.QueryHookOptions<SizesQuery, SizesQueryVariables>) {
+        return Apollo.useQuery<SizesQuery, SizesQueryVariables>(SizesDocument, baseOptions);
+      }
+export function useSizesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SizesQuery, SizesQueryVariables>) {
+          return Apollo.useLazyQuery<SizesQuery, SizesQueryVariables>(SizesDocument, baseOptions);
+        }
+export type SizesQueryHookResult = ReturnType<typeof useSizesQuery>;
+export type SizesLazyQueryHookResult = ReturnType<typeof useSizesLazyQuery>;
+export type SizesQueryResult = Apollo.QueryResult<SizesQuery, SizesQueryVariables>;
 export const UserDocument = gql`
     query User($id: String!) {
   user(id: $id) {
