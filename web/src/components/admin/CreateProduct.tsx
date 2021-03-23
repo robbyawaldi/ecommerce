@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
 import { InputField } from './InputField';
@@ -13,6 +13,8 @@ import { randomId } from '../../utils/randomId';
 import { reducer } from './imageReducer';
 import { toErrorMap } from '../../utils/toErrorMap';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
+import { Multiselect } from './Multiselect';
+import { Item } from '../../types/item';
 
 interface CreateProductProps { }
 
@@ -20,6 +22,8 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     const [product] = useCreateProductMutation()
     const { data, error, loading } = useSizesQuery()
     const router = useRouter()
+    const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
     const [{ images }, dispatch] = useReducer(reducer, {
         images: [
             { id: randomId(), image: undefined, url: undefined }
@@ -40,7 +44,6 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                     description: '',
                     price: 0,
                     stockAvailable: true,
-                    sizes: '',
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     const response = await product({
@@ -93,17 +96,17 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                         <div className="grid grid-cols-2 gap-2 mt-4 justify-items-end">
                             <FormControl>
                                 <FormLabel>Sizes</FormLabel>
-                                <Select
-                                    name="sizes"
-                                    aria-label="sizes"
-                                    placeholder="Sizes"
-                                    onChange={(e) => {
-                                        setFieldValue('sizes', e.target.value)
-                                    }}>
-                                    {data?.sizes?.map(size => (
-                                        <option value={size.id}>{size.name}</option>
-                                    ))}
-                                </Select>
+                                <Multiselect
+                                    items={data?.sizes as Item[]}
+                                    selectedItems={selectedSizes}
+                                    setSelected={setSelectedSizes} />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Categories</FormLabel>
+                                <Multiselect
+                                    items={[{ id: 1, name: 'Gamis' }, { id: 2, name: 'Rok' }, { id: 3, name: 'celana panjang rumbe-rumbe' }] as Item[]}
+                                    selectedItems={selectedCategories}
+                                    setSelected={setSelectedCategories} />
                             </FormControl>
                         </div>
                         <Box mt={4}>
