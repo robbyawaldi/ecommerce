@@ -30,9 +30,10 @@
 }
 
 .logoutButton {
-    @apply  border-none 
-            p-5 
+    @apply  border-none
+            z-10
             w-full 
+            h-full
             hover:bg-gray-200
             focus:outline-none;
 }
@@ -46,22 +47,17 @@
             duration-75
             opacity-0 
             w-40 
-            right-0 
+            top-10
+            right-0
             absolute 
             bg-white 
             shadow-xl 
-            mt-1 
             rounded-lg 
             border 
+            cursor-pointer
             border-gray-200;
 }
 
-.dropdownContent {
-    right: 20px;
-    top: -30px;
-}
-
-.dropdown:hover .dropdownContent {
-    @apply  top-8 
-            opacity-100;
+.active {
+    @apply opacity-100;
 }

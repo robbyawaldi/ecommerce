@@ -8,7 +8,7 @@ interface DropdownProps {
 
 export const Dropdown: React.FC<DropdownProps> = ({ list, addItem }) => {
     return (
-        <div className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
+        <div className="absolute shadow top-100 bg-white z-10 w-full lef-0 rounded max-h-select overflow-y-auto ">
         <div className="flex flex-col w-full">
             {list.map((item: Item, key: number) => {
                 return <div key={key}
