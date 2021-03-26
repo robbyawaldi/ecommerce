@@ -4,6 +4,8 @@ mutation CreateProduct(
   $price: Int!
   $stockAvailable: Boolean!
   $images: [ImageInput!]
+  $categories: [Int!]
+  $sizes: [Int!]
 ) {
   createProduct(options: {
   	title: $title
@@ -11,6 +13,8 @@ mutation CreateProduct(
     price: $price
     stockAvailable: $stockAvailable
     images: $images
+    categories: $categories
+    sizes: $sizes
   }) {
     errors {
       field

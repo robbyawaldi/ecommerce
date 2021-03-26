@@ -13,4 +13,8 @@ export class ProductInput {
     stockAvailable: boolean;
     @Field(() => [ImageInput], { nullable: true })
     images: Image[];
+    @Field(() => [Int], { nullable: true })
+    categories: number[];
+    @Field(() => [Int], { nullable: true })
+    sizes: number[];
 }

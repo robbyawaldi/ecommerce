@@ -14,8 +14,8 @@ enum Product {
 }
 
 enum Size {
-    NAME_MAX = "length must be less than 3",
-    DESCRIPTION_MAX = "length must be less than 11",
+    NAME_MAX = "length must be less than 10",
+    DESCRIPTION_MAX = "length must be less than 20",
     DESCRIPTION_INVALID = "invalid description"
 }
 

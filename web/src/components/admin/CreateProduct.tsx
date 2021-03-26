@@ -5,7 +5,7 @@ import card from '../../styles/Card.module.css'
 import { InputField } from './InputField';
 import { Box, Button, Checkbox, FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
 import toRupiah from '@develoka/angka-rupiah-js';
-import { ProductsDocument, useCreateProductMutation, useSizesQuery } from '../../generated/graphql';
+import { ProductsDocument, useCategoriesQuery, useCreateProductMutation, useSizesQuery } from '../../generated/graphql';
 import { useRouter } from 'next/router';
 import { UploadImage } from './UploadImage';
 import upload from '../../styles/Upload.module.css'
@@ -20,7 +20,9 @@ interface CreateProductProps { }
 
 export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     const [product] = useCreateProductMutation()
-    const { data, error, loading } = useSizesQuery()
+    const { data: sizes, error: sizeError, loading: sizeLoading } = useSizesQuery()
+    const { data: categories, error: categoryError, loading: categoryLoading } = useCategoriesQuery()
+
     const router = useRouter()
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
@@ -30,9 +32,14 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
         ]
     })
 
-    const errorMessage = loadingOrQueryFailed({ data, error, loading })
-    if (errorMessage) {
-        return errorMessage
+    const errorSizeMessage = loadingOrQueryFailed({ data: sizes, error: sizeError, loading: sizeLoading })
+    if (errorSizeMessage) {
+        return errorSizeMessage
+    }
+
+    const errorCategoryMessage = loadingOrQueryFailed({ data: categories, error: categoryError, loading: categoryLoading })
+    if (errorCategoryMessage) {
+        return errorCategoryMessage
     }
 
     return (
@@ -51,7 +58,9 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             ...values,
                             images: images
                                 .filter(image => image.image !== undefined)
-                                .map(image => ({ image: image.image as string }))
+                                .map(image => ({ image: image.image as string })),
+                            categories: selectedCategories.map((category: Item) => category.id),
+                            sizes: selectedSizes.map((size: Item) => size.id),
                         },
                         refetchQueries: [
                             {
@@ -97,14 +106,14 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             <FormControl>
                                 <FormLabel>Sizes</FormLabel>
                                 <Multiselect
-                                    items={data?.sizes as Item[]}
+                                    items={sizes?.sizes as Item[]}
                                     selectedItems={selectedSizes}
                                     setSelected={setSelectedSizes} />
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Categories</FormLabel>
                                 <Multiselect
-                                    items={[{ id: 1, name: 'Gamis' }, { id: 2, name: 'Rok' }, { id: 3, name: 'celana panjang rumbe-rumbe' }] as Item[]}
+                                    items={categories?.categories as Item[]}
                                     selectedItems={selectedCategories}
                                     setSelected={setSelectedCategories} />
                             </FormControl>

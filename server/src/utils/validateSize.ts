@@ -2,7 +2,7 @@ import { SizeInput } from "../resolvers/SizeInput";
 import { ErrorMessage } from "../static/errorMessage";
 
 export const validateSize = (options: SizeInput) => {
-    if (options.name.length > 2) {
+    if (options.name.length > 10) {
         return [
             {
                 field: 'name',
@@ -11,7 +11,7 @@ export const validateSize = (options: SizeInput) => {
         ]
     }
 
-    if (options.description.length >= 10) {
+    if (options.description.length >= 20) {
         return [
             {
                 field: 'description',

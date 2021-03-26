@@ -23,6 +23,7 @@ export type Query = {
   products?: Maybe<Array<Product>>;
   product?: Maybe<Product>;
   sizes?: Maybe<Array<Size>>;
+  categories?: Maybe<Array<Category>>;
 };
 
 
@@ -96,6 +97,14 @@ export type Size = {
   updatedAt: Scalars['String'];
 };
 
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   register: UserResponse;
@@ -111,6 +120,7 @@ export type Mutation = {
   createSize: SizeResponse;
   updateSize: SizeResponse;
   deleteSize: Scalars['Boolean'];
+  createCategory: CategoryResponse;
 };
 
 
@@ -177,6 +187,11 @@ export type MutationDeleteSizeArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationCreateCategoryArgs = {
+  options: CategoryInput;
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -208,6 +223,8 @@ export type ProductInput = {
   price?: Maybe<Scalars['Int']>;
   stockAvailable?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput>>;
+  categories?: Maybe<Array<Scalars['Int']>>;
+  sizes?: Maybe<Array<Scalars['Int']>>;
 };
 
 export type ImageInput = {
@@ -232,6 +249,21 @@ export type SizeInput = {
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 };
+
+export type CategoryResponse = {
+  __typename?: 'CategoryResponse';
+  errors?: Maybe<Array<FieldError>>;
+  category?: Maybe<Category>;
+};
+
+export type CategoryInput = {
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CategoryFragment = (
+  { __typename?: 'Category' }
+  & Pick<Category, 'id' | 'name'>
+);
 
 export type ProductFragment = (
   { __typename?: 'Product' }
@@ -262,6 +294,8 @@ export type CreateProductMutationVariables = Exact<{
   price: Scalars['Int'];
   stockAvailable: Scalars['Boolean'];
   images?: Maybe<Array<ImageInput> | ImageInput>;
+  categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
 }>;
 
 
@@ -413,6 +447,17 @@ export type UploadImageMutation = (
   ) }
 );
 
+export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesQuery = (
+  { __typename?: 'Query' }
+  & { categories?: Maybe<Array<(
+    { __typename?: 'Category' }
+    & CategoryFragment
+  )>> }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -489,6 +534,12 @@ export type UsersQuery = (
   ) }
 );
 
+export const CategoryFragmentDoc = gql`
+    fragment Category on Category {
+  id
+  name
+}
+    `;
 export const ProductFragmentDoc = gql`
     fragment Product on Product {
   id
@@ -524,9 +575,9 @@ export const UserFragmentDoc = gql`
 }
     `;
 export const CreateProductDocument = gql`
-    mutation CreateProduct($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!, $images: [ImageInput!]) {
+    mutation CreateProduct($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
   createProduct(
-    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images}
+    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images, categories: $categories, sizes: $sizes}
   ) {
     errors {
       field
@@ -562,6 +613,8 @@ export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutat
  *      price: // value for 'price'
  *      stockAvailable: // value for 'stockAvailable'
  *      images: // value for 'images'
+ *      categories: // value for 'categories'
+ *      sizes: // value for 'sizes'
  *   },
  * });
  */
@@ -891,6 +944,38 @@ export function useUploadImageMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMutation>;
 export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
 export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
+export const CategoriesDocument = gql`
+    query categories {
+  categories {
+    ...Category
+  }
+}
+    ${CategoryFragmentDoc}`;
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+      }
+export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+        }
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
+export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

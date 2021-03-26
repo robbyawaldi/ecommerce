@@ -8,10 +8,12 @@ import {
     Field,
     ObjectType,
 } from "type-graphql";
-import { getConnection } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { ulid } from "ulid";
+import { Category } from "../entities/Category";
 import { Image } from "../entities/Image";
 import { Product } from "../entities/Product";
+import { Size } from "../entities/Size";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
 import { getImagesUrl } from "../utils/getImagesUrl";
@@ -31,11 +33,15 @@ class ProductResponse {
 @Resolver(Product)
 export class ProductResolver {
 
+    constructor(
+        private productRepository = getRepository(Product)
+    ) { }
+
     @Query(() => [Product], { nullable: true })
     async products(
         @Ctx() { req }: MyContext
     ): Promise<Product[]> {
-        let products = await Product.find({ relations: ['images'] })
+        let products = await this.productRepository.find({ relations: ['images'] })
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
         })
@@ -47,7 +53,7 @@ export class ProductResolver {
         @Arg("id", () => String) id: string,
         @Ctx() { req }: MyContext
     ): Promise<Product | undefined> {
-        let product = await Product.findOne(id, { relations: ['images'] })
+        let product = await this.productRepository.findOne(id, { relations: ['images'] })
         return product
             ? { ...product, images: getImagesUrl(product, req) } as Product
             : undefined
@@ -63,24 +69,14 @@ export class ProductResolver {
             return { errors }
         }
 
-        let product
+        let product = new Product();
+        product.id = ulid();
+        product.title = options.title;
+        product.description = options.description;
+        product.price = options.price
+        product.stockAvailable = options.stockAvailable
+
         try {
-            const result = await getConnection()
-                .createQueryBuilder()
-                .insert()
-                .into(Product)
-                .values({
-                    id: ulid(),
-                    title: options.title,
-                    description: options.description,
-                    price: options.price,
-                    stockAvailable: options.stockAvailable
-                })
-                .returning('*')
-                .execute()
-
-            product = result.raw[0]
-
             for (const [sequence, { image }] of options.images.entries()) {
                 await getConnection()
                     .createQueryBuilder()
@@ -95,6 +91,19 @@ export class ProductResolver {
                     .execute()
             }
 
+            const categories = await Category
+                .createQueryBuilder()
+                .where("id IN (:...categories)", { categories: options.categories })
+                .getMany()
+            const sizes = await Size
+                .createQueryBuilder()
+                .where("id IN (:...sizes)", { sizes: options.sizes })
+                .getMany()
+
+            product.categories = categories;
+            product.sizes = sizes;
+
+            this.productRepository.save(product)
         } catch (err) {
             return {
                 errors: [
@@ -122,7 +131,7 @@ export class ProductResolver {
         }
 
         try {
-            const { images, ...data } = options
+            const { images, categories, sizes, ...data } = options
             await getConnection()
                 .createQueryBuilder()
                 .update(Product)
