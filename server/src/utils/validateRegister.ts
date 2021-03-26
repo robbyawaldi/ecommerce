@@ -1,11 +1,12 @@
 import { UsernamePasswordInput } from "../resolvers/UsernamePasswordInput";
+import { ErrorMessage } from "../static/errorMessage";
 
 export const validateRegister = (options: UsernamePasswordInput) => {
   if (!options.email.includes("@")) {
     return [
       {
         field: "email",
-        message: "invalid email",
+        message: ErrorMessage.User.EMAIL_INVALID,
       },
     ];
   }
@@ -14,7 +15,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     return [
       {
         field: "name",
-        message: "length must be greater than 2",
+        message: ErrorMessage.User.NAME_MIN,
       },
     ];
   }
@@ -23,7 +24,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     return [
       {
         field: "name",
-        message: "cannot include an @",
+        message: ErrorMessage.User.NAME_CANNOT_INCLUDE_AN_AT,
       },
     ];
   }
@@ -32,7 +33,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     return [
       {
         field: "password",
-        message: "length must be greater than 2",
+        message: ErrorMessage.User.PASSWORD_MIN,
       },
     ];
   }

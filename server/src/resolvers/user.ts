@@ -20,6 +20,7 @@ import { ulid } from 'ulid'
 import { isAuth } from "../middleware/isAuth";
 import { isAdmin } from "../middleware/isAdmin";
 import { FieldError } from "./FieldError";
+import { ErrorMessage } from "../static/errorMessage";
 
 @ObjectType()
 class UserResponse {
@@ -108,7 +109,7 @@ export class UserResolver {
           errors: [
             {
               field: "name",
-              message: "name already taken",
+              message: ErrorMessage.User.NAME_ALREADY,
             },
           ],
         };
@@ -129,7 +130,7 @@ export class UserResolver {
         errors: [
           {
             field: "email",
-            message: "that email doesn't exist",
+            message: ErrorMessage.User.EMAIL_NOT_EXIST,
           },
         ],
       };
@@ -140,7 +141,7 @@ export class UserResolver {
         errors: [
           {
             field: "password",
-            message: "incorrect password",
+            message: ErrorMessage.User.PASSWORD_INCORRECT,
           },
         ],
       };
@@ -181,7 +182,7 @@ export class UserResolver {
       return { errors };
     }
 
-    let {password, ...opt} = options
+    let { password, ...opt } = options
 
     if (password) {
       password = await argon2.hash(options.password)
@@ -191,7 +192,7 @@ export class UserResolver {
       await getConnection()
         .createQueryBuilder()
         .update(User)
-        .set(password ? {...opt, password} : {...opt})
+        .set(password ? { ...opt, password } : { ...opt })
         .where('id = :id', { id })
         .execute()
     } catch (err) {
@@ -200,7 +201,7 @@ export class UserResolver {
           errors: [
             {
               field: "name",
-              message: "name already taken",
+              message: ErrorMessage.User.NAME_ALREADY,
             },
           ],
         };

@@ -1,11 +1,12 @@
 import { SizeInput } from "../resolvers/SizeInput";
+import { ErrorMessage } from "../static/errorMessage";
 
 export const validateSize = (options: SizeInput) => {
     if (options.name.length > 2) {
         return [
             {
                 field: 'name',
-                message: 'length must be less than 3'
+                message: ErrorMessage.Size.NAME_MAX
             }
         ]
     }
@@ -14,7 +15,7 @@ export const validateSize = (options: SizeInput) => {
         return [
             {
                 field: 'description',
-                message: 'length must be less than 11'
+                message: ErrorMessage.Size.DESCRIPTION_MAX
             }
         ]
     }
@@ -23,7 +24,7 @@ export const validateSize = (options: SizeInput) => {
         return [
             {
                 field: 'description',
-                message: 'invalid description'
+                message: ErrorMessage.Size.DESCRIPTION_INVALID
             }
         ]
     }

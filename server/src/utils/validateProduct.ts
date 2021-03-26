@@ -1,11 +1,12 @@
 import { ProductInput } from "../resolvers/ProductInput";
+import { ErrorMessage } from "../static/errorMessage";
 
 export const validateProduct = (options: ProductInput) => {
     if (!options.title.match(/\D/g)) {
         return [
             {
                 field: "title",
-                message: "invalid title"
+                message: ErrorMessage.Product.TITLE_INVALID
             }
         ]
     }
@@ -14,7 +15,7 @@ export const validateProduct = (options: ProductInput) => {
         return [
             {
                 field: "price",
-                message: "value must be greater than 0"
+                message: ErrorMessage.Product.PRICE_MIN
             }
         ]
     }
