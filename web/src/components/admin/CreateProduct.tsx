@@ -19,11 +19,10 @@ import { Item } from '../../types/item';
 interface CreateProductProps { }
 
 export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
+    const router = useRouter()
     const [product] = useCreateProductMutation()
     const { data: sizes, error: sizeError, loading: sizeLoading } = useSizesQuery()
     const { data: categories, error: categoryError, loading: categoryLoading } = useCategoriesQuery()
-
-    const router = useRouter()
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
     const [{ images }, dispatch] = useReducer(reducer, {

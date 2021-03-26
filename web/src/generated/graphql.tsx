@@ -73,17 +73,9 @@ export type Product = {
   description: Scalars['String'];
   price: Scalars['Float'];
   stockAvailable: Scalars['Boolean'];
+  sizes: Array<Size>;
+  categories: Array<Category>;
   images: Array<Image>;
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
-export type Image = {
-  __typename?: 'Image';
-  id: Scalars['String'];
-  image: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-  sequence: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -101,6 +93,16 @@ export type Category = {
   __typename?: 'Category';
   id: Scalars['Float'];
   name: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type Image = {
+  __typename?: 'Image';
+  id: Scalars['String'];
+  image: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+  sequence: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -271,6 +273,12 @@ export type ProductFragment = (
   & { images: Array<(
     { __typename?: 'Image' }
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
+  )>, categories: Array<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name'>
+  )>, sizes: Array<(
+    { __typename?: 'Size' }
+    & Pick<Size, 'id' | 'name' | 'description'>
   )> }
 );
 
@@ -552,6 +560,15 @@ export const ProductFragmentDoc = gql`
     image
     url
     sequence
+  }
+  categories {
+    id
+    name
+  }
+  sizes {
+    id
+    name
+    description
   }
 }
     `;

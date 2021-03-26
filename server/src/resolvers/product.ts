@@ -41,7 +41,7 @@ export class ProductResolver {
     async products(
         @Ctx() { req }: MyContext
     ): Promise<Product[]> {
-        let products = await this.productRepository.find({ relations: ['images'] })
+        let products = await this.productRepository.find({ relations: ['images', 'categories', 'sizes'] })
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
         })
@@ -53,7 +53,7 @@ export class ProductResolver {
         @Arg("id", () => String) id: string,
         @Ctx() { req }: MyContext
     ): Promise<Product | undefined> {
-        let product = await this.productRepository.findOne(id, { relations: ['images'] })
+        let product = await this.productRepository.findOne(id, { relations: ['images', 'categories', 'sizes'] })
         return product
             ? { ...product, images: getImagesUrl(product, req) } as Product
             : undefined

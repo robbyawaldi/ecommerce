@@ -10,4 +10,13 @@ fragment Product on Product {
     url
     sequence
   }
+  categories {
+    id
+    name
+  }
+  sizes {
+    id
+    name
+    description
+  }
 }

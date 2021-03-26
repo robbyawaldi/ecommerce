@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer } from 'react'
+import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
 import upload from '../../styles/Upload.module.css'
@@ -7,12 +7,14 @@ import toRupiah from '@develoka/angka-rupiah-js';
 import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
 import { InputField } from './InputField';
-import { useProductQuery, useUpdateProductMutation } from '../../generated/graphql';
+import { useCategoriesQuery, useProductQuery, useSizesQuery, useUpdateProductMutation } from '../../generated/graphql';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { reducer } from './imageReducer';
 import { UploadImage } from './UploadImage';
 import { ProductImage } from '../../types/images';
 import { toErrorMap } from '../../utils/toErrorMap';
+import { Item } from '../../types/item';
+import { Multiselect } from './Multiselect';
 
 interface EditProductProps { }
 
@@ -26,17 +28,39 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
         },
         notifyOnNetworkStatusChange: true
     })
+    const { data: sizes, error: sizeError, loading: sizeLoading } = useSizesQuery()
+    const { data: categories, error: categoryError, loading: categoryLoading } = useCategoriesQuery()
+    const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
     const [{ images }, dispatch] = useReducer(reducer, { images: [] })
 
     useEffect(() => {
         if (data?.product?.images) {
             dispatch({ type: "SET", images: data.product.images as ProductImage[] })
         }
+
+        if (data?.product?.sizes && data.product.sizes.length > 0) {
+            setSelectedSizes(data.product.sizes)
+        }
+
+        if (data?.product?.categories && data.product.categories.length > 0) {
+            setSelectedCategories(data.product.categories)
+        }
     }, [data])
 
     const errorMessage = loadingOrQueryFailed({ data, error, loading })
     if (errorMessage) {
         return errorMessage
+    }
+
+    const errorSizeMessage = loadingOrQueryFailed({ data: sizes, error: sizeError, loading: sizeLoading })
+    if (errorSizeMessage) {
+        return errorSizeMessage
+    }
+
+    const errorCategoryMessage = loadingOrQueryFailed({ data: categories, error: categoryError, loading: categoryLoading })
+    if (errorCategoryMessage) {
+        return errorCategoryMessage
     }
 
     return (
@@ -94,6 +118,22 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 onChange={(e) => setFieldValue('stockAvailable', e.currentTarget.checked)}>
                                 Stock Available
                             </Checkbox>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 mt-4 justify-items-end">
+                            <FormControl>
+                                <FormLabel>Sizes</FormLabel>
+                                <Multiselect
+                                    items={sizes?.sizes as Item[]}
+                                    selectedItems={selectedSizes}
+                                    setSelected={setSelectedSizes} />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Categories</FormLabel>
+                                <Multiselect
+                                    items={categories?.categories as Item[]}
+                                    selectedItems={selectedCategories}
+                                    setSelected={setSelectedCategories} />
+                            </FormControl>
                         </div>
                         <Box mt={4}>
                             <InputField

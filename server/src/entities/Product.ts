@@ -37,10 +37,12 @@ export class Product extends BaseEntity {
     @Column()
     stockAvailable: boolean;
 
+    @Field(() => [Size])
     @ManyToMany(() => Size)
     @JoinTable()
     sizes?: Size[];
 
+    @Field(() => [Category])
     @ManyToMany(() => Category)
     @JoinTable()
     categories?: Category[]
