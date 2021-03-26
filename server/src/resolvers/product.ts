@@ -96,12 +96,11 @@ export class ProductResolver {
             }
 
         } catch (err) {
-            console.error(err)
             return {
                 errors: [
                     {
                         field: '',
-                        message: 'something wrong'
+                        message: err
                     }
                 ]
             }
@@ -145,7 +144,14 @@ export class ProductResolver {
                     .execute()
             }
         } catch (err) {
-            console.error(err)
+            return {
+                errors: [
+                    {
+                        field: '',
+                        message: err
+                    }
+                ]
+            }
         }
 
         let product = await Product.findOne(id, { relations: ['images'] })
