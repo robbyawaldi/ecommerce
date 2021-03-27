@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone';
-import { ProductsDocument, useDeleteImageMutation, useUploadImageMutation } from '../../generated/graphql';
+import { useDeleteImageMutation, useUploadImageMutation } from '../../generated/graphql';
 import { ImFilePicture } from 'react-icons/im'
 import { CgCloseO } from 'react-icons/cg'
 import { Action, ProductImage } from '../../types/images';
@@ -33,10 +33,7 @@ export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id,
         dispatch({ type: "DELETE", id })
         if (__typename) {
             await deleteImage({
-                variables: { id },
-                refetchQueries: [
-                    { query: ProductsDocument }
-                ]
+                variables: { id }
             })
         }
     }

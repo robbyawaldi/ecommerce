@@ -20,7 +20,7 @@ export type Query = {
   me?: Maybe<User>;
   user?: Maybe<User>;
   users: PaginatedUsers;
-  products?: Maybe<Array<Product>>;
+  products?: Maybe<PaginatedProducts>;
   product?: Maybe<Product>;
   sizes?: Maybe<Array<Size>>;
   categories?: Maybe<Array<Category>>;
@@ -34,6 +34,12 @@ export type QueryUserArgs = {
 
 export type QueryUsersArgs = {
   limit: Scalars['Int'];
+};
+
+
+export type QueryProductsArgs = {
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
 };
 
 
@@ -64,6 +70,12 @@ export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   users: Array<User>;
   hasMore: Scalars['Boolean'];
+};
+
+export type PaginatedProducts = {
+  __typename?: 'PaginatedProducts';
+  products: Array<Product>;
+  meta: Meta;
 };
 
 export type Product = {
@@ -105,6 +117,13 @@ export type Image = {
   sequence: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+};
+
+export type Meta = {
+  __typename?: 'Meta';
+  page: Scalars['Float'];
+  limit: Scalars['Float'];
+  total: Scalars['Float'];
 };
 
 export type Mutation = {
@@ -492,15 +511,24 @@ export type ProductQuery = (
   )> }
 );
 
-export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsQueryVariables = Exact<{
+  page: Scalars['Int'];
+  limit: Scalars['Int'];
+}>;
 
 
 export type ProductsQuery = (
   { __typename?: 'Query' }
-  & { products?: Maybe<Array<(
-    { __typename?: 'Product' }
-    & ProductFragment
-  )>> }
+  & { products?: Maybe<(
+    { __typename?: 'PaginatedProducts' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & Pick<Meta, 'page' | 'limit' | 'total'>
+    ), products: Array<(
+      { __typename?: 'Product' }
+      & ProductFragment
+    )> }
+  )> }
 );
 
 export type SizesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1063,9 +1091,16 @@ export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
 export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
 export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
-    query Products {
-  products {
-    ...Product
+    query Products($page: Int!, $limit: Int!) {
+  products(page: $page, limit: $limit) {
+    meta {
+      page
+      limit
+      total
+    }
+    products {
+      ...Product
+    }
   }
 }
     ${ProductFragmentDoc}`;
@@ -1082,10 +1117,12 @@ export const ProductsDocument = gql`
  * @example
  * const { data, loading, error } = useProductsQuery({
  *   variables: {
+ *      page: // value for 'page'
+ *      limit: // value for 'limit'
  *   },
  * });
  */
-export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+export function useProductsQuery(baseOptions: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
         return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, baseOptions);
       }
 export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {

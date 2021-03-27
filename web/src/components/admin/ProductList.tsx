@@ -4,7 +4,7 @@ import { IconButton } from "@chakra-ui/react"
 import { Tooltip } from "@chakra-ui/react"
 import { FaPen } from 'react-icons/fa'
 import { FaEraser } from 'react-icons/fa'
-import { ProductsDocument, useDeleteProductMutation, useProductsQuery } from '../../generated/graphql';
+import { useDeleteProductMutation, useProductsQuery } from '../../generated/graphql';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
@@ -15,7 +15,12 @@ interface ProductListProps { }
 
 export const ProductList: React.FC<ProductListProps> = ({ }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
-    const { data, error, loading } = useProductsQuery()
+    const { data, error, loading } = useProductsQuery({
+        variables: {
+            page: 1,
+            limit: 6
+        }
+    })
     const [deleteProduct] = useDeleteProductMutation()
     const router = useRouter()
     const id = router.query.delete as string
@@ -54,7 +59,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
     return (
         <section >
             <div className="grid md:grid-cols-2 gap-2">
-                {data?.products?.map(product => (
+                {data?.products?.products.map(product => (
                     <div key={product.id}
                         className={`bg-white w-full rounded-md shadow-lg p-5 grid grid-flow-col grid-cols-2 gap-8`}>
                         <ImagesList

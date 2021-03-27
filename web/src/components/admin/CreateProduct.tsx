@@ -63,7 +63,11 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                         },
                         refetchQueries: [
                             {
-                                query: ProductsDocument
+                                query: ProductsDocument,
+                                variables: {
+                                    page: 1,
+                                    limit: 6
+                                }
                             }
                         ]
                     })

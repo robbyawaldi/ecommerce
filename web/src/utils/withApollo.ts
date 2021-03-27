@@ -2,7 +2,7 @@ import { createWithApollo } from "./createWithApollo";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { NextPageContext } from "next";
 import { createUploadLink } from 'apollo-upload-client'
-import { Product } from "../generated/graphql";
+import { PaginatedProducts } from "../generated/graphql";
 
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
@@ -24,22 +24,48 @@ const createClient = (ctx: NextPageContext) =>
               products: {
                 keyArgs: [],
                 merge(
-                  existing: Product[] | undefined,
-                  incoming: Product[],
+                  existing: PaginatedProducts | undefined,
+                  incoming: PaginatedProducts,
                   { readField }
-                ): Product[] {
-                  return [
-                    ...(existing || []),
-                    ...incoming.filter(a =>
-                      existing?.find(b => readField("id", b) === readField("id", a))
-                      === undefined)
-                  ]
+                ): PaginatedProducts {
+                  return {
+                    ...incoming,
+                    products: [
+                      ...incoming.products.filter(a =>
+                        existing?.products.find(b => readField("id", b) === readField("id", a))
+                        === undefined),
+                      ...(existing?.products || [])
+                    ]
+                  }
                 }
               }
             }
           }
         }
       }
+      // {
+      //   typePolicies: {
+      //     Query: {
+      //       fields: {
+      //         products: {
+      //           keyArgs: [],
+      //           merge(
+      //             existing: Product[] | undefined,
+      //             incoming: Product[],
+      //             { readField }
+      //           ): Product[] {
+      //             return [
+      //               ...(existing || []),
+      //               ...incoming.filter(a =>
+      //                 existing?.find(b => readField("id", b) === readField("id", a))
+      //                 === undefined)
+      //             ]
+      //           }
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
     ),
   });
 

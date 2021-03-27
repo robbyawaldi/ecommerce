@@ -52,10 +52,11 @@ export class ProductResolver {
             .leftJoinAndSelect('product.images', 'images')
             .leftJoinAndSelect('product.categories', 'categories')
             .leftJoinAndSelect('product.sizes', 'sizes')
+            .orderBy('product.createdAt', 'DESC')
             .take(limit)
             .skip(start)
             .getMany()
-            
+
         let total = await this.productRepository.count();
 
         products = products.map(product => {

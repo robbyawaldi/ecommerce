@@ -1,5 +1,18 @@
-query Products {
-  products {
-    ...Product
+query Products(
+  $page: Int!
+  $limit: Int!
+) {
+  products(
+    page: $page
+    limit: $limit
+  ) {
+    meta {
+      page
+      limit
+      total
+    }
+    products {
+      ...Product
+    }
   }
 }
