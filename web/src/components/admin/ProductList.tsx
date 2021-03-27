@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ImagesList } from './ImagesList';
-import { IconButton } from "@chakra-ui/react"
-import { Tooltip } from "@chakra-ui/react"
 import { FaPen } from 'react-icons/fa'
 import { FaEraser } from 'react-icons/fa'
 import { useDeleteProductMutation, useProductsQuery } from '../../generated/graphql';
@@ -10,6 +8,7 @@ import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { IoBagCheckSharp } from 'react-icons/io5'
+import { IconButton, Tooltip } from '@chakra-ui/react';
 
 interface ProductListProps { }
 
