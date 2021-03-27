@@ -8,6 +8,7 @@ import {
   PrimaryColumn,
   ManyToOne,
 } from "typeorm";
+import { ulid } from "ulid";
 import { Product } from "./Product";
 
 @ObjectType()
@@ -21,7 +22,7 @@ export class Image extends BaseEntity {
   @Column()
   image!: string;
 
-  @Field({ nullable: true })
+  @Field()
   url: string;
 
   @Field()
@@ -41,4 +42,20 @@ export class Image extends BaseEntity {
   @Field(() => String)
   @UpdateDateColumn()
   updatedAt: Date;
+
+  static async saveImages(images: Image[], productId: string) {
+    for (const [sequence, { image }] of images.entries()) {
+      await this
+        .createQueryBuilder()
+        .insert()
+        .into(Image)
+        .values({
+          id: ulid(),
+          image,
+          sequence,
+          productId
+        })
+        .execute()
+    }
+  }
 }

@@ -20,8 +20,8 @@ export class Size extends BaseEntity {
   name!: string;
 
   @Field()
-  @Column({ nullable: true })
-  description?: string
+  @Column()
+  description: string
 
   @Field(() => String)
   @CreateDateColumn()

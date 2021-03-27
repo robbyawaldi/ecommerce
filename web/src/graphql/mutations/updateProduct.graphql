@@ -5,6 +5,8 @@ mutation UpdateProduct(
   $price: Int
   $stockAvailable: Boolean
   $images: [ImageInput!]
+  $categories: [Int!]
+  $sizes: [Int!]
 ) {
   updateProduct(
     id: $id,
@@ -14,6 +16,8 @@ mutation UpdateProduct(
       price: $price
       stockAvailable: $stockAvailable
       images: $images
+      categories: $categories
+      sizes: $sizes
     }
   ) {
     errors {

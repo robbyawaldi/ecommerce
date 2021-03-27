@@ -8,7 +8,7 @@ import {
     Field,
     ObjectType,
 } from "type-graphql";
-import { getConnection, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 import { ulid } from "ulid";
 import { Category } from "../entities/Category";
 import { Image } from "../entities/Image";
@@ -64,46 +64,21 @@ export class ProductResolver {
     async createProduct(
         @Arg('options') options: ProductInput
     ): Promise<ProductResponse> {
+        
         const errors = validateProduct(options)
         if (errors) {
             return { errors }
         }
-
-        let product = new Product();
-        product.id = ulid();
-        product.title = options.title;
-        product.description = options.description;
-        product.price = options.price
-        product.stockAvailable = options.stockAvailable
+        
+        const { images, categories, sizes, ...data } = options
+        let product = { id: ulid(), ...data } as Product
 
         try {
-            for (const [sequence, { image }] of options.images.entries()) {
-                await getConnection()
-                    .createQueryBuilder()
-                    .insert()
-                    .into(Image)
-                    .values({
-                        id: ulid(),
-                        image,
-                        sequence,
-                        productId: product?.id
-                    })
-                    .execute()
-            }
-
-            const categories = await Category
-                .createQueryBuilder()
-                .where("id IN (:...categories)", { categories: options.categories })
-                .getMany()
-            const sizes = await Size
-                .createQueryBuilder()
-                .where("id IN (:...sizes)", { sizes: options.sizes })
-                .getMany()
-
-            product.categories = categories;
-            product.sizes = sizes;
-
-            this.productRepository.save(product)
+            product.categories = await Category.findByIds(options.categories);
+            product.sizes = await Size.findByIds(options.sizes);
+            await Image.saveImages(images as Image[], product.id)
+            await this.productRepository.save(product)
+            return { product }
         } catch (err) {
             return {
                 errors: [
@@ -114,8 +89,6 @@ export class ProductResolver {
                 ]
             }
         }
-
-        return { product }
     }
 
     @Mutation(() => ProductResponse)
@@ -125,32 +98,26 @@ export class ProductResolver {
         @Arg('options') options: ProductInput,
         @Ctx() { req }: MyContext
     ): Promise<ProductResponse> {
+        
         const errors = validateProduct(options)
         if (errors) {
             return { errors }
         }
+        
+        const { images, categories, sizes, ...data } = options
 
         try {
-            const { images, categories, sizes, ...data } = options
-            await getConnection()
-                .createQueryBuilder()
-                .update(Product)
-                .set(data)
-                .where('id = :id', { id })
-                .execute()
+            let product = await this.productRepository.findOne(id, { relations: ['images'] })
+            product = { ...product, ...data } as Product
+            product.categories = await Category.findByIds(categories)
+            product.sizes = await Size.findByIds(sizes)
 
-            for (const [sequence, { image }] of images.entries()) {
-                await getConnection()
-                    .createQueryBuilder()
-                    .insert()
-                    .into(Image)
-                    .values({
-                        id: ulid(),
-                        image,
-                        sequence,
-                        productId: id
-                    })
-                    .execute()
+            await Image.saveImages(images as Image[], product.id)
+            await this.productRepository.save(product)
+            return {
+                product: product
+                    ? { ...product, images: getImagesUrl(product, req) } as Product
+                    : undefined
             }
         } catch (err) {
             return {
@@ -161,13 +128,6 @@ export class ProductResolver {
                     }
                 ]
             }
-        }
-
-        let product = await Product.findOne(id, { relations: ['images'] })
-        return {
-            product: product
-                ? { ...product, images: getImagesUrl(product, req) } as Product
-                : undefined
         }
     }
 

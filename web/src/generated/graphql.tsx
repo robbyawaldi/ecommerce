@@ -101,7 +101,7 @@ export type Image = {
   __typename?: 'Image';
   id: Scalars['String'];
   image: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
   sequence: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -405,6 +405,8 @@ export type UpdateProductMutationVariables = Exact<{
   price?: Maybe<Scalars['Int']>;
   stockAvailable?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput> | ImageInput>;
+  categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
 }>;
 
 
@@ -840,10 +842,10 @@ export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const UpdateProductDocument = gql`
-    mutation UpdateProduct($id: String!, $title: String, $description: String, $price: Int, $stockAvailable: Boolean, $images: [ImageInput!]) {
+    mutation UpdateProduct($id: String!, $title: String, $description: String, $price: Int, $stockAvailable: Boolean, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
   updateProduct(
     id: $id
-    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images}
+    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images, categories: $categories, sizes: $sizes}
   ) {
     errors {
       field
@@ -876,6 +878,8 @@ export type UpdateProductMutationFn = Apollo.MutationFunction<UpdateProductMutat
  *      price: // value for 'price'
  *      stockAvailable: // value for 'stockAvailable'
  *      images: // value for 'images'
+ *      categories: // value for 'categories'
+ *      sizes: // value for 'sizes'
  *   },
  * });
  */

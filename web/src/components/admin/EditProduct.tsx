@@ -82,6 +82,8 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                     image.image !== undefined
                                     && !image.__typename)
                                 .map(image => ({ image: image.image as string })),
+                            categories: selectedCategories.map((category: Item) => category.id),
+                            sizes: selectedSizes.map((size: Item) => size.id),
                             ...values
                         },
                     })
