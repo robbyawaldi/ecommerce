@@ -7,6 +7,7 @@ import {
     UseMiddleware,
     Field,
     ObjectType,
+    Int,
 } from "type-graphql";
 import { getRepository } from "typeorm";
 import { ulid } from "ulid";
@@ -19,6 +20,7 @@ import { MyContext } from "../types";
 import { getImagesUrl } from "../utils/getImagesUrl";
 import { validateProduct } from "../utils/validateProduct";
 import { FieldError } from "./FieldError";
+import { PaginatedProducts } from "./PaginatedProducts";
 import { ProductInput } from "./ProductInput";
 
 @ObjectType()
@@ -37,15 +39,37 @@ export class ProductResolver {
         private productRepository = getRepository(Product)
     ) { }
 
-    @Query(() => [Product], { nullable: true })
+    @Query(() => PaginatedProducts, { nullable: true })
     async products(
-        @Ctx() { req }: MyContext
-    ): Promise<Product[]> {
-        let products = await this.productRepository.find({ relations: ['images', 'categories', 'sizes'] })
+        @Ctx() { req }: MyContext,
+        @Arg("page", () => Int) page: number,
+        @Arg("limit", () => Int) limit: number
+    ): Promise<PaginatedProducts> {
+        const start = (page - 1) * limit;
+
+        let products = await this.productRepository
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.images', 'images')
+            .leftJoinAndSelect('product.categories', 'categories')
+            .leftJoinAndSelect('product.sizes', 'sizes')
+            .take(limit)
+            .skip(start)
+            .getMany()
+            
+        let total = await this.productRepository.count();
+
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
         })
-        return products
+
+        return {
+            products,
+            meta: {
+                page: page,
+                limit: limit,
+                total
+            }
+        }
     }
 
     @Query(() => Product, { nullable: true })
@@ -64,12 +88,12 @@ export class ProductResolver {
     async createProduct(
         @Arg('options') options: ProductInput
     ): Promise<ProductResponse> {
-        
+
         const errors = validateProduct(options)
         if (errors) {
             return { errors }
         }
-        
+
         const { images, categories, sizes, ...data } = options
         let product = { id: ulid(), ...data } as Product
 
@@ -98,12 +122,12 @@ export class ProductResolver {
         @Arg('options') options: ProductInput,
         @Ctx() { req }: MyContext
     ): Promise<ProductResponse> {
-        
+
         const errors = validateProduct(options)
         if (errors) {
             return { errors }
         }
-        
+
         const { images, categories, sizes, ...data } = options
 
         try {
