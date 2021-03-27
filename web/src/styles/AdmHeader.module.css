@@ -3,18 +3,18 @@
             flex 
             w-full 
             h-14 
-            md:justify-between 
-            justify-end;
+            justify-between
+            items-center;
 }
 
 .title {
     @apply  text-xl 
-            md:inline 
-            hidden;
+            inline;
 }
 
 .profile {
-    @apply  flex 
+    @apply  md:flex
+            hidden 
             justify-end 
             items-center 
             w-full 

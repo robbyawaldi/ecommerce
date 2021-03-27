@@ -11,9 +11,10 @@ export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
     const router = useRouter()
 
     return (
-        <div className="flex p-2 w-full">
+        <div className="flex p-2 md:max-w-sm w-full">
             <Tooltip label="Add Product">
                 <Button
+                    isFullWidth
                     onClick={() => router.push('products/new')}
                     leftIcon={<AiOutlinePlus />}
                     colorScheme="blue">
@@ -21,7 +22,7 @@ export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
                 </Button>
             </Tooltip>
             <Tooltip label="Filter Product">
-                <Button className="ml-4" leftIcon={<FaFilter />}>Filter</Button>
+                <Button isFullWidth className="ml-4" leftIcon={<FaFilter />}>Filter</Button>
             </Tooltip>
         </div>
     );

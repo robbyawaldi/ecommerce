@@ -2,8 +2,9 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useLogoutMutation, useMeQuery } from '../../generated/graphql';
 import styles from '../../styles/AdmHeader.module.css'
-import { Button } from '@chakra-ui/react'
+import { Button, IconButton } from '@chakra-ui/react'
 import { FaDoorOpen } from 'react-icons/fa'
+import { AiOutlineUser } from 'react-icons/ai'
 
 interface HeaderProps { }
 
@@ -19,9 +20,8 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
     }
 
     useEffect(() => {
-
         document.body.addEventListener('mousedown', (e: MouseEvent) => {
-            if ((e.target as HTMLInputElement).id !== 'logout' && toggleDropdown) setToggle(false)
+            if (!(e.target as HTMLInputElement).classList.contains('logout') && toggleDropdown) setToggle(() => false)
         }, false)
     }, [toggleDropdown])
 
@@ -30,14 +30,17 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
             <div className={styles.title}>Admin Siti Hajar</div>
             <div className={styles.dropdown}>
                 {data?.me ? (
-                    <button className={styles.profile} onClick={() => setToggle(true)}>
+                    <button className={`${styles.profile} logout`} onClick={() => setToggle((toggle) => !toggle)}>
                         {data.me.email}
                         <div className={styles.profileAvatar}>
                         </div>
                     </button>
                 ) : null}
+                <div className="md:hidden flex">
+                    <IconButton aria-label="user" variant="ghost" className="logout" icon={<AiOutlineUser />} onClick={() => setToggle((toggle) => !toggle)}/>
+                </div>
                 <div className={`${styles.dropdownContent} ${toggleDropdown ? styles.active : ''}`}>
-                    <Button id="logout" leftIcon={<FaDoorOpen />} isFullWidth className={styles.logoutButton} onClick={handleLogout}>
+                    <Button leftIcon={<FaDoorOpen />} isFullWidth className={`${styles.logoutButton} logout`} onClick={handleLogout}>
                         Logout
                     </Button>
                 </div>
