@@ -11,23 +11,22 @@ import { IoBagCheckSharp } from 'react-icons/io5'
 import { IconButton, Tooltip } from '@chakra-ui/react';
 import ReactPaginate from 'react-paginate';
 import paginate from '../../styles/Paginate.module.css'
+import { LIMIT_PAGE } from '../../static/products';
 
 interface ProductListProps { }
-
-const LIMIT_PRODUCT = 1
 
 export const ProductList: React.FC<ProductListProps> = ({ }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const { data, error, loading, refetch } = useProductsQuery({
         variables: {
             page: 1,
-            limit: LIMIT_PRODUCT
+            limit: LIMIT_PAGE
         }
     })
     const [deleteProduct] = useDeleteProductMutation()
     const router = useRouter()
     const id = router.query.delete as string
-    const totalPage = Math.ceil((data?.products?.meta?.total ?? 0) / LIMIT_PRODUCT)
+    const totalPage = Math.ceil((data?.products?.meta?.total ?? 0) / LIMIT_PAGE)
 
     useEffect(() => {
         if (typeof router.query.delete == 'string') {

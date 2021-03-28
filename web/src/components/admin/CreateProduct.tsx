@@ -15,6 +15,7 @@ import { toErrorMap } from '../../utils/toErrorMap';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { Multiselect } from './Multiselect';
 import { Item } from '../../types/item';
+import { LIMIT_PAGE } from '../../static/products';
 
 interface CreateProductProps { }
 
@@ -66,7 +67,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 query: ProductsDocument,
                                 variables: {
                                     page: 1,
-                                    limit: 6
+                                    limit: LIMIT_PAGE
                                 }
                             }
                         ]
