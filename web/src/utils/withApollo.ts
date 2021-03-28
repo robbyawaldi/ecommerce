@@ -17,32 +17,6 @@ const createClient = (ctx: NextPageContext) =>
       }
     }),
     cache: new InMemoryCache(
-      {
-        typePolicies: {
-          Query: {
-            fields: {
-              products: {
-                keyArgs: [],
-                merge(
-                  existing: PaginatedProducts | undefined,
-                  incoming: PaginatedProducts,
-                  { readField }
-                ): PaginatedProducts {
-                  return {
-                    ...incoming,
-                    products: [
-                      ...incoming.products.filter(a =>
-                        existing?.products.find(b => readField("id", b) === readField("id", a))
-                        === undefined),
-                      ...(existing?.products || [])
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
       // {
       //   typePolicies: {
       //     Query: {
@@ -50,16 +24,19 @@ const createClient = (ctx: NextPageContext) =>
       //         products: {
       //           keyArgs: [],
       //           merge(
-      //             existing: Product[] | undefined,
-      //             incoming: Product[],
+      //             existing: PaginatedProducts | undefined,
+      //             incoming: PaginatedProducts,
       //             { readField }
-      //           ): Product[] {
-      //             return [
-      //               ...(existing || []),
-      //               ...incoming.filter(a =>
-      //                 existing?.find(b => readField("id", b) === readField("id", a))
-      //                 === undefined)
-      //             ]
+      //           ): PaginatedProducts {
+      //             return {
+      //               ...incoming,
+      //               products: [
+      //                 ...incoming.products.filter(a =>
+      //                   existing?.products.find(b => readField("id", b) === readField("id", a))
+      //                   === undefined),
+      //                 ...(existing?.products || [])
+      //               ]
+      //             }
       //           }
       //         }
       //       }

@@ -9,20 +9,25 @@ import { useRouter } from 'next/router';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { IoBagCheckSharp } from 'react-icons/io5'
 import { IconButton, Tooltip } from '@chakra-ui/react';
+import ReactPaginate from 'react-paginate';
+import paginate from '../../styles/Paginate.module.css'
 
 interface ProductListProps { }
 
+const LIMIT_PRODUCT = 1
+
 export const ProductList: React.FC<ProductListProps> = ({ }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
-    const { data, error, loading } = useProductsQuery({
+    const { data, error, loading, refetch } = useProductsQuery({
         variables: {
             page: 1,
-            limit: 6
+            limit: LIMIT_PRODUCT
         }
     })
     const [deleteProduct] = useDeleteProductMutation()
     const router = useRouter()
     const id = router.query.delete as string
+    const totalPage = Math.ceil((data?.products?.meta?.total ?? 0) / LIMIT_PRODUCT)
 
     useEffect(() => {
         if (typeof router.query.delete == 'string') {
@@ -101,6 +106,23 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                     </div>
                 ))}
             </div>
+            <ReactPaginate
+                previousLabel={''}
+                nextLabel={''}
+                breakLabel={'..'}
+                pageCount={totalPage}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={5}
+                onPageChange={({ selected }) => {
+                    refetch({
+                        page: selected + 1
+                    })
+                }}
+                containerClassName={paginate.pagination}
+                activeClassName={paginate.pagination__link_active}
+                previousClassName={`${paginate.pagination_nav} ${paginate.pagination_prev}`}
+                nextClassName={`${paginate.pagination_nav} ${paginate.pagination_next}`}
+            />
 
             <ModalConfirm
                 title="Delete Product"
