@@ -12,52 +12,10 @@
             inline;
 }
 
-.profile {
-    @apply  md:flex
-            hidden 
-            justify-end 
-            items-center 
-            w-full 
-            focus:outline-none;
-}
-
 .profileAvatar {
     @apply  w-9 
             h-9 
             rounded-full 
             ml-3 
             bg-teal-200;
-}
-
-.logoutButton {
-    @apply  border-none
-            z-10
-            w-full 
-            h-full
-            hover:bg-gray-200
-            focus:outline-none;
-}
-
-.dropdown {
-    @apply  relative;
-}
-
-.dropdownContent {
-    @apply  transition-all 
-            duration-75
-            opacity-0 
-            w-40 
-            top-10
-            right-0
-            absolute 
-            bg-white 
-            shadow-xl 
-            rounded-lg 
-            border 
-            cursor-pointer
-            border-gray-200;
-}
-
-.active {
-    @apply opacity-100;
 }

@@ -16,10 +16,6 @@
     color: #38B2AC;
 }
 
-.pagination a {
-    @apply focus:outline-none;
-}
-
 .pagination a, .pagination_nav a {
     @apply  flex
             justify-center
