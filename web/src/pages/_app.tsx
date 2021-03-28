@@ -1,9 +1,18 @@
-import { ChakraProvider, CSSReset } from "@chakra-ui/react"
+import { ChakraProvider, CSSReset, theme } from "@chakra-ui/react"
+import { useMemo } from "react";
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }: any) {
+  const customTheme = useMemo(() => ({
+    ...theme,
+    shadows: {
+      ...theme.shadows,
+      outline: 'none'
+    }
+  }), [])
+
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={customTheme}>
       <CSSReset />
       <Component {...pageProps} />
     </ChakraProvider>
