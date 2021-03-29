@@ -33,10 +33,8 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
     useEffect(() => {
         const firstPosition = (Math.floor(divider) - (length % 2 === 0 ? 1 : 0)) * 150;
 
-        if (length > 1)
-            setTx(index > 0 ? firstPosition + 144 * index : firstPosition);
-        else
-            setTx(0)
+        if (length > 1) setTx(index > 0 ? firstPosition + 144 * index : firstPosition);
+        else setTx(0)
     }, [index])
 
     useEffect(() => {
@@ -71,25 +69,17 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
         setIsDisabledButton(false)
     };
 
+    const transform = useMemo(() => `translate3d(-${tx}px, 0px, 0px)`, [tx]);
+    const transition = useMemo(() => `all ${duration}s ease 0s`, [duration]);
+
     return (
         <div className="relative">
-            {
-                length > 1 ? (
-                    <button
-                        className={`${styles.button} ${styles.prev}`}
-                        onClick={handlePrev}
-                        disabled={isDisabledButton}>
-                        prev
-                    </button>
-                ) : null
-            }
-
             <div className={`overflow-x-hidden w-full`}>
                 <div
                     className={`w-full h-full flex`}
                     style={{
-                        transform: `translate3d(-${tx}px, 0px, 0px)`,
-                        transition: `all ${duration}s ease 0s`
+                        transform,
+                        transition
                     }}
                     onTransitionEnd={handleTransitionEnd}
                 >
@@ -100,6 +90,16 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
                     }
                 </div>
             </div>
+            {
+                length > 1 ? (
+                    <button
+                        className={`${styles.button} ${styles.prev}`}
+                        onClick={handlePrev}
+                        disabled={isDisabledButton}>
+                        prev
+                    </button>
+                ) : null
+            }
             {
                 length > 1 ? (
                     <button

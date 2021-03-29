@@ -4,6 +4,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { FaFilter } from 'react-icons/fa'
 import { Tooltip } from '@chakra-ui/tooltip';
 import { useRouter } from 'next/router'
+import { Menu, MenuButton, MenuItem, MenuList, useClipboard, useControllableProp, useDisclosure } from '@chakra-ui/react';
 
 interface ProductToolsProps { }
 
@@ -21,9 +22,29 @@ export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
                     Add
                 </Button>
             </Tooltip>
-            <Tooltip label="Filter Product">
-                <Button isFullWidth className="ml-4" leftIcon={<FaFilter />}>Filter</Button>
-            </Tooltip>
+            <Menu>
+                {({ isOpen }) => (
+                    <>
+                        <Tooltip label="Filter Product">
+                            <MenuButton
+                                isActive={isOpen}
+                                as={Button}
+                                leftIcon={<FaFilter />}
+                                w="full"
+                                ml={4}
+                            >
+                                Filter
+                            </MenuButton>
+                        </Tooltip>
+                        <MenuList className="z-auto">
+                            <MenuItem>a</MenuItem>
+                            <MenuItem>b</MenuItem>
+                            <MenuItem>c</MenuItem>
+                        </MenuList>
+                    </>
+                )}
+            </Menu>
+            {/* <Button isFullWidth className="ml-4" leftIcon={<FaFilter />}>Filter</Button> */}
         </div>
     );
 }

@@ -44,7 +44,8 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                                 isActive={isOpen}
                                 as={Button}
                                 variant="ghost"
-                                rightIcon={<div className={styles.profileAvatar} />}>
+                                rightIcon={<div className={styles.profileAvatar} />}
+                            >
                                 {data?.me ? data.me.email : null}
                             </MenuButton>
                             {menuList}
