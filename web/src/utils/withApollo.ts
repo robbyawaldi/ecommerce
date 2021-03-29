@@ -28,13 +28,25 @@ const createClient = (ctx: NextPageContext) =>
                   incoming: PaginatedProducts,
                   { readField }
                 ): PaginatedProducts {
+                  console.log(incoming.products)
+
+
                   return {
                     ...incoming,
                     products: [
                       ...incoming.products.filter(a =>
                         existing?.products.find(b => readField("id", b) === readField("id", a))
                         === undefined),
-                      ...(existing?.meta.page === incoming.meta.page ? existing?.products : [])
+                      ...existing?.products.filter((a) =>
+                        // existing.meta.page === incoming.meta.page
+                        // && 
+                        a.categories?.some(b => b.name == incoming.meta.filter?.category)
+                      ) || []
+
+                      // ...(existing?.meta.page === incoming.meta.page
+                      //   && existing.meta.filter?.category === incoming.meta.filter?.category
+                      //   ? existing?.products
+                      //   : [])
                     ]
                   }
                 }

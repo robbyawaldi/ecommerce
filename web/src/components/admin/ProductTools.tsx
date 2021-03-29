@@ -1,15 +1,21 @@
-import React from 'react'
-import { Button } from '@chakra-ui/button'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { FaFilter } from 'react-icons/fa'
+import React, { useEffect } from 'react';
+import { Button } from '@chakra-ui/button';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { FaFilter } from 'react-icons/fa';
 import { Tooltip } from '@chakra-ui/tooltip';
-import { useRouter } from 'next/router'
-import { Menu, MenuButton, MenuItem, MenuList, useClipboard, useControllableProp, useDisclosure } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { useCategoriesQuery, useProductsQuery } from '../../generated/graphql';
+import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface ProductToolsProps { }
 
 export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
-    const router = useRouter()
+    const router = useRouter();
+    const { data, error, loading } = useCategoriesQuery();
+
+    const errorCategoryMessage = loadingOrQueryFailed({ data, error, loading });
+    if (errorCategoryMessage) return errorCategoryMessage;
 
     return (
         <div className="flex p-2 md:max-w-sm w-full">
@@ -37,14 +43,17 @@ export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
                             </MenuButton>
                         </Tooltip>
                         <MenuList className="z-auto">
-                            <MenuItem>a</MenuItem>
-                            <MenuItem>b</MenuItem>
-                            <MenuItem>c</MenuItem>
+                            {data?.categories?.map((category) => (
+                                <MenuItem key={category.id} onClick={
+                                    () => router.push({
+                                        query: { ...router.query, fc: category.id }
+                                    })
+                                }>{category.name}</MenuItem>
+                            ))}
                         </MenuList>
                     </>
                 )}
             </Menu>
-            {/* <Button isFullWidth className="ml-4" leftIcon={<FaFilter />}>Filter</Button> */}
         </div>
     );
 }

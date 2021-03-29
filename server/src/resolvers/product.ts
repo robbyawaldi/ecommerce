@@ -9,7 +9,7 @@ import {
     ObjectType,
     Int,
 } from "type-graphql";
-import { getRepository } from "typeorm";
+import { getRepository, SelectQueryBuilder } from "typeorm";
 import { ulid } from "ulid";
 import { Category } from "../entities/Category";
 import { Image } from "../entities/Image";
@@ -43,15 +43,26 @@ export class ProductResolver {
     async products(
         @Ctx() { req }: MyContext,
         @Arg("page", () => Int) page: number,
-        @Arg("limit", () => Int) limit: number
+        @Arg("limit", () => Int) limit: number,
+        @Arg('categoryId', () => Int, { nullable: true }) categoryId?: number,
     ): Promise<PaginatedProducts> {
         const start = (page - 1) * limit;
 
-        let products = await this.productRepository
+        let products: Product[] | SelectQueryBuilder<Product> = this.productRepository
             .createQueryBuilder('product')
             .leftJoinAndSelect('product.images', 'images')
             .leftJoinAndSelect('product.categories', 'categories')
             .leftJoinAndSelect('product.sizes', 'sizes')
+
+        let filter;
+
+        if (categoryId) {
+            products = products.where('categories.id = :categoryId', { categoryId })
+            const category = await Category.findOne(categoryId)
+            filter = { category: category?.name || '' }
+        }
+
+        products = await products
             .orderBy('product.createdAt', 'DESC')
             .take(limit)
             .skip(start)
@@ -68,7 +79,8 @@ export class ProductResolver {
             meta: {
                 page: page,
                 limit: limit,
-                total
+                total,
+                filter
             }
         }
     }

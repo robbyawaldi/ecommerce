@@ -1,15 +1,20 @@
 query Products(
   $page: Int!
   $limit: Int!
+  $categoryId: Int
 ) {
   products(
     page: $page
     limit: $limit
+    categoryId: $categoryId
   ) {
     meta {
       page
       limit
       total
+      filter {
+        category
+      }
     }
     products {
       ...Product

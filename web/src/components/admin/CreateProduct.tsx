@@ -20,27 +20,23 @@ import { LIMIT_PAGE } from '../../static/products';
 interface CreateProductProps { }
 
 export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
-    const router = useRouter()
-    const [product] = useCreateProductMutation()
-    const { data: sizes, error: sizeError, loading: sizeLoading } = useSizesQuery()
-    const { data: categories, error: categoryError, loading: categoryLoading } = useCategoriesQuery()
+    const router = useRouter();
+    const [product] = useCreateProductMutation();
+    const { data: sizes, error: sizeError, loading: sizeLoading } = useSizesQuery();
+    const { data: categories, error: categoryError, loading: categoryLoading } = useCategoriesQuery();
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
     const [{ images }, dispatch] = useReducer(reducer, {
         images: [
             { id: randomId(), image: undefined, url: undefined }
         ]
-    })
+    });
 
-    const errorSizeMessage = loadingOrQueryFailed({ data: sizes, error: sizeError, loading: sizeLoading })
-    if (errorSizeMessage) {
-        return errorSizeMessage
-    }
+    const errorSizeMessage = loadingOrQueryFailed({ data: sizes, error: sizeError, loading: sizeLoading });
+    if (errorSizeMessage) return errorSizeMessage;
 
-    const errorCategoryMessage = loadingOrQueryFailed({ data: categories, error: categoryError, loading: categoryLoading })
-    if (errorCategoryMessage) {
-        return errorCategoryMessage
-    }
+    const errorCategoryMessage = loadingOrQueryFailed({ data: categories, error: categoryError, loading: categoryLoading });
+    if (errorCategoryMessage) return errorCategoryMessage;
 
     return (
         <section className={`${card.box} md:max-w-md`}>

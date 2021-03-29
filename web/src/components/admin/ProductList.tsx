@@ -34,6 +34,15 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
         }
     }, [router.query.delete])
 
+    useEffect(() => {
+        const categoryId = router.query.fc;
+        if (categoryId) {
+            refetch({
+                categoryId: parseInt(categoryId as string)
+            })
+        }
+    }, [router.query])
+
     const handleDelete = useCallback(async () => {
         const response = await deleteProduct({
             variables: { id },
