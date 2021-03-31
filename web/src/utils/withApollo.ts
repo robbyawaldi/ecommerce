@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { NextPageContext } from "next";
 import { createUploadLink } from 'apollo-upload-client'
 import { PaginatedProducts } from "../generated/graphql";
+import { existingFilter, incomingFilter } from "./mergeProducts";
 
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
@@ -28,25 +29,15 @@ const createClient = (ctx: NextPageContext) =>
                   incoming: PaginatedProducts,
                   { readField }
                 ): PaginatedProducts {
-                  console.log(incoming.products)
 
+                  const inFilter = incomingFilter.bind(null, existing, readField);
+                  const exFilter = existingFilter.bind(null, existing, incoming, readField);
 
                   return {
                     ...incoming,
                     products: [
-                      ...incoming.products.filter(a =>
-                        existing?.products.find(b => readField("id", b) === readField("id", a))
-                        === undefined),
-                      ...existing?.products.filter((a) =>
-                        // existing.meta.page === incoming.meta.page
-                        // && 
-                        a.categories?.some(b => b.name == incoming.meta.filter?.category)
-                      ) || []
-
-                      // ...(existing?.meta.page === incoming.meta.page
-                      //   && existing.meta.filter?.category === incoming.meta.filter?.category
-                      //   ? existing?.products
-                      //   : [])
+                      ...incoming.products.filter(inFilter),
+                      ...(existing?.products.filter(exFilter) || [])
                     ]
                   }
                 }
