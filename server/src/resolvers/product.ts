@@ -56,7 +56,7 @@ export class ProductResolver {
 
         let filter;
 
-        if (categoryId) {
+        if (categoryId && categoryId !== 0) {
             products = products.where('categories.id = :categoryId', { categoryId })
             const category = await Category.findOne(categoryId)
             filter = { category: category?.name || '' }

@@ -54,7 +54,7 @@ export const SideBar: React.FC<SideBarProps> = ({ }) => {
             <ul className="flex-grow">
                 {menu.map((item, index) => (
                     <li key={index}>
-                        <Link href={`${item.path}${minimize ? '?minimize' : ''}`}>
+                        <Link href={`${item.path}${minimize ? '?s' : ''}`}>
                             <div className={`${styles.menu} ${item.path == router.pathname ? 'bg-teal-400' : ''}`}>
                                 <div className="flex-none">
                                     {item.icon}

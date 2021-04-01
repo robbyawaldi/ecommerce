@@ -16,15 +16,18 @@ import { LIMIT_PAGE } from '../../static/products';
 interface ProductListProps { }
 
 export const ProductList: React.FC<ProductListProps> = ({ }) => {
+    const router = useRouter()
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const { data, error, loading, refetch } = useProductsQuery({
         variables: {
             page: 1,
-            limit: LIMIT_PAGE
-        }
+            limit: LIMIT_PAGE,
+            categoryId: parseInt(router.query.fc as string) ?? 0
+        },
+        fetchPolicy: "no-cache",
+        notifyOnNetworkStatusChange: true
     })
     const [deleteProduct] = useDeleteProductMutation()
-    const router = useRouter()
     const id = router.query.delete as string
     const totalPage = Math.ceil((data?.products?.meta?.total ?? 0) / LIMIT_PAGE)
 
@@ -34,24 +37,15 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
         }
     }, [router.query.delete])
 
-    useEffect(() => {
-        const categoryId = router.query.fc;
-        if (categoryId) {
-            refetch({
-                categoryId: parseInt(categoryId as string)
-            })
-        }
-    }, [router.query])
-
     const handleDelete = useCallback(async () => {
         const response = await deleteProduct({
-            variables: { id },
-            update: (cache) => {
-                cache.evict({ id: "Product:" + id })
-            }
+            variables: { id }
         })
 
         if (response.data?.deleteProduct) {
+            refetch({
+                categoryId: parseInt(router.query.fc as string)
+            })
             handleClose()
         }
     }, [router.query.delete])

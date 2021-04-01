@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '@chakra-ui/button';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { FaFilter } from 'react-icons/fa';
 import { Tooltip } from '@chakra-ui/tooltip';
 import { useRouter } from 'next/router';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
-import { useCategoriesQuery, useProductsQuery } from '../../generated/graphql';
+import { useCategoriesQuery } from '../../generated/graphql';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 
 interface ProductToolsProps { }
@@ -43,10 +43,21 @@ export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
                             </MenuButton>
                         </Tooltip>
                         <MenuList className="z-auto">
+                            <MenuItem key="all" onClick={
+                                () => {
+                                    const { fc, ...query } = router.query
+                                    router.push({
+                                        query: { ...query }
+                                    })
+                                }
+                            }>
+                                All
+                            </MenuItem>
                             {data?.categories?.map((category) => (
                                 <MenuItem key={category.id} onClick={
                                     () => router.push({
                                         query: { ...router.query, fc: category.id }
+
                                     })
                                 }>{category.name}</MenuItem>
                             ))}
