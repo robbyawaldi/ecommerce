@@ -54,25 +54,26 @@ export class ProductResolver {
             .leftJoinAndSelect('product.categories', 'categories')
             .leftJoinAndSelect('product.sizes', 'sizes')
 
-        let filter;
+        let filter, total;
 
         if (categoryId && categoryId !== 0) {
-            products = products.where('categories.id = :categoryId', { categoryId })
-            const category = await Category.findOne(categoryId)
-            filter = { category: category?.name || '' }
+            products = products.where('categories.id = :categoryId', { categoryId });
+            const category = await Category.findOne(categoryId);
+            filter = { category: category?.name || '' };
+            total = await products.getCount();
         }
+
+        total = await products.getCount();
 
         products = await products
             .orderBy('product.createdAt', 'DESC')
             .take(limit)
             .skip(start)
-            .getMany()
-
-        let total = await this.productRepository.count();
+            .getMany();
 
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
-        })
+        });
 
         return {
             products,
