@@ -34,7 +34,18 @@ export const InputField: React.FC<InputFieldProps> = ({
         textarea
           ? <Textarea {...field} placeholder={props.placeholder} />
           : rich
-            ? <ReactQuill value={field.value} onChange={field.onChange(field.name)} />
+            ? <ReactQuill
+              value={field.value}
+              onChange={field.onChange(field.name)}
+              modules={{
+                toolbar: [
+                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                  [{ size: [] }],
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet' },
+                  { 'indent': '-1' }, { 'indent': '+1' }],
+                ]
+              }} />
             : <Input {...field} {...props} />
       }
       {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
