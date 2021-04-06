@@ -90,6 +90,7 @@ export type Mutation = {
   updateSize: SizeResponse;
   deleteSize: Scalars['Boolean'];
   createCategory: CategoryResponse;
+  deleteCategory: Scalars['Boolean'];
 };
 
 
@@ -159,6 +160,11 @@ export type MutationDeleteSizeArgs = {
 
 export type MutationCreateCategoryArgs = {
   options: CategoryInput;
+};
+
+
+export type MutationDeleteCategoryArgs = {
+  id: Scalars['Int'];
 };
 
 export type PaginatedProducts = {
@@ -294,6 +300,11 @@ export type CategoryFragment = (
   & Pick<Category, 'id' | 'name'>
 );
 
+export type ErrorsFragment = (
+  { __typename?: 'FieldError' }
+  & Pick<FieldError, 'field' | 'message'>
+);
+
 export type ProductFragment = (
   { __typename?: 'Product' }
   & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
@@ -323,6 +334,25 @@ export type UserFragment = (
   ) }
 );
 
+export type CreateCategoryMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreateCategoryMutation = (
+  { __typename?: 'Mutation' }
+  & { createCategory: (
+    { __typename?: 'CategoryResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & ErrorsFragment
+    )>>, category?: Maybe<(
+      { __typename?: 'Category' }
+      & CategoryFragment
+    )> }
+  ) }
+);
+
 export type CreateProductMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
@@ -340,12 +370,22 @@ export type CreateProductMutation = (
     { __typename?: 'ProductResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
+      & ErrorsFragment
     )>>, product?: Maybe<(
       { __typename?: 'Product' }
       & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
     )> }
   ) }
+);
+
+export type DeleteCategoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteCategoryMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteCategory'>
 );
 
 export type DeleteImageMutationVariables = Exact<{
@@ -393,7 +433,7 @@ export type LoginMutation = (
       & UserFragment
     )>, errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
+      & ErrorsFragment
     )>> }
   ) }
 );
@@ -420,7 +460,7 @@ export type RegisterMutation = (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
+      & ErrorsFragment
     )>> }
   ) }
 );
@@ -443,7 +483,7 @@ export type UpdateProductMutation = (
     { __typename?: 'ProductResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
+      & ErrorsFragment
     )>>, product?: Maybe<(
       { __typename?: 'Product' }
       & ProductFragment
@@ -591,6 +631,12 @@ export const CategoryFragmentDoc = gql`
   name
 }
     `;
+export const ErrorsFragmentDoc = gql`
+    fragment Errors on FieldError {
+  field
+  message
+}
+    `;
 export const ProductFragmentDoc = gql`
     fragment Product on Product {
   id
@@ -634,14 +680,52 @@ export const UserFragmentDoc = gql`
   }
 }
     `;
+export const CreateCategoryDocument = gql`
+    mutation CreateCategory($name: String!) {
+  createCategory(options: {name: $name}) {
+    errors {
+      ...Errors
+    }
+    category {
+      ...Category
+    }
+  }
+}
+    ${ErrorsFragmentDoc}
+${CategoryFragmentDoc}`;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
+
+/**
+ * __useCreateCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
+      }
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const CreateProductDocument = gql`
     mutation CreateProduct($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
   createProduct(
     options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images, categories: $categories, sizes: $sizes}
   ) {
     errors {
-      field
-      message
+      ...Errors
     }
     product {
       id
@@ -652,7 +736,7 @@ export const CreateProductDocument = gql`
     }
   }
 }
-    `;
+    ${ErrorsFragmentDoc}`;
 export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutation, CreateProductMutationVariables>;
 
 /**
@@ -685,6 +769,37 @@ export function useCreateProductMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
 export type CreateProductMutationResult = Apollo.MutationResult<CreateProductMutation>;
 export type CreateProductMutationOptions = Apollo.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
+export const DeleteCategoryDocument = gql`
+    mutation DeleteCategory($id: Int!) {
+  deleteCategory(id: $id)
+}
+    `;
+export type DeleteCategoryMutationFn = Apollo.MutationFunction<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+
+/**
+ * __useDeleteCategoryMutation__
+ *
+ * To run a mutation, you first call `useDeleteCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCategoryMutation, { data, loading, error }] = useDeleteCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCategoryMutation, DeleteCategoryMutationVariables>(DeleteCategoryDocument, options);
+      }
+export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
+export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
+export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
 export const DeleteImageDocument = gql`
     mutation DeleteImage($id: String!) {
   deleteImage(id: $id)
@@ -785,12 +900,12 @@ export const LoginDocument = gql`
       ...User
     }
     errors {
-      field
-      message
+      ...Errors
     }
   }
 }
-    ${UserFragmentDoc}`;
+    ${UserFragmentDoc}
+${ErrorsFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -854,12 +969,11 @@ export const RegisterDocument = gql`
     options: {name: $name, email: $email, password: $password, roleId: $roleId}
   ) {
     errors {
-      field
-      message
+      ...Errors
     }
   }
 }
-    `;
+    ${ErrorsFragmentDoc}`;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
@@ -896,15 +1010,15 @@ export const UpdateProductDocument = gql`
     options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images, categories: $categories, sizes: $sizes}
   ) {
     errors {
-      field
-      message
+      ...Errors
     }
     product {
       ...Product
     }
   }
 }
-    ${ProductFragmentDoc}`;
+    ${ErrorsFragmentDoc}
+${ProductFragmentDoc}`;
 export type UpdateProductMutationFn = Apollo.MutationFunction<UpdateProductMutation, UpdateProductMutationVariables>;
 
 /**

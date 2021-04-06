@@ -17,8 +17,7 @@ mutation CreateProduct(
     sizes: $sizes
   }) {
     errors {
-      field
-      message
+      ...Errors
     }
     product {
       id

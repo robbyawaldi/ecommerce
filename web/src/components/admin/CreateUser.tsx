@@ -35,9 +35,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                     if (response.data?.register.errors) {
                         setErrors(toErrorMap(response.data.register.errors));
                     }
-                    else {
-                        resetForm({})
-                    }
+                    else resetForm({})
                 }}
             >
                 {({ isSubmitting, setFieldValue }) => (

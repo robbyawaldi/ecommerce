@@ -46,7 +46,7 @@ export const InputField: React.FC<InputFieldProps> = ({
                   { 'indent': '-1' }, { 'indent': '+1' }],
                 ]
               }} />
-            : <Input {...field} {...props} />
+            : <Input {...field} {...props} autoComplete="off" />
       }
       {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
     </FormControl>

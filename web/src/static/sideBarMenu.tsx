@@ -1,5 +1,6 @@
 import { FaUsers } from 'react-icons/fa'
 import { AiFillTags } from 'react-icons/ai'
+import { IoMdListBox } from 'react-icons/io'
 
 export const sideBarMenu = [
     {
@@ -13,5 +14,11 @@ export const sideBarMenu = [
         slug: 'product',
         path: '/adm/products',
         icon: <AiFillTags />
+    },
+    {
+        title: 'Categories',
+        slug: 'category',
+        path: '/adm/categories',
+        icon: <IoMdListBox />
     },
 ]

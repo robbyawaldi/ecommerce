@@ -1,0 +1,16 @@
+mutation CreateCategory(
+  $name: String!
+) {
+  createCategory(
+    options: {
+      name: $name
+    }
+  ) {
+    errors {
+      ...Errors
+    }
+    category {
+      ...Category
+    }
+  }
+}

@@ -1,6 +1,8 @@
-import { Arg, Field, Mutation, ObjectType, Query, Resolver } from "type-graphql";
+import { Arg, Field, Int, Mutation, ObjectType, Query, Resolver, UseMiddleware } from "type-graphql";
 import { getRepository } from "typeorm";
 import { Category } from "../entities/Category";
+import { isAdmin } from "../middleware/isAdmin";
+import { isAuth } from "../middleware/isAuth";
 import { CategoryInput } from "./CategoryInput";
 import { Response } from "./Response";
 
@@ -39,5 +41,15 @@ export class CategoryResolver {
         return {
             category
         }
+    }
+
+    @Mutation(() => Boolean)
+    @UseMiddleware(isAuth)
+    @UseMiddleware(isAdmin)
+    async deleteCategory(
+        @Arg("id", () => Int) id: number,
+    ): Promise<boolean> {
+        await Category.delete(id)
+        return true
     }
 }

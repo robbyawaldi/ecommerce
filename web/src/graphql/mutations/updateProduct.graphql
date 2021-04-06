@@ -21,8 +21,7 @@ mutation UpdateProduct(
     }
   ) {
     errors {
-      field
-      message
+      ...Errors
     }
     product {
       ...Product

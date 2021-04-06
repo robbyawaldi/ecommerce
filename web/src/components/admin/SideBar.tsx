@@ -20,11 +20,11 @@ export const SideBar: React.FC<SideBarProps> = ({ }) => {
             let menus: string[] = []
             switch(data.me.role.slug) {
                 case "admin":
-                    menus = ['user', 'product']
+                    menus = ['user', 'product', 'category']
                     setMenu(sideBarMenu.filter(menu => menus.includes(menu.slug)))
                     break
                 case "data_entry": 
-                    menus = ['product']
+                    menus = ['product', 'category']
                     setMenu(sideBarMenu.filter(menu => menus.includes(menu.slug)))
                     break
             }
@@ -34,11 +34,11 @@ export const SideBar: React.FC<SideBarProps> = ({ }) => {
     useDidMountEffect(() => {
         const { s, ...query } = router.query
 
-        if (minimize) router.push({
+        if (minimize) router.replace({
             pathname: router.pathname,
             query: { ...query, s: '' }
         })
-        else router.push({
+        else router.replace({
             pathname: router.pathname,
             query: { ...query }
         })
