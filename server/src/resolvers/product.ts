@@ -145,7 +145,7 @@ export class ProductResolver {
         const { images, categories, sizes, ...data } = options
 
         try {
-            let product = await this.productRepository.findOne(id, { relations: ['images'] })
+            let product = await this.productRepository.findOneOrFail(id, { relations: ['images'] })
             product = { ...product, ...data } as Product
             product.categories = await Category.findByIds(categories)
             product.sizes = await Size.findByIds(sizes)

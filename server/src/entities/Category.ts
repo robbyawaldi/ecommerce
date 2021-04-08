@@ -6,6 +6,9 @@ import {
   Column,
   BaseEntity,
   PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+  ManyToOne,
 } from "typeorm";
 
 @ObjectType()
@@ -14,6 +17,17 @@ export class Category extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @OneToMany(() => Category, (category) => category.parent, { nullable: true })
+  @JoinColumn()
+  child?: Category;
+
+  @ManyToOne(() => Category, (category) => category.child, { nullable: true })
+  @JoinColumn()
+  parent?: Category;
+
+  @Column({ default: 0 })
+  level: number;
 
   @Field()
   @Column()

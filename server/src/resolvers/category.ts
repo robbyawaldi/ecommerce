@@ -14,9 +14,14 @@ class CategoryResponse extends Response {
 
 @Resolver(Category)
 export class CategoryResolver {
+
+    constructor(
+        private categoryRepository = getRepository(Category)
+    ) { }
+
     @Query(() => [Category], { nullable: true })
     async categories(): Promise<Category[]> {
-        return Category.find()
+        return this.categoryRepository.find()
     }
 
     @Mutation(() => CategoryResponse)
@@ -25,8 +30,7 @@ export class CategoryResolver {
     ): Promise<CategoryResponse> {
         let category = { ...options } as Category;
         try {
-            const categoryRepository = getRepository(Category)
-            await categoryRepository.save(category)
+            await this.categoryRepository.save(category)
         } catch (err) {
             return {
                 errors: [
@@ -43,13 +47,63 @@ export class CategoryResolver {
         }
     }
 
+    @Mutation(() => CategoryResponse)
+    async updateCategory(
+        @Arg('id', () => Int) id: number,
+        @Arg('options', () => CategoryInput) options: CategoryInput
+    ): Promise<CategoryResponse> {
+        try {
+            let category = await this.categoryRepository.findOneOrFail(id)
+            category = { ...category, ...options } as Category
+            await this.categoryRepository.save(category)
+            return {
+                category
+            }
+        } catch (err) {
+            return {
+                errors: [
+                    {
+                        field: '',
+                        message: err
+                    }
+                ]
+            }
+        }
+    }
+
+    @Mutation(() => CategoryResponse)
+    async addCategoryChild(
+        @Arg('parentId', () => Int) parentId: number,
+        @Arg('options', () => CategoryInput) options: CategoryInput
+    ): Promise<CategoryResponse> {
+        let child = { ...options } as Category
+        try {
+            let parent = await this.categoryRepository.findOneOrFail(parentId)
+            child.parent = parent
+            child.level = parent.level + 1
+            await this.categoryRepository.save(child)
+            return {
+                category: child
+            }
+        } catch (err) {
+            return {
+                errors: [
+                    {
+                        field: '',
+                        message: err
+                    }
+                ]
+            }
+        }
+    }
+
     @Mutation(() => Boolean)
     @UseMiddleware(isAuth)
     @UseMiddleware(isAdmin)
     async deleteCategory(
         @Arg("id", () => Int) id: number,
     ): Promise<boolean> {
-        await Category.delete(id)
+        await this.categoryRepository.delete(id)
         return true
     }
 }
