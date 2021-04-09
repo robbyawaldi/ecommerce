@@ -57,7 +57,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ }) => {
         <section className={card.box}>
             <h1 className={card.title}>Categories</h1>
             <div className="overflow-x-auto">
-                <Table variant="simple" mt={3}>
+                <Table variant="simple" size="sm" mt={3}>
                     <Thead>
                         <Tr>
                             <Th colSpan={2}>Name</Th>

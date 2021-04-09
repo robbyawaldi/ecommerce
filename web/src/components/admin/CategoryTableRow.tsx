@@ -18,26 +18,29 @@ export const CategoryTableRow: React.FC<CategoryTableRowProps> = ({ category, se
     return (
         <>
             <Tr>
-                <Td>
+                <Td colSpan={sequence ? 1 : 2}>
                     <Link href={{
                         pathname: '/adm/categories/edit/[id]',
                         query: { id: category.id }
                     }}>
                         <span className="font-semibold cursor-pointer">
-                            {category.level == 0 ? category.name : sequence}
+                            {sequence ? sequence : category.name}
                         </span>
                     </Link>
                 </Td>
-                <Td>
-                    <Link href={{
-                        pathname: '/adm/categories/edit/[id]',
-                        query: { id: category.id }
-                    }}>
-                        <span className="cursor-pointer">
-                            {category.level == 1 ? category.name : ''}
-                        </span>
-                    </Link>
-                </Td>
+                {sequence
+                    ? (
+                        <Td>
+                            <Link href={{
+                                pathname: '/adm/categories/edit/[id]',
+                                query: { id: category.id }
+                            }}>
+                                <span className="cursor-pointer">
+                                    {category.name}
+                                </span>
+                            </Link>
+                        </Td>
+                    ) : null}
                 <Td className="space-x-3 flex">
                     <Tooltip label="Edit Category">
                         <IconButton
@@ -52,7 +55,7 @@ export const CategoryTableRow: React.FC<CategoryTableRowProps> = ({ category, se
                             }}
                         />
                     </Tooltip>
-                    {category.level < 1
+                    {!sequence
                         ? (
                             <Tooltip label="Add Sub Category">
                                 <IconButton
@@ -68,7 +71,7 @@ export const CategoryTableRow: React.FC<CategoryTableRowProps> = ({ category, se
                                 />
                             </Tooltip>
                         ) : null}
-                    {category.level > 0 || (category.child?.length || 0) < 1
+                    {sequence || (category.child?.length || 0) < 1
                         ? (
                             <Tooltip label="Delete Category">
                                 <IconButton
