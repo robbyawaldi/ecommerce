@@ -1,0 +1,9 @@
+fragment Categories on Category {
+  ...Category
+  parent {
+    ...Category
+  }
+  child {
+    ...Category
+  }
+}

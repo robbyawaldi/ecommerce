@@ -19,6 +19,9 @@ export type Scalars = {
 export type Category = {
   __typename?: 'Category';
   id: Scalars['Float'];
+  child?: Maybe<Array<Category>>;
+  parent?: Maybe<Category>;
+  level: Scalars['Float'];
   name: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -315,9 +318,21 @@ export type UsernamePasswordInput = {
   roleId?: Maybe<Scalars['Int']>;
 };
 
+export type CategoriesFragment = (
+  { __typename?: 'Category' }
+  & { parent?: Maybe<(
+    { __typename?: 'Category' }
+    & CategoryFragment
+  )>, child?: Maybe<Array<(
+    { __typename?: 'Category' }
+    & CategoryFragment
+  )>> }
+  & CategoryFragment
+);
+
 export type CategoryFragment = (
   { __typename?: 'Category' }
-  & Pick<Category, 'id' | 'name'>
+  & Pick<Category, 'id' | 'name' | 'level'>
 );
 
 export type ErrorsFragment = (
@@ -591,7 +606,7 @@ export type CategoriesQuery = (
   { __typename?: 'Query' }
   & { categories?: Maybe<Array<(
     { __typename?: 'Category' }
-    & CategoryFragment
+    & CategoriesFragment
   )>> }
 );
 
@@ -702,8 +717,20 @@ export const CategoryFragmentDoc = gql`
     fragment Category on Category {
   id
   name
+  level
 }
     `;
+export const CategoriesFragmentDoc = gql`
+    fragment Categories on Category {
+  ...Category
+  parent {
+    ...Category
+  }
+  child {
+    ...Category
+  }
+}
+    ${CategoryFragmentDoc}`;
 export const ErrorsFragmentDoc = gql`
     fragment Errors on FieldError {
   field
@@ -1286,10 +1313,10 @@ export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageM
 export const CategoriesDocument = gql`
     query categories {
   categories {
-    ...Category
+    ...Categories
   }
 }
-    ${CategoryFragmentDoc}`;
+    ${CategoriesFragmentDoc}`;
 
 /**
  * __useCategoriesQuery__

@@ -25,7 +25,7 @@ export const EditCategory: React.FC<EditCategoryProps> = ({ }) => {
     if (errorMessage) return errorMessage
     return (
         <section className={`${card.box} md:max-w-md`}>
-            <h1 className={card.title}>Edit User</h1>
+            <h1 className={card.title}>Edit Category</h1>
             <Formik
                 initialValues={{
                     name: data?.category?.name || ""

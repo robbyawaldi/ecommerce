@@ -21,7 +21,12 @@ export class CategoryResolver {
 
     @Query(() => [Category], { nullable: true })
     async categories(): Promise<Category[]> {
-        return this.categoryRepository.find()
+        return this.categoryRepository.find({
+            where: {
+                level: 0
+            },
+            relations: ['parent', 'child']
+        })
     }
 
     @Query(() => Category, { nullable: true })

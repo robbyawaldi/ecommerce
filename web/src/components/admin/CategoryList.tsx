@@ -1,11 +1,11 @@
-import { Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
-import Link from 'next/link';
-import router, { useRouter } from 'next/router';
+import { Table, Thead, Tr, Th, Tbody } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react'
 import { ModalConfirm } from './ModalConfirm';
 import card from '../../styles/Card.module.css'
-import { CategoriesDocument, useCategoriesQuery, useDeleteCategoryMutation } from '../../generated/graphql';
+import { CategoriesDocument, Category, useCategoriesQuery, useDeleteCategoryMutation } from '../../generated/graphql';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
+import { CategoryTableRow } from './CategoryTableRow';
 
 interface CategoryListProps { }
 
@@ -16,7 +16,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({ }) => {
     const router = useRouter()
 
     useEffect(() => {
-        console.log(router.query)
         if (typeof router.query.delete == 'string') {
             setOpenDeleteModal(true)
         }
@@ -40,7 +39,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ }) => {
         delete router.query.name
         router.replace({
             pathname: router.pathname,
-            query: { ...router.query}
+            query: { ...router.query }
         })
     }, [router.query])
 
@@ -54,44 +53,15 @@ export const CategoryList: React.FC<CategoryListProps> = ({ }) => {
                 <Table variant="simple" mt={3}>
                     <Thead>
                         <Tr>
-                            <Th>Name</Th>
+                            <Th colSpan={2}>Name</Th>
                             <Th>Action</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {data?.categories?.map((category) => (
-                            <Tr key={category.id}>
-                                <Td>
-                                    <Link href={{
-                                        pathname: '/adm/categories/edit/[id]',
-                                        query: { id: category.id }
-                                    }}>
-                                        <span className="font-semibold cursor-pointer">
-                                            {category.name}
-                                        </span>
-                                    </Link>
-                                </Td>
-                                <Td className="space-x-3">
-                                    <Link href={{
-                                        pathname: '/adm/categories/edit/[id]',
-                                        query: { ...router.query, id: category.id }
-                                    }}>
-                                        <a className="font-semibold">Edit</a>
-                                    </Link>
-                                    <Link href={{
-                                        pathname: '/adm/categories/add-sub/[id]',
-                                        query: { ...router.query, id: category.id }
-                                    }}>
-                                        <a className="font-semibold">Add Sub</a>
-                                    </Link>
-                                    <Link href={{
-                                        pathname: '/adm/categories',
-                                        query: { ...router.query, delete: category.id, name: category.name }
-                                    }}>
-                                        <a className="font-semibold">Delete</a>
-                                    </Link>
-                                </Td>
-                            </Tr>
+                            <CategoryTableRow 
+                                key={category.id} 
+                                category={category as Category} />
                         ))}
                     </Tbody>
                 </Table>

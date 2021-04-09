@@ -18,14 +18,17 @@ export class Category extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @Field(() => [Category], { nullable: true })
   @OneToMany(() => Category, (category) => category.parent, { nullable: true })
   @JoinColumn()
   child?: Category;
 
+  @Field(() => Category, { nullable: true })
   @ManyToOne(() => Category, (category) => category.child, { nullable: true })
   @JoinColumn()
   parent?: Category;
 
+  @Field()
   @Column({ default: 0 })
   level: number;
 
