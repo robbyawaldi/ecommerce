@@ -23,9 +23,7 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
     })
 
     const errorMessage = loadingOrQueryFailed({ data, error, loading })
-    if (errorMessage) {
-        return errorMessage
-    }
+    if (errorMessage) return errorMessage
 
     return (
         <section className={`${card.box} md:max-w-md`}>
@@ -49,8 +47,7 @@ export const EditUser: React.FC<EditUserProps> = ({ }) => {
                     })
                     if (response.data?.updateUser?.errors) {
                         setErrors(toErrorMap(response.data.updateUser.errors));
-                    }
-                    else {
+                    } else {
                         resetForm({})
                         router.replace('/adm/users')
                     }

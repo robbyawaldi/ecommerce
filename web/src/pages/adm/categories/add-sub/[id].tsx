@@ -1,15 +1,16 @@
+import { AddSubCategory } from "../../../../components/admin/AddSubCategory"
 import { BackButton } from "../../../../components/admin/BackButton"
-import { EditCategory } from "../../../../components/admin/EditCategory"
 import { Layout } from "../../../../components/admin/Layout"
 import { withApollo } from "../../../../utils/withApollo"
 
-const Category = () => {
+
+const AddSub = () => {
     return (
         <Layout>
             <BackButton />
-            <EditCategory />
+            <AddSubCategory />
         </Layout>
     )
 }
 
-export default withApollo({ ssr: true })(Category)
+export default withApollo({ ssr: true })(AddSub)

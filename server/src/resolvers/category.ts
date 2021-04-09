@@ -24,6 +24,13 @@ export class CategoryResolver {
         return this.categoryRepository.find()
     }
 
+    @Query(() => Category, { nullable: true })
+    async category(
+        @Arg('id', () => Int) id: number
+    ): Promise<Category | undefined> {
+        return this.categoryRepository.findOne(id)
+    }
+
     @Mutation(() => CategoryResponse)
     async createCategory(
         @Arg('options', () => CategoryInput) options: CategoryInput

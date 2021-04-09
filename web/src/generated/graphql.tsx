@@ -90,6 +90,8 @@ export type Mutation = {
   updateSize: SizeResponse;
   deleteSize: Scalars['Boolean'];
   createCategory: CategoryResponse;
+  updateCategory: CategoryResponse;
+  addCategoryChild: CategoryResponse;
   deleteCategory: Scalars['Boolean'];
 };
 
@@ -163,6 +165,18 @@ export type MutationCreateCategoryArgs = {
 };
 
 
+export type MutationUpdateCategoryArgs = {
+  options: CategoryInput;
+  id: Scalars['Int'];
+};
+
+
+export type MutationAddCategoryChildArgs = {
+  options: CategoryInput;
+  parentId: Scalars['Int'];
+};
+
+
 export type MutationDeleteCategoryArgs = {
   id: Scalars['Int'];
 };
@@ -218,6 +232,7 @@ export type Query = {
   product?: Maybe<Product>;
   sizes?: Maybe<Array<Size>>;
   categories?: Maybe<Array<Category>>;
+  category?: Maybe<Category>;
 };
 
 
@@ -240,6 +255,11 @@ export type QueryProductsArgs = {
 
 export type QueryProductArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryCategoryArgs = {
+  id: Scalars['Int'];
 };
 
 export type Role = {
@@ -331,6 +351,26 @@ export type UserFragment = (
   & { role: (
     { __typename?: 'Role' }
     & Pick<Role, 'id' | 'name' | 'slug'>
+  ) }
+);
+
+export type AddCategoryChildMutationVariables = Exact<{
+  parentId: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type AddCategoryChildMutation = (
+  { __typename?: 'Mutation' }
+  & { addCategoryChild: (
+    { __typename?: 'CategoryResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & ErrorsFragment
+    )>>, category?: Maybe<(
+      { __typename?: 'Category' }
+      & CategoryFragment
+    )> }
   ) }
 );
 
@@ -465,6 +505,26 @@ export type RegisterMutation = (
   ) }
 );
 
+export type UpdateCategoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdateCategoryMutation = (
+  { __typename?: 'Mutation' }
+  & { updateCategory: (
+    { __typename?: 'CategoryResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & ErrorsFragment
+    )>>, category?: Maybe<(
+      { __typename?: 'Category' }
+      & CategoryFragment
+    )> }
+  ) }
+);
+
 export type UpdateProductMutationVariables = Exact<{
   id: Scalars['String'];
   title?: Maybe<Scalars['String']>;
@@ -533,6 +593,19 @@ export type CategoriesQuery = (
     { __typename?: 'Category' }
     & CategoryFragment
   )>> }
+);
+
+export type CategoryQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type CategoryQuery = (
+  { __typename?: 'Query' }
+  & { category?: Maybe<(
+    { __typename?: 'Category' }
+    & CategoryFragment
+  )> }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -680,6 +753,46 @@ export const UserFragmentDoc = gql`
   }
 }
     `;
+export const AddCategoryChildDocument = gql`
+    mutation AddCategoryChild($parentId: Int!, $name: String!) {
+  addCategoryChild(parentId: $parentId, options: {name: $name}) {
+    errors {
+      ...Errors
+    }
+    category {
+      ...Category
+    }
+  }
+}
+    ${ErrorsFragmentDoc}
+${CategoryFragmentDoc}`;
+export type AddCategoryChildMutationFn = Apollo.MutationFunction<AddCategoryChildMutation, AddCategoryChildMutationVariables>;
+
+/**
+ * __useAddCategoryChildMutation__
+ *
+ * To run a mutation, you first call `useAddCategoryChildMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCategoryChildMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCategoryChildMutation, { data, loading, error }] = useAddCategoryChildMutation({
+ *   variables: {
+ *      parentId: // value for 'parentId'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useAddCategoryChildMutation(baseOptions?: Apollo.MutationHookOptions<AddCategoryChildMutation, AddCategoryChildMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCategoryChildMutation, AddCategoryChildMutationVariables>(AddCategoryChildDocument, options);
+      }
+export type AddCategoryChildMutationHookResult = ReturnType<typeof useAddCategoryChildMutation>;
+export type AddCategoryChildMutationResult = Apollo.MutationResult<AddCategoryChildMutation>;
+export type AddCategoryChildMutationOptions = Apollo.BaseMutationOptions<AddCategoryChildMutation, AddCategoryChildMutationVariables>;
 export const CreateCategoryDocument = gql`
     mutation CreateCategory($name: String!) {
   createCategory(options: {name: $name}) {
@@ -1003,6 +1116,46 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateCategoryDocument = gql`
+    mutation UpdateCategory($id: Int!, $name: String!) {
+  updateCategory(id: $id, options: {name: $name}) {
+    errors {
+      ...Errors
+    }
+    category {
+      ...Category
+    }
+  }
+}
+    ${ErrorsFragmentDoc}
+${CategoryFragmentDoc}`;
+export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
+
+/**
+ * __useUpdateCategoryMutation__
+ *
+ * To run a mutation, you first call `useUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useUpdateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCategoryMutation, UpdateCategoryMutationVariables>(UpdateCategoryDocument, options);
+      }
+export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCategoryMutation>;
+export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
+export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
 export const UpdateProductDocument = gql`
     mutation UpdateProduct($id: String!, $title: String, $description: String, $price: Int, $stockAvailable: Boolean, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
   updateProduct(
@@ -1164,6 +1317,41 @@ export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export const CategoryDocument = gql`
+    query Category($id: Int!) {
+  category(id: $id) {
+    ...Category
+  }
+}
+    ${CategoryFragmentDoc}`;
+
+/**
+ * __useCategoryQuery__
+ *
+ * To run a query within a React component, call `useCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCategoryQuery(baseOptions: Apollo.QueryHookOptions<CategoryQuery, CategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoryQuery, CategoryQueryVariables>(CategoryDocument, options);
+      }
+export function useCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoryQuery, CategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoryQuery, CategoryQueryVariables>(CategoryDocument, options);
+        }
+export type CategoryQueryHookResult = ReturnType<typeof useCategoryQuery>;
+export type CategoryLazyQueryHookResult = ReturnType<typeof useCategoryLazyQuery>;
+export type CategoryQueryResult = Apollo.QueryResult<CategoryQuery, CategoryQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

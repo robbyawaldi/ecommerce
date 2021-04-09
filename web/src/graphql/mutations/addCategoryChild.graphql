@@ -1,0 +1,18 @@
+mutation AddCategoryChild(
+  $parentId: Int!
+  $name: String!
+) {
+  addCategoryChild(
+    parentId: $parentId,
+    options: {
+      name: $name
+    }
+  ) {
+    errors{
+        ...Errors
+    }
+    category {
+        ...Category
+    }
+  }
+}

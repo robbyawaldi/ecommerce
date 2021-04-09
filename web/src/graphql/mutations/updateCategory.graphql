@@ -1,0 +1,18 @@
+mutation UpdateCategory(
+  $id: Int!
+  $name: String!
+) {
+  updateCategory(
+    id: $id
+    options: {
+      name: $name
+    }
+  ) {
+    errors {
+      ...Errors
+    }
+    category {
+      ...Category
+    }
+  }
+}

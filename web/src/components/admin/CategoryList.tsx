@@ -79,6 +79,12 @@ export const CategoryList: React.FC<CategoryListProps> = ({ }) => {
                                         <a className="font-semibold">Edit</a>
                                     </Link>
                                     <Link href={{
+                                        pathname: '/adm/categories/add-sub/[id]',
+                                        query: { ...router.query, id: category.id }
+                                    }}>
+                                        <a className="font-semibold">Add Sub</a>
+                                    </Link>
+                                    <Link href={{
                                         pathname: '/adm/categories',
                                         query: { ...router.query, delete: category.id, name: category.name }
                                     }}>
