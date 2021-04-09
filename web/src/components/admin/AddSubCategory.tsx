@@ -39,7 +39,10 @@ export const AddSubCategory: React.FC<AddSubCategoryProps> = ({ }) => {
                         },
                         refetchQueries: [
                             {
-                                query: CategoriesDocument
+                                query: CategoriesDocument,
+                                variables: {
+                                    level: 0
+                                }
                             }
                         ]
                     })

@@ -12,7 +12,11 @@ interface ProductToolsProps { }
 
 export const ProductTools: React.FC<ProductToolsProps> = ({ }) => {
     const router = useRouter();
-    const { data, error, loading } = useCategoriesQuery();
+    const { data, error, loading } = useCategoriesQuery({
+        variables: {
+            level: 1
+        }
+    });
 
     const errorCategoryMessage = loadingOrQueryFailed({ data, error, loading });
     if (errorCategoryMessage) return errorCategoryMessage;

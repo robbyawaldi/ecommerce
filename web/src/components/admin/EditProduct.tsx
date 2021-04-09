@@ -29,7 +29,11 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
         notifyOnNetworkStatusChange: true
     })
     const { data: sizes, error: sizeError, loading: sizeLoading } = useSizesQuery()
-    const { data: categories, error: categoryError, loading: categoryLoading } = useCategoriesQuery()
+    const { data: categories, error: categoryError, loading: categoryLoading } = useCategoriesQuery({
+        variables: {
+            level: 1
+        }
+    })
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
     const [{ images }, dispatch] = useReducer(reducer, { images: [] })

@@ -11,7 +11,11 @@ interface CategoryListProps { }
 
 export const CategoryList: React.FC<CategoryListProps> = ({ }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
-    const { data, error, loading } = useCategoriesQuery()
+    const { data, error, loading } = useCategoriesQuery({
+        variables: {
+            level: 0
+        }
+    })
     const [deleteCategory] = useDeleteCategoryMutation()
     const router = useRouter()
 
@@ -26,7 +30,10 @@ export const CategoryList: React.FC<CategoryListProps> = ({ }) => {
             variables: { id: parseInt(router.query.delete as string) },
             refetchQueries: [
                 {
-                    query: CategoriesDocument
+                    query: CategoriesDocument,
+                    variables: {
+                        level: 0
+                    }
                 }
             ]
         })

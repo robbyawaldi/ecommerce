@@ -37,7 +37,12 @@ export const EditCategory: React.FC<EditCategoryProps> = ({ }) => {
                             ...values
                         },
                         refetchQueries: [
-                            { query: CategoriesDocument }
+                            {
+                                query: CategoriesDocument,
+                                variables: {
+                                    level: 0
+                                }
+                            }
                         ]
                     })
                     if (response.data?.updateCategory.errors) {

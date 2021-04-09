@@ -1,5 +1,9 @@
-query categories {
-  categories {
+query categories(
+  $level: Int!
+) {
+  categories(
+    level: $level
+  ) {
     ...Categories
   }
 }

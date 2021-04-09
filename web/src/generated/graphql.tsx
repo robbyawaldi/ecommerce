@@ -261,6 +261,11 @@ export type QueryProductArgs = {
 };
 
 
+export type QueryCategoriesArgs = {
+  level: Scalars['Int'];
+};
+
+
 export type QueryCategoryArgs = {
   id: Scalars['Int'];
 };
@@ -599,7 +604,9 @@ export type UploadImageMutation = (
   ) }
 );
 
-export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CategoriesQueryVariables = Exact<{
+  level: Scalars['Int'];
+}>;
 
 
 export type CategoriesQuery = (
@@ -1311,8 +1318,8 @@ export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMuta
 export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
 export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
 export const CategoriesDocument = gql`
-    query categories {
-  categories {
+    query categories($level: Int!) {
+  categories(level: $level) {
     ...Categories
   }
 }
@@ -1330,10 +1337,11 @@ export const CategoriesDocument = gql`
  * @example
  * const { data, loading, error } = useCategoriesQuery({
  *   variables: {
+ *      level: // value for 'level'
  *   },
  * });
  */
-export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+export function useCategoriesQuery(baseOptions: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
       }
