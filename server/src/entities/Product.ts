@@ -37,6 +37,14 @@ export class Product extends BaseEntity {
     @Column()
     stockAvailable: boolean;
 
+    @Field()
+    @Column({default: false})
+    isExclusive: boolean;
+
+    @Field()
+    @Column({default: false})
+    isDiscount: boolean;
+
     @Field(() => [Size])
     @ManyToMany(() => Size)
     @JoinTable()

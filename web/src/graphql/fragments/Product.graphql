@@ -4,6 +4,8 @@ fragment Product on Product {
   description
   price
   stockAvailable
+  isExclusive
+  isDiscount
   images {
     id
     image

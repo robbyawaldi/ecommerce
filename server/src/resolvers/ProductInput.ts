@@ -11,6 +11,10 @@ export class ProductInput {
     price: number;
     @Field(() => Boolean, { nullable: true })
     stockAvailable: boolean;
+    @Field(() => Boolean, { nullable: true })
+    isExclusive: boolean;
+    @Field(() => Boolean, { nullable: true })
+    isDiscount: boolean;
     @Field(() => [ImageInput], { nullable: true })
     images: Image[];
     @Field(() => [Int], { nullable: true })

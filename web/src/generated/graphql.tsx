@@ -203,6 +203,8 @@ export type Product = {
   description: Scalars['String'];
   price: Scalars['Float'];
   stockAvailable: Scalars['Boolean'];
+  isExclusive: Scalars['Boolean'];
+  isDiscount: Scalars['Boolean'];
   sizes: Array<Size>;
   categories: Array<Category>;
   images: Array<Image>;
@@ -215,6 +217,8 @@ export type ProductInput = {
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
   stockAvailable?: Maybe<Scalars['Boolean']>;
+  isExclusive?: Maybe<Scalars['Boolean']>;
+  isDiscount?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput>>;
   categories?: Maybe<Array<Scalars['Int']>>;
   sizes?: Maybe<Array<Scalars['Int']>>;
@@ -347,7 +351,7 @@ export type ErrorsFragment = (
 
 export type ProductFragment = (
   { __typename?: 'Product' }
-  & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable'>
+  & Pick<Product, 'id' | 'title' | 'description' | 'price' | 'stockAvailable' | 'isExclusive' | 'isDiscount'>
   & { images: Array<(
     { __typename?: 'Image' }
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
@@ -418,6 +422,8 @@ export type CreateProductMutationVariables = Exact<{
   description: Scalars['String'];
   price: Scalars['Int'];
   stockAvailable: Scalars['Boolean'];
+  isExclusive: Scalars['Boolean'];
+  isDiscount: Scalars['Boolean'];
   images?: Maybe<Array<ImageInput> | ImageInput>;
   categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
@@ -551,6 +557,8 @@ export type UpdateProductMutationVariables = Exact<{
   description?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
   stockAvailable?: Maybe<Scalars['Boolean']>;
+  isExclusive?: Maybe<Scalars['Boolean']>;
+  isDiscount?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput> | ImageInput>;
   categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
@@ -751,6 +759,8 @@ export const ProductFragmentDoc = gql`
   description
   price
   stockAvailable
+  isExclusive
+  isDiscount
   images {
     id
     image
@@ -867,9 +877,9 @@ export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCatego
 export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const CreateProductDocument = gql`
-    mutation CreateProduct($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
+    mutation CreateProduct($title: String!, $description: String!, $price: Int!, $stockAvailable: Boolean!, $isExclusive: Boolean!, $isDiscount: Boolean!, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
   createProduct(
-    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images, categories: $categories, sizes: $sizes}
+    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, categories: $categories, sizes: $sizes}
   ) {
     errors {
       ...Errors
@@ -903,6 +913,8 @@ export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutat
  *      description: // value for 'description'
  *      price: // value for 'price'
  *      stockAvailable: // value for 'stockAvailable'
+ *      isExclusive: // value for 'isExclusive'
+ *      isDiscount: // value for 'isDiscount'
  *      images: // value for 'images'
  *      categories: // value for 'categories'
  *      sizes: // value for 'sizes'
@@ -1191,10 +1203,10 @@ export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCatego
 export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
 export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
 export const UpdateProductDocument = gql`
-    mutation UpdateProduct($id: String!, $title: String, $description: String, $price: Int, $stockAvailable: Boolean, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
+    mutation UpdateProduct($id: String!, $title: String, $description: String, $price: Int, $stockAvailable: Boolean, $isExclusive: Boolean, $isDiscount: Boolean, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
   updateProduct(
     id: $id
-    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, images: $images, categories: $categories, sizes: $sizes}
+    options: {title: $title, description: $description, price: $price, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, categories: $categories, sizes: $sizes}
   ) {
     errors {
       ...Errors
@@ -1226,6 +1238,8 @@ export type UpdateProductMutationFn = Apollo.MutationFunction<UpdateProductMutat
  *      description: // value for 'description'
  *      price: // value for 'price'
  *      stockAvailable: // value for 'stockAvailable'
+ *      isExclusive: // value for 'isExclusive'
+ *      isDiscount: // value for 'isDiscount'
  *      images: // value for 'images'
  *      categories: // value for 'categories'
  *      sizes: // value for 'sizes'

@@ -3,6 +3,8 @@ mutation CreateProduct(
   $description: String!
   $price: Int!
   $stockAvailable: Boolean!
+  $isExclusive: Boolean!
+  $isDiscount: Boolean!
   $images: [ImageInput!]
   $categories: [Int!]
   $sizes: [Int!]
@@ -12,6 +14,8 @@ mutation CreateProduct(
     description: $description
     price: $price
     stockAvailable: $stockAvailable
+    isExclusive: $isExclusive
+    isDiscount: $isDiscount
     images: $images
     categories: $categories
     sizes: $sizes

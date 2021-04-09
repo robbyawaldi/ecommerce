@@ -51,6 +51,8 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                     description: '',
                     price: 0,
                     stockAvailable: true,
+                    isExclusive: false,
+                    isDiscount: false,
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     const response = await product({
@@ -86,18 +88,19 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             name="title"
                             placeholder="title"
                             label="Title" />
-                        <div className="grid grid-cols-2 gap-2 mt-4 justify-items-end">
-                            <FormControl>
-                                <FormLabel>Price</FormLabel>
-                                <Input
-                                    name="price"
-                                    onChange={(e) => {
-                                        const nominal = e.currentTarget.value.replace(/[^\d]/g, "")
-                                        return setFieldValue('price', parseInt(nominal))
-                                    }}
-                                    value={toRupiah(isNaN(values.price) ? 0 : values.price, { floatingPoint: 0 })}
-                                />
-                            </FormControl>
+                        <div className="grid grid-cols-3 mt-4 justify-items-center">
+                            <Checkbox
+                                name="isExclusive"
+                                checked={values.isExclusive}
+                                onChange={(e) => setFieldValue('isExclusive', e.currentTarget.checked)}>
+                                Exclusive
+                            </Checkbox>
+                            <Checkbox
+                                name="isDiscount"
+                                checked={values.isDiscount}
+                                onChange={(e) => setFieldValue('isDiscount', e.currentTarget.checked)}>
+                                Discount
+                            </Checkbox>
                             <Checkbox
                                 name="stockAvailabe"
                                 defaultChecked
@@ -106,6 +109,17 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 Stock Available
                             </Checkbox>
                         </div>
+                        <FormControl mt={4}>
+                            <FormLabel>Price</FormLabel>
+                            <Input
+                                name="price"
+                                onChange={(e) => {
+                                    const nominal = e.currentTarget.value.replace(/[^\d]/g, "")
+                                    return setFieldValue('price', parseInt(nominal))
+                                }}
+                                value={toRupiah(isNaN(values.price) ? 0 : values.price, { floatingPoint: 0 })}
+                            />
+                        </FormControl>
                         <div className="grid grid-cols-2 gap-2 mt-4 justify-items-end">
                             <FormControl>
                                 <FormLabel>Sizes</FormLabel>
