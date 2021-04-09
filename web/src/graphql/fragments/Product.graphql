@@ -3,6 +3,7 @@ fragment Product on Product {
   title
   description
   price
+  discount
   stockAvailable
   isExclusive
   isDiscount

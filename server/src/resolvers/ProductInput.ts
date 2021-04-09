@@ -9,6 +9,8 @@ export class ProductInput {
     description: string;
     @Field(() => Int, { nullable: true })
     price: number;
+    @Field(() => Int, { nullable: true })
+    discount: number;
     @Field(() => Boolean, { nullable: true })
     stockAvailable: boolean;
     @Field(() => Boolean, { nullable: true })

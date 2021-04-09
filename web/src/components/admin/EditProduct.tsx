@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
 import upload from '../../styles/Upload.module.css'
-import { Box, FormControl, FormLabel, Input, Checkbox, Button } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Checkbox, Button, InputGroup, InputRightAddon, NumberInput, NumberInputField, NumberInputStepper, InputLeftElement } from '@chakra-ui/react';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
@@ -78,6 +78,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                     stockAvailable: data?.product?.stockAvailable,
                     isExclusive: data?.product?.isExclusive,
                     isDiscount: data?.product?.isDiscount,
+                    discount: data?.product?.discount ?? 0,
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     const response = await updateProduct({
@@ -130,17 +131,46 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 Stock Available
                             </Checkbox>
                         </div>
-                        <FormControl mt={4}>
-                            <FormLabel>Price</FormLabel>
-                            <Input
-                                name="price"
-                                onChange={(e) => {
-                                    const nominal = e.currentTarget.value.replace(/[^\d]/g, "")
-                                    return setFieldValue('price', parseInt(nominal))
-                                }}
-                                value={toRupiah(isNaN(values.price) ? 0 : values.price, { floatingPoint: 0 })}
-                            />
-                        </FormControl>
+                        <div className={`grid gap-2 grid-cols-${values.isDiscount ? 2 : 0} mt-4 justify-items-center`}>
+                            <FormControl>
+                                <FormLabel>Price</FormLabel>
+                                <Input
+                                    name="price"
+                                    onChange={(e) => {
+                                        const nominal = e.currentTarget.value.replace(/[^\d]/g, "")
+                                        return setFieldValue('price', parseInt(nominal))
+                                    }}
+                                    value={toRupiah(isNaN(values.price) ? 0 : values.price, { floatingPoint: 0 })}
+                                />
+                            </FormControl>
+                            {values.isDiscount
+                                ? (
+                                    <>
+                                        <FormControl>
+                                            <FormLabel>Discount</FormLabel>
+                                            <NumberInput
+                                                name="discount"
+                                                value={isNaN(values.discount) ? 0 : values.discount}
+                                                onChange={(e) => setFieldValue('discount', parseInt(e))}>
+                                                <InputGroup>
+                                                    <NumberInputField className={form.input}/>
+                                                    <InputRightAddon children="%" />
+                                                </InputGroup>
+                                            </NumberInput>
+                                        </FormControl>
+                                        <FormControl className="col-span-2">
+                                            <FormLabel>Post-Discount Price</FormLabel>
+                                            <Input
+                                                disabled
+                                                value={toRupiah(isNaN(values.price)
+                                                    ? 0
+                                                    : values.price - (values.price * (isNaN(values.discount) ? 0 : values.discount) / 100),
+                                                    { floatingPoint: 0 })}
+                                            />
+                                        </FormControl>
+                                    </>
+                                ) : null}
+                        </div>
                         <div className="grid grid-cols-2 gap-2 mt-4 justify-items-end">
                             <FormControl>
                                 <FormLabel>Sizes</FormLabel>

@@ -34,15 +34,19 @@ export class Product extends BaseEntity {
     price: number;
 
     @Field()
+    @Column({ default: 0 })
+    discount: number;
+
+    @Field()
     @Column()
     stockAvailable: boolean;
 
     @Field()
-    @Column({default: false})
+    @Column({ default: false })
     isExclusive: boolean;
 
     @Field()
-    @Column({default: false})
+    @Column({ default: false })
     isDiscount: boolean;
 
     @Field(() => [Size])

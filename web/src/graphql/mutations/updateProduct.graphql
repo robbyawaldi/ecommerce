@@ -3,6 +3,7 @@ mutation UpdateProduct(
   $title: String
   $description: String
   $price: Int
+  $discount: Int
   $stockAvailable: Boolean
   $isExclusive: Boolean
   $isDiscount: Boolean
@@ -16,6 +17,7 @@ mutation UpdateProduct(
       title: $title
       description: $description
       price: $price
+      discount: $discount
       stockAvailable: $stockAvailable
       isExclusive: $isExclusive
       isDiscount: $isDiscount

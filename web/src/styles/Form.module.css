@@ -5,3 +5,7 @@
             flex 
             flex-col;
 }
+
+.input {
+    @apply rounded-r-none !important;
+}
