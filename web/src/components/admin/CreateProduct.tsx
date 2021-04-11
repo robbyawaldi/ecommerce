@@ -16,6 +16,7 @@ import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { Multiselect } from './Multiselect';
 import { Item } from '../../types/item';
 import { LIMIT_PAGE } from '../../static/products';
+import { calculateDiscount } from '../../utils/discount';
 
 interface CreateProductProps { }
 
@@ -132,7 +133,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                                 value={isNaN(values.discount) ? 0 : values.discount}
                                                 onChange={(e) => setFieldValue('discount', parseInt(e))}>
                                                 <InputGroup>
-                                                    <NumberInputField className={form.input}/>
+                                                    <NumberInputField className={form.input} />
                                                     <InputRightAddon children="%" />
                                                 </InputGroup>
                                             </NumberInput>
@@ -143,7 +144,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                                 disabled
                                                 value={toRupiah(isNaN(values.price)
                                                     ? 0
-                                                    : values.price - (values.price * (isNaN(values.discount) ? 0 : values.discount) / 100),
+                                                    : calculateDiscount({ price: values.price, discount: values.discount }),
                                                     { floatingPoint: 0 })}
                                             />
                                         </FormControl>

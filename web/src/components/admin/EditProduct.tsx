@@ -15,6 +15,7 @@ import { ProductImage } from '../../types/images';
 import { toErrorMap } from '../../utils/toErrorMap';
 import { Item } from '../../types/item';
 import { Multiselect } from './Multiselect';
+import { calculateDiscount } from '../../utils/discount';
 
 interface EditProductProps { }
 
@@ -153,7 +154,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                                 value={isNaN(values.discount) ? 0 : values.discount}
                                                 onChange={(e) => setFieldValue('discount', parseInt(e))}>
                                                 <InputGroup>
-                                                    <NumberInputField className={form.input}/>
+                                                    <NumberInputField className={form.input} />
                                                     <InputRightAddon children="%" />
                                                 </InputGroup>
                                             </NumberInput>
@@ -164,7 +165,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                                 disabled
                                                 value={toRupiah(isNaN(values.price)
                                                     ? 0
-                                                    : values.price - (values.price * (isNaN(values.discount) ? 0 : values.discount) / 100),
+                                                    : calculateDiscount({ price: values.price, discount: values.discount }),
                                                     { floatingPoint: 0 })}
                                             />
                                         </FormControl>
