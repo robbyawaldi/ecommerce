@@ -1,0 +1,84 @@
+.footerTop {
+    background-color: #CBAC74;
+    height: 4em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+}
+
+.footerTop h1 {
+    color: #fff;
+    font-weight: bold;
+}
+
+.container {
+    padding: 3em 1em;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, fit-content);
+    grid-template-areas: 
+    'contact' 
+    'address' 
+    'about' 
+    'service'
+    'social' 
+    'payment';
+   row-gap: 1em;
+}
+
+.container h1 {
+    font-weight: bold;
+}
+
+.container > * {
+    text-align: center;
+}
+
+.contact {
+    grid-area: contact;
+}
+
+.address {
+    grid-area: address;
+}
+
+.about {
+    grid-area: about;
+}
+
+.service {
+    grid-area: service;
+}
+
+.social {
+    grid-area: social;
+    display: flex;
+    flex-flow: column;
+}
+
+.payment {
+    grid-area: payment;
+}
+
+@media screen and (min-width: 640px) {
+ .footerTop {
+     padding: 0 6em;
+ }
+
+ .container {
+    padding: 3em 6em;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    'contact about social payment'
+    'address service social payment';
+    column-gap: 4em;
+    row-gap: 1.5em;
+ }
+
+ .contact, .address {
+     text-align: start;
+ }
+}

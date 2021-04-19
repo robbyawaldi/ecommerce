@@ -1,9 +1,10 @@
+import { Footer } from "../components/frontend/organisms/Footer";
 import { withApollo } from "../utils/withApollo";
 
 const Index = () => {
   return (
     <div>
-      hello world
+      <Footer />
     </div>
   );
 };
