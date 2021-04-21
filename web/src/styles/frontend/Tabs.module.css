@@ -22,3 +22,8 @@
     background-position: center;
     transform: rotate(180deg);
 }
+
+.tabs .selected {
+    @apply  border-b-2
+            border-gold;
+}
