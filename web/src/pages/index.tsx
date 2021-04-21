@@ -1,12 +1,15 @@
-import { Searchbar } from "../components/frontend/molecules/Searchbar";
+import { Tabs } from "../components/frontend/molecules/Tabs";
 import { Footer } from "../components/frontend/organisms/Footer";
+import { Header } from "../components/frontend/organisms/Header";
 import { withApollo } from "../utils/withApollo";
 
 const Index = () => {
   return (
     <div>
-      <Searchbar />
-      {/* <Footer /> */}
+      {/* <Tabs /> */}
+      <Header />
+      <main className="h-screen"></main>
+      <Footer />
     </div>
   );
 };

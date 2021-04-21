@@ -8,6 +8,11 @@ function MyApp({ Component, pageProps }: any) {
     shadows: {
       ...theme.shadows,
       outline: 'none'
+    },
+    colors: {
+      gold:  {
+        300: "rgba(252, 211, 77, 1)"
+      }
     }
   }), [])
 

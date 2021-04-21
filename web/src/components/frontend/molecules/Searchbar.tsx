@@ -17,7 +17,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ }) => {
             <IconButton
                 className={styles.searchButton}
                 aria-label="Search"
-                icon={<BiSearch /> }
+                icon={<BiSearch color="white"/> }
             />
         </div>
     );

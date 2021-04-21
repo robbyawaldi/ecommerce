@@ -1,5 +1,5 @@
 .searchButton {
-    @apply bg-yellow-300 
+    @apply bg-gold
             rounded-full 
             !important;
 }
@@ -10,6 +10,6 @@
             rounded-full
             p-1
             pl-5
-            w-3/12
+            w-full
             flex;
 }

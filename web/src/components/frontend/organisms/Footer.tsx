@@ -1,5 +1,9 @@
 import React, { useMemo } from 'react'
 import styles from '../../../styles/frontend/Footer.module.css'
+import LogoWhite from '../../../assets/Logo-white.svg'
+import BCA from '../../../assets/bca.svg'
+import Mandiri from '../../../assets/mandiri.svg'
+import BRI from '../../../assets/bri.svg'
 
 interface FooterProps { }
 
@@ -9,7 +13,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
     return (
         <footer>
             <div className={styles.footerTop}>
-                <img src="" alt="logo siti hajar" />
+                <LogoWhite />
                 <h1>#TrendIslami</h1>
             </div>
             <div className={styles.container}>
@@ -19,7 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                         Email: <a href="mailto:sitihajar@gmail.com">sitihajar@gmail.com</a>
                     </p>
                     <p>
-                        Telepon: <a href="tel:+6282127888393">0282127888393</a>
+                        Telepon: <a href="tel:+6282127888393">082127888393</a>
                     </p>
                 </address>
                 <div className={styles.address}>
@@ -43,12 +47,12 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                 </div>
                 <div className={styles.payment}>
                     <h1>PEMBAYARAN</h1>
-                    <img src="" alt="BCA" />
-                    <img src="" alt="Mandiri" />
-                    <img src="" alt="BRI" />
+                    <BCA />
+                    <Mandiri />
+                    <BRI />
                 </div>
             </div>
-            <div className="text-center font-bold">
+            <div className="text-center font-bold mb-2">
                 <p>Copyright @{years} Siti Hajar</p>
             </div>
         </footer>
