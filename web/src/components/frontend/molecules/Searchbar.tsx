@@ -9,7 +9,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ }) => {
     return (
         <div className={styles.searchBox}>
             <input 
-                className="w-full" 
+                className="w-full hidden md:flex" 
                 type="text" 
                 name="search" 
                 placeholder="Cari..."
@@ -17,6 +17,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ }) => {
             <IconButton
                 className={styles.searchButton}
                 aria-label="Search"
+                size="sm"
                 icon={<BiSearch color="white"/> }
             />
         </div>

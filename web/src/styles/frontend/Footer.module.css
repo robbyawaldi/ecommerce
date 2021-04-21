@@ -54,6 +54,10 @@
     grid-area: address;
 }
 
+.address p {
+    text-align: center;
+}
+
 .about {
     grid-area: about;
 }
@@ -94,7 +98,7 @@
     justify-self: flex-end;
  }
 
- .contact, .address {
-     text-align: start;
+ .address p {
+    text-align: start;
  }
 }

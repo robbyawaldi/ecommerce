@@ -2,16 +2,14 @@
     margin-top: 1em;
     display: grid;
     width: 100%;
-    row-gap: 2em;
-    grid-template-columns: 6em 1fr 1fr repeat(3, 6em);
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: 
-    '. logo searchbar line cart .'
-    '. tabs tabs tabs tabs tabs';
+    grid-template-columns: 1em .5fr 1fr repeat(2, .3fr) 1em;
+    grid-template-rows: 1fr;
+    grid-template-areas: '. menu logo searchbar cart .';
 }
 
 .header > :nth-child(n+2) {
     justify-self: center;
+    align-self: center;
 }
 
 .header > :nth-child(1) {
@@ -24,12 +22,40 @@
 
 .header > :nth-child(3) {
     grid-area: line;
+    display: none;
 }
 
 .header > :nth-child(4) {
     grid-area: cart;
+    cursor: pointer;
 }
 
 .header > :nth-child(5) {
     grid-area: tabs;
+    display: none;
+}
+
+.header > :nth-child(6) {
+    grid-area: menu;
+    display: flex;
+    justify-self: flex-start;
+}
+
+@media screen and (min-width: 640px) {
+    .header {
+        row-gap: 2em;
+        grid-template-columns: 6em 1fr 1fr repeat(3, 6em);
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+        '. logo searchbar line cart .'
+        '. tabs tabs tabs tabs tabs';
+    }
+
+    .header > :nth-child(3), .header > :nth-child(5) {
+        display: flex;
+    }
+
+    .header > :nth-child(6) {
+        display: none;
+    }
 }
