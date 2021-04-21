@@ -48,7 +48,7 @@
         grid-template-rows: 1fr 1fr;
         grid-template-areas: 
         '. logo searchbar line cart .'
-        '. tabs tabs tabs tabs tabs';
+        'tabs tabs tabs tabs tabs tabs';
     }
 
     .header > :nth-child(3), .header > :nth-child(5) {

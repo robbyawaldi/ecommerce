@@ -1,0 +1,24 @@
+.tabs {
+    @apply  w-full
+            flex
+            px-24
+            border-b;
+}
+
+.tabs > * {
+    @apply  mr-12
+            pb-1 
+            cursor-pointer;
+}
+
+.tabs > :nth-child(2)::after {
+    display: inline-flex;
+    width: 20px;
+    height: 16px;
+    content: '';
+    background: url(/assets/1fsxS23o.svg);
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(180deg);
+}

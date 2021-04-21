@@ -1,15 +1,15 @@
-import { Tab, TabList, Tabs as TabContainer } from '@chakra-ui/tabs'
 import React from 'react'
+import styles from '../../../styles/frontend/Tabs.module.css'
 
 interface TabsProps { }
 
 export const Tabs: React.FC<TabsProps> = ({ }) => {
     return (
-        <TabContainer className="w-full">
-            <TabList>
-                <Tab _selected={{borderColor: 'gold.300'}}>Beranda</Tab>
-                <Tab _selected={{borderColor: 'gold.300'}}>Kategori</Tab>
-            </TabList>
-        </TabContainer>
+        <ul className={styles.tabs}>
+            <li>Beranda</li>
+            <li>Kategori</li>
+            <li>Koleksi Eksklusif</li>
+            <li>Tentang Siti Hajar</li>
+        </ul>
     );
 }
