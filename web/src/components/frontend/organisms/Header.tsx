@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from '../../../styles/frontend/Header.module.css'
-import Logo from '../../../assets/Logo.svg'
+// import Logo from '../../../assets/Logo.svg'
 import Line from '../../../assets/Line.svg'
 import ShoppingCart from '../../../assets/ShoppingCart.svg'
 import { Searchbar } from '../molecules/Searchbar'
@@ -13,7 +13,8 @@ interface HeaderProps { }
 export const Header: React.FC<HeaderProps> = ({ }) => {
     return (
         <header className={styles.header}>
-            <Logo />
+            {/* <Logo /> */}
+            <img src="/assets/Logo.png" width="120px"/>
             <Searchbar />
             <Line />
             <ShoppingCart onClick={() => console.log('test')} />

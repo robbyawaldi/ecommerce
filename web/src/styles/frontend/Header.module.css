@@ -43,6 +43,8 @@
 
 @media screen and (min-width: 640px) {
     .header {
+        position: sticky;
+        top: -80px;
         row-gap: 2em;
         grid-template-columns: 6em 1fr 1fr repeat(3, 6em);
         grid-template-rows: 1fr 1fr;
