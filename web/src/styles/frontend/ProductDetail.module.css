@@ -1,0 +1,6 @@
+.box {
+    @apply  border
+            w-full
+            p-4
+            rounded-lg;   
+}
