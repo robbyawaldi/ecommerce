@@ -1,0 +1,37 @@
+.box {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 1fr;
+    gap: 5px;
+    align-items: center;
+}
+
+.box {
+    @apply  border
+            w-4/12
+            p-4
+            rounded-lg;
+}
+
+.box {
+    font-weight: bold;
+}
+
+.box > div > p {
+    font-weight: normal;
+}
+
+.button {
+    @apply  bg-gold 
+            text-white
+            text-sm
+            rounded-3xl
+            !important;
+}
+
+.select {
+    @apply  border
+            border-gold
+            rounded-2xl
+            !important;
+}
