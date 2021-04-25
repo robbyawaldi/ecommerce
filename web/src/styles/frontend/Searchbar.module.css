@@ -6,13 +6,12 @@
 
 .searchBox {
     @apply border-gray-300 
-            md:border
-            border-0
+            border
             rounded-full
             h-5/6
             p-0
-            md:pl-5
-            md:pr-1
+            pl-5
+            pr-1
             w-full
             flex
             justify-center

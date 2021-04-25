@@ -9,7 +9,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ }) => {
     return (
         <div className={styles.searchBox}>
             <input 
-                className="w-full hidden md:flex" 
+                className="w-full" 
                 type="text" 
                 name="search" 
                 placeholder="Cari..."

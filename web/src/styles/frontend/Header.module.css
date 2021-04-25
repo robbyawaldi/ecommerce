@@ -2,13 +2,16 @@
     margin-top: 1em;
     display: grid;
     width: 100%;
-    grid-template-columns: 1em .5fr 1fr repeat(2, .3fr) 1em;
-    grid-template-rows: 1fr;
-    grid-template-areas: '. menu logo searchbar cart .';
+    row-gap: 10px;
+    grid-template-columns: 1em .5fr repeat(2, 1fr) 1em;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: 
+        '. logo logo cart .'
+        '. menu searchbar searchbar .';
 }
 
-.header > :nth-child(n+2) {
-    justify-self: center;
+.header > :nth-child(even) {
+    justify-self: end;
     align-self: center;
 }
 
@@ -45,12 +48,17 @@
     .header {
         position: sticky;
         top: -80px;
-        row-gap: 2em;
+        row-gap: 1em;
         grid-template-columns: 6em 1fr 1fr repeat(3, 6em);
         grid-template-rows: 1fr 1fr;
         grid-template-areas: 
         '. logo searchbar line cart .'
         'tabs tabs tabs tabs tabs tabs';
+    }
+
+    .header > :nth-child(n+2) {
+        justify-self: center;
+        align-self: center;
     }
 
     .header > :nth-child(3), .header > :nth-child(5) {
