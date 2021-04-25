@@ -1,4 +1,5 @@
-import { Tabs } from "../components/frontend/molecules/Tabs";
+import { Carousel } from "../components/frontend/atoms/Carousel";
+import { Gallery } from "../components/frontend/molecules/Gallery";
 import { Footer } from "../components/frontend/organisms/Footer";
 import { Header } from "../components/frontend/organisms/Header";
 import { withApollo } from "../utils/withApollo";
@@ -6,9 +7,11 @@ import { withApollo } from "../utils/withApollo";
 const Index = () => {
   return (
     <div>
-      {/* <Tabs /> */}
       <Header />
-      <main className="h-screen"></main>
+      <main className="md:px-24 px-4">
+        <Carousel />
+        <Gallery />
+      </main>
       <Footer />
     </div>
   );

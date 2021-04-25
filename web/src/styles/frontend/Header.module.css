@@ -36,6 +36,7 @@
 .header > :nth-child(5) {
     grid-area: tabs;
     display: none;
+    align-self: flex-end !important;
 }
 
 .header > :nth-child(6) {
@@ -46,9 +47,11 @@
 
 @media screen and (min-width: 640px) {
     .header {
+        background-color: #ffffff;
+        row-gap: 0;
         position: sticky;
         top: -70px;
-        row-gap: 1em;
+        z-index: 10;
         grid-template-columns: 6em 1fr 1fr repeat(3, 6em);
         grid-template-rows: 1fr 1fr;
         grid-template-areas: 

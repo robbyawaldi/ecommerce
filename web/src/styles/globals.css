@@ -18,3 +18,24 @@ body {
 button, a, input {
     @apply focus:outline-none;
 }
+
+.control-arrow:hover {
+    background: 0 !important;
+}
+
+.control-arrow::before {
+    content: url(/assets/1fsxS23o.svg) !important;
+    border: 0 !important;
+}
+
+.control-next::before {
+    transform: rotate(90deg);
+}
+
+.control-prev::before {
+    transform: rotate(-90deg);
+}
+
+.dot {
+    background: #000000 !important;
+}
