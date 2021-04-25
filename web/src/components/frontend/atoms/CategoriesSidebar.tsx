@@ -15,6 +15,7 @@ export const CategoriesSidebar: React.FC<CategoriesSidebarProps> = ({ }) => {
                 <li>
                     Pakaian
                     <IconButton
+                        variant="ghost"
                         aria-label="arrow"
                         icon={<IoIosArrowDown />}
                         onClick={onToggle} />

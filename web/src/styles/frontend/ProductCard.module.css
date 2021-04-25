@@ -8,7 +8,8 @@
 
 .box {
     @apply  border
-            w-4/12
+            w-full
+            md:w-4/12
             p-4
             rounded-lg;
 }

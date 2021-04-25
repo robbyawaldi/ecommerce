@@ -3,7 +3,7 @@ import styles from '../../../styles/frontend/Header.module.css'
 import Line from '../../../assets/Line.svg'
 import ShoppingCart from '../../../assets/ShoppingCart.svg'
 import { Searchbar } from '../molecules/Searchbar'
-import { Tabs } from '../molecules/Tabs'
+import { Navs } from '../molecules/Navs'
 import { IconButton } from '@chakra-ui/button'
 import { CgMenu } from 'react-icons/cg'
 import { SideBar } from './SideBar'
@@ -21,8 +21,8 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
             <Searchbar />
             <Line />
             <ShoppingCart onClick={() => console.log('test')} />
-            <Tabs />
-            <IconButton size="xs" icon={<CgMenu size={24} />} aria-label="menu" onClick={onOpen} />
+            <Navs />
+            <IconButton variant="ghost" size="xs" icon={<CgMenu size={24} />} aria-label="menu" onClick={onOpen} />
             <SideBar disclosure={disclosure} />
         </header>
     );

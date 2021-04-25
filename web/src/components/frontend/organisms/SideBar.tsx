@@ -45,6 +45,7 @@ export const SideBar: React.FC<SideBarProps> = ({ disclosure: { isOpen, onClose 
                             <li>
                                 Kategori
                                 <IconButton 
+                                    variant="ghost"
                                     aria-label="arrow" 
                                     icon={<IoIosArrowDown />} 
                                     onClick={onToggle}/>

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
-import styles from '../../../styles/frontend/Tabs.module.css'
+import styles from '../../../styles/frontend/Navs.module.css'
 import { Categories } from '../atoms/Categories'
 
-interface TabsProps { }
+interface NavsProps { }
 
-export const Tabs: React.FC<TabsProps> = ({ }) => {
+export const Navs: React.FC<NavsProps> = ({ }) => {
     const selected = useMemo(() => 'home', [])
 
     return (
