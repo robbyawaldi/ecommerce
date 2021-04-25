@@ -1,8 +1,9 @@
 .card {
     max-width: 20em;
-    height: 35em;
+    height: 28em;
     width: 100%;
     display: grid;
+    cursor: pointer;
     row-gap: .5em;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr repeat(3, .5fr);
@@ -10,4 +11,10 @@
 
 .card > :nth-child(even) {
     font-weight: bold;
+}
+
+@media screen and (min-width: 640px) {
+ .card {
+     height: 35em;
+ }   
 }
