@@ -9,7 +9,7 @@ export const Filter: React.FC<FilterProps> = ({ }) => {
         <Box
             d="flex"
             flexDirection="column"
-            maxW="188.1px"
+            w="14em"
             borderWidth="1px"
             borderRadius="lg"
             bgColor="gray.200"

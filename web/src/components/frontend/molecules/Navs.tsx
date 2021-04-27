@@ -1,19 +1,26 @@
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 import styles from '../../../styles/frontend/Navs.module.css'
-import { Categories } from '../atoms/Categories'
+import { CategoryMenu } from '../atoms/CategoryMenu'
 
 interface NavsProps { }
 
 export const Navs: React.FC<NavsProps> = ({ }) => {
-    const selected = useMemo(() => 'home', [])
+    const router = useRouter()
+    const selected = useMemo(() => router.route, [router.route])
 
     return (
         <nav className={styles.nav}>
             <ul className={styles.tabs}>
-                <li className={`${selected == 'home' ? styles.selected : ''}`}>Beranda</li>
-                <li><Categories /></li>
-                <li className={`${selected == 'collection' ? styles.selected : ''}`}>Koleksi Eksklusif</li>
-                <li className={`${selected == 'about' ? styles.selected : ''}`}>Tentang Siti Hajar</li>
+                <Link href="/">
+                    <li className={`${selected == '/' ? styles.selected : ''}`}>Beranda</li>
+                </Link>
+                <li><CategoryMenu /></li>
+                <Link href="/exclusive">
+                    <li className={`${selected == '/exclusive' ? styles.selected : ''}`}>Koleksi Eksklusif</li>
+                </Link>
+                <li className={`${selected == '/about' ? styles.selected : ''}`}>Tentang Siti Hajar</li>
             </ul>
         </nav>
     );

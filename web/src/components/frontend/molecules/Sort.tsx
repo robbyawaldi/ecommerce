@@ -8,7 +8,7 @@ export const Sort: React.FC<SortProps> = ({ }) => {
         <Box
             d="flex"
             flexDirection="column"
-            maxW="fit-content"
+            w="14em"
             borderWidth="1px"
             borderRadius="lg"
             bgColor="gray.200"
