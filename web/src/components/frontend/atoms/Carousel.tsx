@@ -6,7 +6,7 @@ interface CarouselProps { }
 
 export const Carousel: React.FC<CarouselProps> = ({ }) => {
     return (
-        <CarouselContainer 
+        <CarouselContainer
             autoPlay
             showThumbs={false} 
             infiniteLoop={true}

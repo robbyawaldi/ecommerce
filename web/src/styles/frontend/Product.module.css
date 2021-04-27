@@ -1,0 +1,30 @@
+.box {
+    margin-top: 2.5em;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    row-gap: 1em;
+}
+
+.box > :nth-child(1) {
+    grid-area: carousel;
+}
+
+.box > :nth-child(2) {
+    grid-area: card;
+    justify-self: flex-end;
+}
+
+.box > :nth-child(3) {
+    grid-area: detail;
+}
+
+@media screen and (min-width: 640px) {
+    .box {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
+        grid-template-areas: 
+            'carousel card'
+            'detail detail';
+    }
+}
