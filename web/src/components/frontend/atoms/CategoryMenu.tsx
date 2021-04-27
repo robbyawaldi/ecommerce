@@ -2,7 +2,7 @@ import { Menu, MenuButton, MenuList } from '@chakra-ui/menu';
 import { MenuDivider, MenuGroup, MenuItem } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react'
-import styles from '../../../styles/frontend/Categories.module.css'
+import styles from '../../../styles/frontend/CategoryMenu.module.css'
 
 interface CategoryMenuProps { }
 

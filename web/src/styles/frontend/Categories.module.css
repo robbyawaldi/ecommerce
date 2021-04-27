@@ -1,11 +1,39 @@
-.button::after {
-    display: inline-flex;
-    width: 20px;
-    height: 16px;
-    content: '';
-    background: url(/assets/1fsxS23o.svg);
-    background-size: 30px 30px;
-    background-repeat: no-repeat;
-    background-position: center;
-    transform: rotate(180deg);
+.box {
+    display: grid;
+    margin-top: 2.5em;
+    gap: 1.5em;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 'gallery';   
+}
+
+.box > :nth-child(1) {
+    grid-area: filter;
+}
+
+.box > :nth-child(2) {
+    grid-area: sort;
+}
+
+.box > :nth-child(3) {
+    grid-area: gallery;
+}
+
+.box > :nth-child(-n+2) {
+    display: none;
+}
+
+@media screen and (min-width: 640px) {
+    .box {
+        grid-template-columns: 14em 1fr;
+        grid-template-rows: repeat(3, auto);
+        grid-template-areas: 
+            'filter gallery'
+            'sort gallery'
+            '. gallery';
+    }
+
+    .box > :nth-child(-n+2) {
+        display: flex;
+    }
 }

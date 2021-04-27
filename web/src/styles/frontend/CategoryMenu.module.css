@@ -1,0 +1,11 @@
+.button::after {
+    display: inline-flex;
+    width: 20px;
+    height: 16px;
+    content: '';
+    background: url(/assets/1fsxS23o.svg);
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(180deg);
+}
