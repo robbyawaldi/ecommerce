@@ -8,7 +8,7 @@ export const Layouts: React.FC<layoutProps> = ({ children }) => {
     return (
         <div>
             <Header />
-            <main className="md:px-24 px-4 overflow-x-hidden">
+            <main className="md:px-24 px-4 py-2 overflow-x-hidden">
                 {children}
             </main>
             <Footer />

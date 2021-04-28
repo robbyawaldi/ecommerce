@@ -5,12 +5,7 @@ import {
     DrawerCloseButton,
     DrawerBody,
     UseDisclosureReturn,
-    Divider,
     DrawerHeader,
-    MenuDivider,
-    MenuGroup,
-    MenuItem,
-    MenuList,
     Collapse,
     useDisclosure,
     IconButton
@@ -60,7 +55,9 @@ export const SideBar: React.FC<SideBarProps> = ({ disclosure: { isOpen, onClose 
                             <Link href="/exclusive">
                                 <li>Koleksi Ekslusif</li>
                             </Link>
+                            <Link href="/about">
                             <li>Tentang Siti Hajar</li>
+                            </Link>
                         </ul>
                     </DrawerBody>
                 </DrawerContent>
