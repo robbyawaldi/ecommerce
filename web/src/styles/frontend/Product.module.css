@@ -4,6 +4,7 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, auto);
     row-gap: 1em;
+    margin-bottom: 2em;
 }
 
 .box > :nth-child(1) {

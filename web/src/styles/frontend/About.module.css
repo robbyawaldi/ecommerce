@@ -1,0 +1,53 @@
+.box {
+    width: 100%;
+    background-color: #F0E9D6;
+}
+
+.box {
+    @apply md:px-24 px-4;
+}
+
+.wrap {
+    padding: 2em 9em;
+    display: grid;
+    align-items: center;
+    row-gap: 3em;
+    grid-template-columns: 16em 1fr 1fr 12em;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 
+        'img1 text1 text1 .'
+        'text2 text2 . img2'
+        'img3 text3 text3 .';
+}
+
+.wrap img {
+    width: 12em;
+}
+
+.wrap > :nth-child(1) {
+    grid-area: img1;
+}
+
+.wrap > :nth-child(3) {
+    grid-area: img2;
+}
+
+.wrap > :nth-child(5) {
+    grid-area: img3;
+}
+
+.wrap > :nth-child(2) {
+    grid-area: text1;
+}
+
+.wrap > :nth-child(4) {
+    grid-area: text2;
+}
+
+.wrap > :nth-child(6) {
+    grid-area: text3;
+}
+
+.logo {
+    right: -5em;
+}
