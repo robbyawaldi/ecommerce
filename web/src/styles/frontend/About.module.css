@@ -8,16 +8,20 @@
 }
 
 .wrap {
-    padding: 2em 9em;
+    padding: 2em 1em;
     display: grid;
     align-items: center;
     row-gap: 3em;
-    grid-template-columns: 16em 1fr 1fr 12em;
-    grid-template-rows: repeat(3, 1fr);
+    justify-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(fit-content, 1fr);
     grid-template-areas: 
-        'img1 text1 text1 .'
-        'text2 text2 text2 img2'
-        'img3 text3 text3 .';
+        'img1'
+        'text1'
+        'img2'
+        'text2'
+        'img3'
+        'text3';
 }
 
 .wrap img {
@@ -50,4 +54,21 @@
 
 .logo {
     right: -5em;
+}
+
+.wrap > :nth-child(even) {
+    text-align: center;
+}
+
+@media screen and (min-width: 640px) {
+    .wrap {
+        padding: 2em 9em;
+        justify-items: flex-start;
+        grid-template-columns: 16em 1fr 1fr 12em;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-areas: 
+            'img1 text1 text1 .'
+            'text2 text2 text2 img2'
+            'img3 text3 text3 .';
+    }
 }

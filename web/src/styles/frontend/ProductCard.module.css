@@ -29,10 +29,3 @@
             rounded-3xl
             !important;
 }
-
-.select {
-    @apply  border
-            border-gold
-            rounded-2xl
-            !important;
-}

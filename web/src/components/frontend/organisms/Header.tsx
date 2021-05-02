@@ -8,22 +8,26 @@ import { IconButton } from '@chakra-ui/button'
 import { CgMenu } from 'react-icons/cg'
 import { SideBar } from './SideBar'
 import { useDisclosure } from '@chakra-ui/hooks'
+import { Cart } from './Cart'
 
 interface HeaderProps { }
 
 export const Header: React.FC<HeaderProps> = ({ }) => {
-    const disclosure = useDisclosure()
-    const { onOpen } = disclosure
+    const disclosureCart = useDisclosure()
+    const {onOpen: onOpenCart} = disclosureCart
+    const disclosureSideBar = useDisclosure()
+    const { onOpen: onOpenSideBar } = disclosureSideBar
 
     return (
         <header className={styles.header}>
             <img src="/assets/Logo.png" width="120px" />
             <Searchbar />
             <Line />
-            <ShoppingCart onClick={() => console.log('test')} />
+            <ShoppingCart onClick={onOpenCart} />
             <Navs />
-            <IconButton variant="ghost" size="xs" icon={<CgMenu size={24} />} aria-label="menu" onClick={onOpen} />
-            <SideBar disclosure={disclosure} />
+            <IconButton variant="ghost" size="xs" icon={<CgMenu size={24} />} aria-label="menu" onClick={onOpenSideBar} />
+            <Cart disclosure={disclosureCart}/>
+            <SideBar disclosure={disclosureSideBar} />
         </header>
     );
 }

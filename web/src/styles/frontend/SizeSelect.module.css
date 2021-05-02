@@ -1,0 +1,13 @@
+.select {
+    @apply  border
+            rounded-2xl
+            !important;
+}
+
+.gold {
+    @apply border-gold !important;
+}
+
+.black {
+    @apply border-black !important;
+}
