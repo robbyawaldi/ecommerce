@@ -11,6 +11,7 @@ import {
 } from "type-graphql";
 import { getRepository, SelectQueryBuilder } from "typeorm";
 import { ulid } from "ulid";
+import { LIMIT } from "../constants";
 import { Category } from "../entities/Category";
 import { Image } from "../entities/Image";
 import { Product } from "../entities/Product";
@@ -32,6 +33,11 @@ class ProductResponse {
     product?: Product;
 }
 
+enum Sort {
+    ASC = 'ASC',
+    DESC = 'DESC'
+}
+
 @Resolver(Product)
 export class ProductResolver {
 
@@ -45,6 +51,10 @@ export class ProductResolver {
         @Arg("page", () => Int) page: number,
         @Arg("limit", () => Int) limit: number,
         @Arg('categoryId', () => Int, { nullable: true }) categoryId?: number,
+        @Arg('isExclusive', () => Boolean, { nullable: true }) isExclusive?: boolean,
+        @Arg('sortByName', () => String, {nullable: true}) sortByName?: Sort | undefined,
+        @Arg('sortByPrice', () => String, {nullable: true}) sortByPrice?: Sort | undefined,
+        @Arg('isAdmin', () => Boolean, { nullable: true }) isAdmin?: boolean,
     ): Promise<PaginatedProducts> {
         const start = (page - 1) * limit;
 
@@ -60,29 +70,37 @@ export class ProductResolver {
             products = products.where('categories.id = :categoryId', { categoryId });
             const category = await Category.findOne(categoryId);
             filter = { category: category?.name || '' };
-            total = await products.getCount();
         }
 
-        total = await products.getCount();
+        if (isExclusive !== undefined) {
+            products = products.where('product.isExclusive = :isExclusive', { isExclusive })
+        }
 
-        products = await products
-            .orderBy('product.createdAt', 'DESC')
-            .take(limit)
+        if (sortByName)
+            products = products.orderBy('product.title', sortByName)
+        else if (sortByPrice)
+            products = products.orderBy('product.price', sortByPrice)
+        else
+            products = products.orderBy('product.createdAt', 'DESC')
+
+        if (isAdmin == undefined || !isAdmin) {
+            products = products.limit(LIMIT)
+        }
+
+        products = products
             .skip(start)
-            .getMany();
-
+            .take(limit);
+        
+        total = await products.getCount();
+        products = await products.getMany()
+        
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
         });
 
         return {
             products,
-            meta: {
-                page: page,
-                limit: limit,
-                total,
-                filter
-            }
+            meta: { page, limit, total, filter }
         }
     }
 

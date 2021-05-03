@@ -96,7 +96,6 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
                         className={`${styles.button} ${styles.prev}`}
                         onClick={handlePrev}
                         disabled={isDisabledButton}>
-                        prev
                     </button>
                 ) : null
             }
@@ -106,7 +105,6 @@ export const ImagesList: React.FC<ImagesListProps> = ({ images }) => {
                         className={`${styles.button} ${styles.next}`}
                         onClick={handleNext}
                         disabled={isDisabledButton}>
-                        next
                     </button>
                 ) : null
             }
