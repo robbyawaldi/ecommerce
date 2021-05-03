@@ -71,4 +71,8 @@
             'text2 text2 text2 img2'
             'img3 text3 text3 .';
     }
+
+    .wrap > :nth-child(even) {
+        text-align: start;
+    }
 }
