@@ -18,6 +18,7 @@ import { Product } from "../entities/Product";
 import { Size } from "../entities/Size";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
+import { generateSlug } from "../utils/generateSlug";
 import { getImagesUrl } from "../utils/getImagesUrl";
 import { validateProduct } from "../utils/validateProduct";
 import { FieldError } from "./FieldError";
@@ -52,8 +53,8 @@ export class ProductResolver {
         @Arg("limit", () => Int) limit: number,
         @Arg('categoryId', () => Int, { nullable: true }) categoryId?: number,
         @Arg('isExclusive', () => Boolean, { nullable: true }) isExclusive?: boolean,
-        @Arg('sortByName', () => String, {nullable: true}) sortByName?: Sort | undefined,
-        @Arg('sortByPrice', () => String, {nullable: true}) sortByPrice?: Sort | undefined,
+        @Arg('sortByName', () => String, { nullable: true }) sortByName?: Sort | undefined,
+        @Arg('sortByPrice', () => String, { nullable: true }) sortByPrice?: Sort | undefined,
         @Arg('isAdmin', () => Boolean, { nullable: true }) isAdmin?: boolean,
     ): Promise<PaginatedProducts> {
         const start = (page - 1) * limit;
@@ -90,10 +91,10 @@ export class ProductResolver {
         products = products
             .skip(start)
             .take(limit);
-        
+
         total = await products.getCount();
         products = await products.getMany()
-        
+
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
         });
@@ -127,7 +128,9 @@ export class ProductResolver {
         }
 
         const { images, categories, sizes, ...data } = options
-        let product = { id: ulid(), ...data } as Product
+        const slug = generateSlug(data.title);
+
+        let product = { id: ulid(), ...data, slug } as Product
 
         try {
             product.categories = await Category.findByIds(options.categories);
@@ -169,7 +172,13 @@ export class ProductResolver {
             product.sizes = await Size.findByIds(sizes)
 
             await Image.saveImages(images as Image[], product.id)
+            
+            if (product.slug == undefined) {
+                product.slug = generateSlug(product.title)
+            }
+
             await this.productRepository.save(product)
+
             return {
                 product: product
                     ? { ...product, images: getImagesUrl(product, req) } as Product

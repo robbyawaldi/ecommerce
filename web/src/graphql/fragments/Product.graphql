@@ -1,6 +1,7 @@
 fragment Product on Product {
   id
   title
+  slug
   description
   detail
   price

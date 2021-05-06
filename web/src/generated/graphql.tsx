@@ -200,6 +200,7 @@ export type Product = {
   __typename?: 'Product';
   id: Scalars['String'];
   title: Scalars['String'];
+  slug: Scalars['String'];
   description: Scalars['String'];
   detail: Scalars['String'];
   price: Scalars['Float'];
@@ -359,7 +360,7 @@ export type ErrorsFragment = (
 
 export type ProductFragment = (
   { __typename?: 'Product' }
-  & Pick<Product, 'id' | 'title' | 'description' | 'detail' | 'price' | 'discount' | 'stockAvailable' | 'isExclusive' | 'isDiscount'>
+  & Pick<Product, 'id' | 'title' | 'slug' | 'description' | 'detail' | 'price' | 'discount' | 'stockAvailable' | 'isExclusive' | 'isDiscount'>
   & { images: Array<(
     { __typename?: 'Image' }
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
@@ -772,6 +773,7 @@ export const ProductFragmentDoc = gql`
     fragment Product on Product {
   id
   title
+  slug
   description
   detail
   price
