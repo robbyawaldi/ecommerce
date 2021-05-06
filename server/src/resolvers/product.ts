@@ -107,9 +107,9 @@ export class ProductResolver {
 
     @Query(() => Product, { nullable: true })
     async product(
+        @Ctx() { req }: MyContext,
         @Arg("id", () => String, { nullable: true }) id: string,
-        @Arg("slug", () => String, { nullable: true }) slug?: string
-        @Ctx() { req }: MyContext
+        @Arg("slug", () => String, { nullable: true }) slug?: string,
     ): Promise<Product | undefined> {
         let product;
         const relations = ['images', 'categories', 'sizes']

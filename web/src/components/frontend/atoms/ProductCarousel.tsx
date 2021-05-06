@@ -1,18 +1,21 @@
 import React from 'react'
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
+import { Image } from '../../../generated/graphql';
 
-interface ProductCarouselProps { }
+interface ProductCarouselProps { 
+    images: Image[] | undefined
+}
 
-export const ProductCarousel: React.FC<ProductCarouselProps> = ({ }) => {
+export const ProductCarousel: React.FC<ProductCarouselProps> = ({ images }) => {
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
+            breakpoint: { max: 4000, min: 1500 },
             items: 3
         },
         desktop: {
-            breakpoint: { max: 3000, min: 1024 },
+            breakpoint: { max: 1500, min: 1024 },
             items: 2
         },
         tablet: {
@@ -27,10 +30,13 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({ }) => {
 
     return (
         <Carousel responsive={responsive} infinite>
-            <img src="/assets/product_sample.png" />
-            <img src="/assets/product_sample.png" />
-            <img src="/assets/product_sample.png" />
-            <img src="/assets/product_sample.png" />
+            {images?.map((image: Image) => (
+                <img 
+                    key={image.sequence} 
+                    src={image.url} 
+                    className="rounded-2xl object-cover md:w-72 w-full h-auto p-1 box-border"
+                />
+            ))}
         </Carousel>
     );
 }

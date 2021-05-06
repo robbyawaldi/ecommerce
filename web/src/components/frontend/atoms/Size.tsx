@@ -8,15 +8,19 @@ import SizeXXL from '../../../assets/size-xxl.svg'
 interface SizeProps { }
 
 export const Size: React.FC<SizeProps> = ({ }) => {
- return (
-        <div className="flex justify-center md:justify-between flex-wrap">
-                <SizeS />
-                <SizeM />
-                <SizeL />
-                <SizeXL />
-                <SizeXXL />
-                <p className="flex mt-5 text-center md:text-left">Ukuran bisa ditanyakan langsung melalui Whatsapp atau 
-                klik butuh bantuan untuk bertanya tentang ukuran</p>
-        </div>
- );
+        return (
+                <div className="flex flex-col">
+                        <div className="flex justify-center md:justify-between flex-wrap">
+                                <SizeS />
+                                <SizeM />
+                                <SizeL />
+                                <SizeXL />
+                                <SizeXXL />
+                        </div>
+                        <p className="block mt-5 text-center md:text-left">
+                                Ukuran bisa ditanyakan langsung melalui Whatsapp atau
+                                klik butuh bantuan untuk bertanya tentang ukuran
+                         </p>
+                </div>
+        );
 }

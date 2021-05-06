@@ -1,7 +1,8 @@
 .nav {
     @apply  w-full
             border-b
-            px-24;
+            px-24
+            2xl:px-48;
 }
 
 .tabs {

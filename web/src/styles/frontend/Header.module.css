@@ -72,3 +72,9 @@
         display: none;
     }
 }
+
+@media screen and (min-width: 1500px) {
+    .header {
+        grid-template-columns: 12rem 1fr 1fr repeat(2, 6em) 12rem;
+    }
+}

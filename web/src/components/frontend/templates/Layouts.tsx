@@ -9,7 +9,7 @@ export const Layouts: React.FC<layoutProps> = ({ children }) => {
     return (
         <div className={styles.box}>
             <Header />
-            <main className="md:px-24 px-4 py-2 overflow-x-hidden">
+            <main className="2xl:px-96 lg:px-24 px-4 py-2 overflow-x-hidden">
                 {children}
             </main>
             <Footer />

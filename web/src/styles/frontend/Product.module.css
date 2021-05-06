@@ -1,10 +1,14 @@
 .box {
     margin-top: 2.5em;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, auto);
     row-gap: 1em;
     margin-bottom: 2em;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 20em auto;
+    grid-template-areas: 
+        'carousel'
+        'card'
+        'detail';
 }
 
 .box > :nth-child(1) {

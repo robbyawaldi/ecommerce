@@ -1,13 +1,14 @@
 .box {
     display: grid;
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(4, .5fr);
     grid-template-columns: 1fr;
-    gap: 5px;
     align-items: center;
 }
 
 .box {
     @apply  border
+            md:h-4/6
+            2xl:h-5/6
             w-full
             md:w-5/6
             p-4

@@ -102,3 +102,13 @@
     text-align: start;
  }
 }
+
+@media screen and (min-width: 640px) {
+    .footerTop {
+        padding: 0 24rem;
+    }
+
+    .container {
+        padding: 3em 24rem;
+    }
+}
