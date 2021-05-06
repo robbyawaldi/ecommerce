@@ -1,5 +1,11 @@
-query Product($id: String!) {
-  product(id: $id) {
+query Product(
+  $id: String,
+  $slug: String
+) {
+  product(
+    id: $id
+    slug: $slug
+  ) {
     ...Product
   }
 }

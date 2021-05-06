@@ -107,10 +107,16 @@ export class ProductResolver {
 
     @Query(() => Product, { nullable: true })
     async product(
-        @Arg("id", () => String) id: string,
+        @Arg("id", () => String, { nullable: true }) id: string,
+        @Arg("slug", () => String, { nullable: true }) slug?: string
         @Ctx() { req }: MyContext
     ): Promise<Product | undefined> {
-        let product = await this.productRepository.findOne(id, { relations: ['images', 'categories', 'sizes'] })
+        let product;
+        const relations = ['images', 'categories', 'sizes']
+        if (slug)
+            product = await this.productRepository.findOne({ where: { slug }, relations })
+        else
+            product = await this.productRepository.findOne(id, { relations })
         return product
             ? { ...product, images: getImagesUrl(product, req) } as Product
             : undefined
@@ -172,7 +178,7 @@ export class ProductResolver {
             product.sizes = await Size.findByIds(sizes)
 
             await Image.saveImages(images as Image[], product.id)
-            
+
             if (product.slug == undefined) {
                 product.slug = generateSlug(product.title)
             }

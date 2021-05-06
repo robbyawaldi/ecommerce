@@ -270,7 +270,8 @@ export type QueryProductsArgs = {
 
 
 export type QueryProductArgs = {
-  id: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
 };
 
 
@@ -663,7 +664,8 @@ export type MeQuery = (
 );
 
 export type ProductQueryVariables = Exact<{
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1460,8 +1462,8 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const ProductDocument = gql`
-    query Product($id: String!) {
-  product(id: $id) {
+    query Product($id: String, $slug: String) {
+  product(id: $id, slug: $slug) {
     ...Product
   }
 }
@@ -1480,10 +1482,11 @@ export const ProductDocument = gql`
  * const { data, loading, error } = useProductQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      slug: // value for 'slug'
  *   },
  * });
  */
-export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
+export function useProductQuery(baseOptions?: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
       }
