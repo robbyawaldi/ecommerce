@@ -13,10 +13,13 @@ export const Carousel: React.FC<CarouselProps> = ({ }) => {
             showStatus={false}
             className="mt-10">
             <div>
-                <img src="/assets/slide1.svg"/>
+                <img src="/assets/slide1.svg" className="rounded-2xl"/>
             </div>
             <div>
-                <img src="/assets/slide1.svg"/>
+                <img src="/assets/slide2.svg" className="rounded-2xl"/>
+            </div>
+            <div>
+                <img src="/assets/slide3.svg" className="rounded-2xl"/>
             </div>
         </CarouselContainer>
     );  
