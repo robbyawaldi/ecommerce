@@ -11,7 +11,7 @@ import { IoBagCheckSharp } from 'react-icons/io5'
 import { IconButton, Tooltip } from '@chakra-ui/react';
 import ReactPaginate from 'react-paginate';
 import paginate from '../../styles/Paginate.module.css'
-import { LIMIT_PAGE } from '../../static/products';
+import { LIMIT_PAGE_ADMIN } from '../../static/products';
 
 interface ProductListProps { }
 
@@ -21,7 +21,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
     const { data, error, loading, refetch } = useProductsQuery({
         variables: {
             page: 1,
-            limit: LIMIT_PAGE,
+            limit: LIMIT_PAGE_ADMIN,
             categoryId: parseInt(router.query.fc as string) ?? 0
         },
         fetchPolicy: "no-cache",
@@ -29,7 +29,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
     })
     const [deleteProduct] = useDeleteProductMutation()
     const id = router.query.delete as string
-    const totalPage = Math.ceil((data?.products?.meta?.total ?? 0) / LIMIT_PAGE)
+    const totalPage = Math.ceil((data?.products?.meta?.total ?? 0) / LIMIT_PAGE_ADMIN)
 
     useEffect(() => {
         if (typeof router.query.delete == 'string') {
@@ -46,11 +46,11 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
             refetch({
                 categoryId: parseInt(router.query.fc as string)
             })
-            handleClose()
+            handleModalClose()
         }
     }, [router.query.delete])
 
-    const handleClose = useCallback(() => {
+    const handleModalClose = useCallback(() => {
         setOpenDeleteModal(false)
         router.replace({
             pathname: router.pathname
@@ -130,7 +130,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                 title="Delete Product"
                 isOpen={openDeleteModal}
                 onAccept={handleDelete}
-                onClose={handleClose}>
+                onClose={handleModalClose}>
                 <p>
                     Are you sure to delete {router.query.title}
                 </p>

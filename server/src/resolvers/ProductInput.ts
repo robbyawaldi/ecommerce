@@ -7,6 +7,8 @@ export class ProductInput {
     title: string;
     @Field({ nullable: true })
     description: string;
+    @Field({ nullable: true })
+    detail: string;
     @Field(() => Int, { nullable: true })
     price: number;
     @Field(() => Int, { nullable: true })

@@ -1,6 +1,7 @@
 mutation CreateProduct(
   $title: String!
   $description: String!
+  $detail: String!
   $price: Int!
   $discount: Int
   $stockAvailable: Boolean!
@@ -13,6 +14,7 @@ mutation CreateProduct(
   createProduct(options: {
   	title: $title
     description: $description
+    detail: $detail
     price: $price
     discount: $discount
     stockAvailable: $stockAvailable

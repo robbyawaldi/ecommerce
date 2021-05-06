@@ -75,6 +75,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                 initialValues={{
                     title: data?.product?.title,
                     description: data?.product?.description,
+                    detail: data?.product?.detail,
                     price: data?.product?.price ?? 0,
                     stockAvailable: data?.product?.stockAvailable,
                     isExclusive: data?.product?.isExclusive,
@@ -109,6 +110,12 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                             name="title"
                             placeholder="title"
                             label="Title" />
+                        <Box mt={4}>
+                            <InputField
+                                name="description"
+                                placeholder="description"
+                                label="Description" />
+                        </Box>
                         <div className="grid grid-cols-3 mt-4 justify-items-center">
                             <Checkbox
                                 name="isExclusive"
@@ -191,8 +198,8 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                         <Box mt={4}>
                             <InputField
                                 rich
-                                name="description"
-                                label="Description" />
+                                name="detail"
+                                label="Detail" />
                         </Box>
 
                         <div className={`${upload.uploadImageContainer}`}>

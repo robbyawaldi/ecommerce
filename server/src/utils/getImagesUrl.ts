@@ -2,7 +2,9 @@ import { Product } from "../entities/Product"
 import { Request } from "express";
 
 export function getImagesUrl(product: Product, req: Request) {
-    return product.images?.map(image => {
+    return product.images?.sort((prev, next) => {
+        return prev.sequence - next.sequence
+    }).map(image => {
         return { ...image, url: getImageUrl(image.image, req) }
     })
 }

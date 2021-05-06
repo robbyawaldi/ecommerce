@@ -2,11 +2,19 @@ query Products(
   $page: Int!
   $limit: Int!
   $categoryId: Int
+  $isExclusive: Boolean
+  $isAdmin: Boolean
+  $sortByName: String
+  $sortByPrice: String
 ) {
   products(
     page: $page
     limit: $limit
     categoryId: $categoryId
+    isExclusive: $isExclusive
+    isAdmin: $isAdmin
+    sortByName: $sortByName
+    sortByPrice: $sortByPrice
   ) {
     meta {
       page

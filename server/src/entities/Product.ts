@@ -30,6 +30,10 @@ export class Product extends BaseEntity {
     description!: string;
 
     @Field()
+    @Column({ default: ""})
+    detail!: string;
+
+    @Field()
     @Column()
     price: number;
 

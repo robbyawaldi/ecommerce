@@ -15,7 +15,7 @@ import { toErrorMap } from '../../utils/toErrorMap';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { Multiselect } from './Multiselect';
 import { Item } from '../../types/item';
-import { LIMIT_PAGE } from '../../static/products';
+import { LIMIT_PAGE_ADMIN } from '../../static/products';
 import { calculateDiscount } from '../../utils/discount';
 
 interface CreateProductProps { }
@@ -50,6 +50,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                 initialValues={{
                     title: '',
                     description: '',
+                    detail: '',
                     price: 0,
                     discount: 0,
                     stockAvailable: true,
@@ -71,7 +72,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 query: ProductsDocument,
                                 variables: {
                                     page: 1,
-                                    limit: LIMIT_PAGE
+                                    limit: LIMIT_PAGE_ADMIN
                                 }
                             }
                         ]
@@ -90,6 +91,12 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             name="title"
                             placeholder="title"
                             label="Title" />
+                        <Box mt={4}>
+                            <InputField
+                                name="description"
+                                placeholder="description"
+                                label="Description" />
+                        </Box>
                         <div className="grid grid-cols-3 mt-4 justify-items-center">
                             <Checkbox
                                 name="isExclusive"
@@ -170,8 +177,8 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                         <Box mt={4}>
                             <InputField
                                 rich
-                                name="description"
-                                label="Description" />
+                                name="detail"
+                                label="Detail" />
                         </Box>
 
                         <div className={`${upload.uploadImageContainer}`}>

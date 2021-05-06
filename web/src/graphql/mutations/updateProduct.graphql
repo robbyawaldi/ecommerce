@@ -2,6 +2,7 @@ mutation UpdateProduct(
   $id: String!
   $title: String
   $description: String
+  $detail: String
   $price: Int
   $discount: Int
   $stockAvailable: Boolean
@@ -16,6 +17,7 @@ mutation UpdateProduct(
     options: {
       title: $title
       description: $description
+      detail: $detail
       price: $price
       discount: $discount
       stockAvailable: $stockAvailable
