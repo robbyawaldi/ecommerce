@@ -73,7 +73,7 @@ export class ProductResolver {
             filter = { category: category?.name || '' };
         }
 
-        if (isExclusive !== undefined) {
+        if (isExclusive) {
             products = products.where('product.isExclusive = :isExclusive', { isExclusive })
         }
 
