@@ -53,11 +53,13 @@ export class ProductResolver {
         @Arg("limit", () => Int) limit: number,
         @Arg('categoryId', () => Int, { nullable: true }) categoryId?: number,
         @Arg('isExclusive', () => Boolean, { nullable: true }) isExclusive?: boolean,
+        @Arg('isDiscount', () => Boolean, { nullable: true }) isDiscount?: boolean,
         @Arg('sortByName', () => String, { nullable: true }) sortByName?: Sort | undefined,
         @Arg('sortByPrice', () => String, { nullable: true }) sortByPrice?: Sort | undefined,
         @Arg('isAdmin', () => Boolean, { nullable: true }) isAdmin?: boolean,
     ): Promise<PaginatedProducts> {
         const start = (page - 1) * limit;
+        console.log(categoryId, isExclusive, isDiscount)
 
         let products: Product[] | SelectQueryBuilder<Product> = this.productRepository
             .createQueryBuilder('product')
@@ -75,6 +77,11 @@ export class ProductResolver {
 
         if (isExclusive) {
             products = products.where('product.isExclusive = :isExclusive', { isExclusive })
+        }
+
+
+        if (isDiscount) {
+            products = products.where('product.isDiscount = :isDiscount', { isDiscount })
         }
 
         if (sortByName)

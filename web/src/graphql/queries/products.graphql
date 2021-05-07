@@ -2,7 +2,8 @@ query Products(
   $page: Int!
   $limit: Int!
   $categoryId: Int
-  $isExclusive: Boolean
+  $isExclusive: Boolean,
+  $isDiscount: Boolean,
   $isAdmin: Boolean
   $sortByName: String
   $sortByPrice: String
@@ -11,7 +12,8 @@ query Products(
     page: $page
     limit: $limit
     categoryId: $categoryId
-    isExclusive: $isExclusive
+    isExclusive: $isExclusive,
+    isDiscount: $isDiscount
     isAdmin: $isAdmin
     sortByName: $sortByName
     sortByPrice: $sortByPrice

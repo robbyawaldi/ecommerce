@@ -49,14 +49,14 @@ export const SideBar: React.FC<SideBarProps> = ({ disclosure: { isOpen, onClose 
                                     icon={<IoIosArrowDown />}
                                     onClick={onToggle} />
                                 <Collapse in={isOpenCollapse}>
-                                    <CategoriesSidebar />
+                                    <CategoriesSidebar onClose={onClose} />
                                 </Collapse>
                             </li>
                             <Link href="/exclusive">
                                 <li>Koleksi Ekslusif</li>
                             </Link>
                             <Link href="/about">
-                            <li>Tentang Siti Hajar</li>
+                                <li>Tentang Siti Hajar</li>
                             </Link>
                         </ul>
                     </DrawerBody>

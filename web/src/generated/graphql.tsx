@@ -262,6 +262,7 @@ export type QueryProductsArgs = {
   isAdmin?: Maybe<Scalars['Boolean']>;
   sortByPrice?: Maybe<Scalars['String']>;
   sortByName?: Maybe<Scalars['String']>;
+  isDiscount?: Maybe<Scalars['Boolean']>;
   isExclusive?: Maybe<Scalars['Boolean']>;
   categoryId?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
@@ -682,6 +683,7 @@ export type ProductsQueryVariables = Exact<{
   limit: Scalars['Int'];
   categoryId?: Maybe<Scalars['Int']>;
   isExclusive?: Maybe<Scalars['Boolean']>;
+  isDiscount?: Maybe<Scalars['Boolean']>;
   isAdmin?: Maybe<Scalars['Boolean']>;
   sortByName?: Maybe<Scalars['String']>;
   sortByPrice?: Maybe<Scalars['String']>;
@@ -1498,12 +1500,13 @@ export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
 export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
 export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
-    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isAdmin: Boolean, $sortByName: String, $sortByPrice: String) {
+    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isDiscount: Boolean, $isAdmin: Boolean, $sortByName: String, $sortByPrice: String) {
   products(
     page: $page
     limit: $limit
     categoryId: $categoryId
     isExclusive: $isExclusive
+    isDiscount: $isDiscount
     isAdmin: $isAdmin
     sortByName: $sortByName
     sortByPrice: $sortByPrice
@@ -1539,6 +1542,7 @@ export const ProductsDocument = gql`
  *      limit: // value for 'limit'
  *      categoryId: // value for 'categoryId'
  *      isExclusive: // value for 'isExclusive'
+ *      isDiscount: // value for 'isDiscount'
  *      isAdmin: // value for 'isAdmin'
  *      sortByName: // value for 'sortByName'
  *      sortByPrice: // value for 'sortByPrice'

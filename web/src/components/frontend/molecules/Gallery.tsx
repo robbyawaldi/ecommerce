@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react'
-import { useProductsQuery } from '../../../generated/graphql';
+import { Product, useProductsQuery } from '../../../generated/graphql';
 import { LIMIT_PAGE_WEB } from '../../../static/products';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { Card } from '../atoms/Card'
@@ -13,7 +13,11 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
         variables: {
             page: 1,
             limit: LIMIT_PAGE_WEB,
-            isExclusive: router.pathname == '/exclusive'
+            isExclusive: router.pathname == '/exclusive' || router.query.exclusive !== undefined,
+            isDiscount: router.query.discount !== undefined,
+            categoryId: router.pathname == '/categories' ? parseInt(router.query.id as string) : 0,
+            sortByName: router.query.sortByName as string,
+            sortByPrice: router.query.sortByPrice as string
         },
         fetchPolicy: "no-cache",
         notifyOnNetworkStatusChange: true
@@ -21,7 +25,7 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
 
     const totalPage = Math.ceil((data?.products?.meta.total ?? 0) / LIMIT_PAGE_WEB)
 
-    const errorMessage = loadingOrQueryFailed({data, error, loading})
+    const errorMessage = loadingOrQueryFailed({ data, error, loading })
     if (errorMessage) {
         return errorMessage
     }
@@ -29,7 +33,7 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
     return (
         <div className="h-auto grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-8">
             {data?.products?.products.map((product) => (
-                <Card key={product.id} product={product}/>
+                <Card key={product.id} product={product as Product} />
             ))}
         </div>
     );

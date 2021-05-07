@@ -1,10 +1,25 @@
 import { Button } from '@chakra-ui/button';
 import { Box } from '@chakra-ui/layout';
+import { query } from '@urql/exchange-graphcache';
+import Link from 'next/link';
 import React from 'react'
+import { useCategoriesQuery } from '../../../generated/graphql';
+import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 
 interface FilterProps { }
 
 export const Filter: React.FC<FilterProps> = ({ }) => {
+    const { data, error, loading } = useCategoriesQuery({
+        variables: {
+            level: 1
+        }
+    })
+
+    const errorCategoryMessage = loadingOrQueryFailed({ data, error, loading })
+    if (errorCategoryMessage) {
+        return errorCategoryMessage
+    }
+
     return (
         <Box
             d="flex"
@@ -14,12 +29,25 @@ export const Filter: React.FC<FilterProps> = ({ }) => {
             borderRadius="lg"
             bgColor="gray.200"
         >
-            <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Semua Produk</Button>
-            <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Koleksi Eksklusif</Button>
-            <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Diskon</Button>
+            <Link href="/categories">
+                <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Semua Produk</Button>
+            </Link>
+            <Link href="/categories?exclusive">
+                <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Koleksi Eksklusif</Button>
+            </Link>
+            <Link href="/categories?discount">
+                <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Diskon</Button>
+            </Link>
             <p className="font-bold px-4 mt-5">Kategori</p>
-            <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Gamis</Button>
-            <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">Tunik</Button>
-        </Box>
+
+            {data?.categories?.map(category => (
+                <Link key={category.id} href={{
+                    query: { id: category.id }
+                }}>
+                    <Button fontWeight="normal" justifyContent="flex-start" variant="ghost">{category.name}</Button>
+                </Link>
+            ))
+            }
+        </Box >
     );
 }
