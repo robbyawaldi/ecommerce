@@ -8,20 +8,23 @@ import {
     Field,
     ObjectType,
     Int,
+    Args,
 } from "type-graphql";
 import { getRepository, SelectQueryBuilder } from "typeorm";
 import { ulid } from "ulid";
-import { LIMIT } from "../constants";
 import { Category } from "../entities/Category";
 import { Image } from "../entities/Image";
 import { Product } from "../entities/Product";
 import { Size } from "../entities/Size";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
+import { filterProduct } from "../utils/filterProduct";
 import { generateSlug } from "../utils/generateSlug";
 import { getImagesUrl } from "../utils/getImagesUrl";
+import { searchProduct } from "../utils/searchProduct";
 import { validateProduct } from "../utils/validateProduct";
 import { FieldError } from "./FieldError";
+import { FilterProduct } from "./FilterProduct";
 import { PaginatedProducts } from "./PaginatedProducts";
 import { ProductInput } from "./ProductInput";
 
@@ -32,11 +35,6 @@ class ProductResponse {
 
     @Field(() => Product, { nullable: true })
     product?: Product;
-}
-
-enum Sort {
-    ASC = 'ASC',
-    DESC = 'DESC'
 }
 
 @Resolver(Product)
@@ -51,15 +49,9 @@ export class ProductResolver {
         @Ctx() { req }: MyContext,
         @Arg("page", () => Int) page: number,
         @Arg("limit", () => Int) limit: number,
-        @Arg('categoryId', () => Int, { nullable: true }) categoryId?: number,
-        @Arg('isExclusive', () => Boolean, { nullable: true }) isExclusive?: boolean,
-        @Arg('isDiscount', () => Boolean, { nullable: true }) isDiscount?: boolean,
-        @Arg('sortByName', () => String, { nullable: true }) sortByName?: Sort | undefined,
-        @Arg('sortByPrice', () => String, { nullable: true }) sortByPrice?: Sort | undefined,
-        @Arg('isAdmin', () => Boolean, { nullable: true }) isAdmin?: boolean,
+        @Args() filter: FilterProduct
     ): Promise<PaginatedProducts> {
         const start = (page - 1) * limit;
-        console.log(categoryId, isExclusive, isDiscount)
 
         let products: Product[] | SelectQueryBuilder<Product> = this.productRepository
             .createQueryBuilder('product')
@@ -67,48 +59,29 @@ export class ProductResolver {
             .leftJoinAndSelect('product.categories', 'categories')
             .leftJoinAndSelect('product.sizes', 'sizes')
 
-        let filter, total;
-
-        if (categoryId && categoryId !== 0) {
-            products = products.where('categories.id = :categoryId', { categoryId });
-            const category = await Category.findOne(categoryId);
-            filter = { category: category?.name || '' };
-        }
-
-        if (isExclusive) {
-            products = products.where('product.isExclusive = :isExclusive', { isExclusive })
-        }
-
-
-        if (isDiscount) {
-            products = products.where('product.isDiscount = :isDiscount', { isDiscount })
-        }
-
-        if (sortByName)
-            products = products.orderBy('product.title', sortByName)
-        else if (sortByPrice)
-            products = products.orderBy('product.price', sortByPrice)
-        else
-            products = products.orderBy('product.createdAt', 'DESC')
-
-        if (isAdmin == undefined || !isAdmin) {
-            products = products.limit(LIMIT)
-        }
-
         products = products
             .skip(start)
             .take(limit);
 
-        total = await products.getCount();
+        products = await filterProduct(products, filter)
+        products = await searchProduct(products, filter)
+        
+        const total = await products.getCount();
         products = await products.getMany()
-
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
         });
 
+        let filterBy
+
+        if (filter.categoryId && filter.categoryId !== 0) {
+            const category = await Category.findOne(filter.categoryId);
+            filterBy = { category: category?.name || '' };
+        }
+
         return {
             products,
-            meta: { page, limit, total, filter }
+            meta: { page, limit, total, filter: filterBy }
         }
     }
 

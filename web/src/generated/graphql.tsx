@@ -259,12 +259,13 @@ export type QueryUsersArgs = {
 
 
 export type QueryProductsArgs = {
-  isAdmin?: Maybe<Scalars['Boolean']>;
-  sortByPrice?: Maybe<Scalars['String']>;
-  sortByName?: Maybe<Scalars['String']>;
-  isDiscount?: Maybe<Scalars['Boolean']>;
-  isExclusive?: Maybe<Scalars['Boolean']>;
   categoryId?: Maybe<Scalars['Int']>;
+  isExclusive?: Maybe<Scalars['Boolean']>;
+  isDiscount?: Maybe<Scalars['Boolean']>;
+  sortByName?: Maybe<Sort>;
+  sortByPrice?: Maybe<Sort>;
+  isAdmin?: Maybe<Scalars['Boolean']>;
+  search?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
   page: Scalars['Int'];
 };
@@ -313,6 +314,11 @@ export type SizeResponse = {
   errors?: Maybe<Array<FieldError>>;
   size?: Maybe<Size>;
 };
+
+export enum Sort {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 
 export type User = {
@@ -685,8 +691,9 @@ export type ProductsQueryVariables = Exact<{
   isExclusive?: Maybe<Scalars['Boolean']>;
   isDiscount?: Maybe<Scalars['Boolean']>;
   isAdmin?: Maybe<Scalars['Boolean']>;
-  sortByName?: Maybe<Scalars['String']>;
-  sortByPrice?: Maybe<Scalars['String']>;
+  sortByName?: Maybe<Sort>;
+  sortByPrice?: Maybe<Sort>;
+  search?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1500,7 +1507,7 @@ export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
 export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
 export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
-    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isDiscount: Boolean, $isAdmin: Boolean, $sortByName: String, $sortByPrice: String) {
+    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isDiscount: Boolean, $isAdmin: Boolean, $sortByName: Sort, $sortByPrice: Sort, $search: String) {
   products(
     page: $page
     limit: $limit
@@ -1510,6 +1517,7 @@ export const ProductsDocument = gql`
     isAdmin: $isAdmin
     sortByName: $sortByName
     sortByPrice: $sortByPrice
+    search: $search
   ) {
     meta {
       page
@@ -1546,6 +1554,7 @@ export const ProductsDocument = gql`
  *      isAdmin: // value for 'isAdmin'
  *      sortByName: // value for 'sortByName'
  *      sortByPrice: // value for 'sortByPrice'
+ *      search: // value for 'search'
  *   },
  * });
  */

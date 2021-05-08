@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react'
-import { Product, useProductsQuery } from '../../../generated/graphql';
+import { Maybe, Product, Sort, useProductsQuery } from '../../../generated/graphql';
 import { LIMIT_PAGE_WEB } from '../../../static/products';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { Card } from '../atoms/Card'
@@ -16,8 +16,9 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
             isExclusive: router.pathname == '/exclusive' || router.query.exclusive !== undefined,
             isDiscount: router.query.discount !== undefined,
             categoryId: router.pathname == '/categories' ? parseInt(router.query.id as string) : 0,
-            sortByName: router.query.sortByName as string,
-            sortByPrice: router.query.sortByPrice as string
+            sortByName: router.query.sortByName as Sort ?? undefined,
+            sortByPrice: router.query.sortByPrice as Sort ?? undefined,
+            search: router.query.keyword as string ?? undefined
         },
         fetchPolicy: "no-cache",
         notifyOnNetworkStatusChange: true
