@@ -28,7 +28,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ }) => {
                         refetchQueries: [
                             {
                                 query: UsersDocument,
-                                variables: { limit: 5 }
+                                variables: { page: 1, limit: 5 }
                             }
                         ]
                     });

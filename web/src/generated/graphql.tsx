@@ -193,7 +193,7 @@ export type PaginatedProducts = {
 export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   users: Array<User>;
-  hasMore: Scalars['Boolean'];
+  meta: Meta;
 };
 
 export type Product = {
@@ -255,6 +255,7 @@ export type QueryUserArgs = {
 
 export type QueryUsersArgs = {
   limit: Scalars['Int'];
+  page: Scalars['Int'];
 };
 
 
@@ -742,6 +743,7 @@ export type UserQuery = (
 );
 
 export type UsersQueryVariables = Exact<{
+  page: Scalars['Int'];
   limit: Scalars['Int'];
 }>;
 
@@ -750,11 +752,13 @@ export type UsersQuery = (
   { __typename?: 'Query' }
   & { users: (
     { __typename?: 'PaginatedUsers' }
-    & Pick<PaginatedUsers, 'hasMore'>
     & { users: Array<(
       { __typename?: 'User' }
       & UserFragment
-    )> }
+    )>, meta: (
+      { __typename?: 'Meta' }
+      & Pick<Meta, 'page' | 'limit' | 'total'>
+    ) }
   ) }
 );
 
@@ -1643,12 +1647,16 @@ export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UsersDocument = gql`
-    query Users($limit: Int!) {
-  users(limit: $limit) {
+    query Users($page: Int!, $limit: Int!) {
+  users(page: $page, limit: $limit) {
     users {
       ...User
     }
-    hasMore
+    meta {
+      page
+      limit
+      total
+    }
   }
 }
     ${UserFragmentDoc}`;
@@ -1665,6 +1673,7 @@ export const UsersDocument = gql`
  * @example
  * const { data, loading, error } = useUsersQuery({
  *   variables: {
+ *      page: // value for 'page'
  *      limit: // value for 'limit'
  *   },
  * });

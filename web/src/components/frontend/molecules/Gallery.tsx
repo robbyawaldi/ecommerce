@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import React from 'react'
-import { Maybe, Product, Sort, useProductsQuery } from '../../../generated/graphql';
+import ReactPaginate from 'react-paginate';
+import { Product, Sort, useProductsQuery } from '../../../generated/graphql';
 import { LIMIT_PAGE_WEB } from '../../../static/products';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { Card } from '../atoms/Card'
+import paginate from '../../../styles/frontend/Paginate.module.css'
 
 interface GalleryProps { }
 
@@ -32,10 +34,29 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
     }
 
     return (
-        <div className="h-auto grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-8">
-            {data?.products?.products.map((product) => (
-                <Card key={product.id} product={product as Product} />
-            ))}
+        <div>
+            <div className="h-auto grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-8">
+                {data?.products?.products.map((product) => (
+                    <Card key={product.id} product={product as Product} />
+                ))}
+            </div>
+            <ReactPaginate
+                previousLabel={''}
+                nextLabel={''}
+                breakLabel={'..'}
+                pageCount={totalPage}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={5}
+                onPageChange={({ selected }) => {
+                    refetch({
+                        page: selected + 1
+                    })
+                }}
+                containerClassName={paginate.pagination}
+                activeClassName={paginate.pagination__link_active}
+                previousClassName={`${paginate.pagination_nav} ${paginate.pagination_prev}`}
+                nextClassName={`${paginate.pagination_nav} ${paginate.pagination_next}`}
+            />
         </div>
     );
 }

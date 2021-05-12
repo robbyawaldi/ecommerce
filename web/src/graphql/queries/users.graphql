@@ -1,8 +1,18 @@
-query Users($limit: Int!) {
-  users (limit: $limit) {
+query Users(
+  $page: Int!
+  $limit: Int!
+) {
+  users (
+    page: $page
+    limit: $limit
+  ) {
     users {
       ...User
     }
-    hasMore
+    meta {
+      page
+      limit
+      total
+    }
   }
 }

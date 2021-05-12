@@ -21,6 +21,7 @@ import { isAuth } from "../middleware/isAuth";
 import { isAdmin } from "../middleware/isAdmin";
 import { FieldError } from "./FieldError";
 import { ErrorMessage } from "../static/errorMessage";
+import { Meta } from "./Meta";
 
 @ObjectType()
 class UserResponse {
@@ -31,12 +32,14 @@ class UserResponse {
   user?: User;
 }
 
+
+
 @ObjectType()
 class PaginatedUsers {
   @Field(() => [User])
   users: User[];
-  @Field()
-  hasMore: boolean;
+  @Field(() => Meta)
+  meta: Meta;
 }
 
 @Resolver(User)
@@ -59,22 +62,29 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async users(
+    @Arg('page', () => Int) page: number,
     @Arg('limit', () => Int) limit: number,
   ): Promise<PaginatedUsers> {
-    const realLimit = Math.min(50, limit)
-    const realLimitPlusOne = realLimit + 1
+    const start = (page - 1) * limit;
 
-    const qb = getConnection()
+    let qb = getConnection()
       .getRepository(User)
       .createQueryBuilder("user")
       .leftJoinAndSelect('user.role', 'role')
-      .take(realLimitPlusOne);
+
+    const total = await qb.getCount()
+
+    qb = qb.skip(start).take(limit).orderBy('user.createdAt', 'DESC')
 
     const users = await qb.getMany();
 
     return {
-      users: users.slice(0, realLimit),
-      hasMore: users.length === realLimitPlusOne
+      users: users,
+      meta: {
+        page,
+        limit,
+        total
+      }
     }
   }
 

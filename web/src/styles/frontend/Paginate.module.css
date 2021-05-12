@@ -1,0 +1,55 @@
+.pagination {
+    @apply  relative
+            list-none
+            select-none
+            w-full
+            flex
+            cursor-pointer
+            md:justify-center
+            justify-between
+            my-5;
+}
+
+.pagination a {
+    border-radius: 5px;
+    border: 1px solid #B38426;
+    color: #B38426;
+}
+
+.pagination a, .pagination_nav a {
+    @apply  flex
+            justify-center
+            items-center
+            w-7
+            h-7
+            ml-2
+            mr-2;
+}
+
+.pagination_nav a {
+    background-image: url(/assets/1fsxS23o.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+    outline: none;
+    position: relative;
+    top: 50%;
+    border: none;
+}
+
+.pagination_prev a{
+    transform: translateY(-50%) rotate(-90deg);
+}
+
+.pagination_next a{
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.pagination__link {
+    font-weight: bold;
+}
+
+.pagination__link_active a {
+    color: #fff;
+    background: #B38426;
+}

@@ -1,22 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
 import { Product } from "../entities/Product";
+import { Meta } from "./Meta";
 
 @ObjectType()
 export class Filter {
     @Field()
     category: string;
-}
-
-@ObjectType()
-export class Meta {
-    @Field()
-    page: number;
-    @Field()
-    limit: number;
-    @Field()
-    total: number;
-    @Field(() => Filter, { nullable: true })
-    filter?: Filter;
 }
 
 @ObjectType()

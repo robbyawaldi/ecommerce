@@ -59,15 +59,14 @@ export class ProductResolver {
             .leftJoinAndSelect('product.categories', 'categories')
             .leftJoinAndSelect('product.sizes', 'sizes')
 
-        products = products
-            .skip(start)
-            .take(limit);
-
         products = await filterProduct(products, filter)
         products = await searchProduct(products, filter)
-        
+
         const total = await products.getCount();
+
+        products = products.skip(start).take(limit);
         products = await products.getMany()
+        
         products = products.map(product => {
             return { ...product, images: getImagesUrl(product, req) } as Product
         });

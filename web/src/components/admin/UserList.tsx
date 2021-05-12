@@ -5,20 +5,24 @@ import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
 import { useDeleteUserMutation, UsersDocument, useUsersQuery } from '../../generated/graphql';
 import card from '../../styles/Card.module.css'
+import paginate from '../../styles/Paginate.module.css'
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
+import ReactPaginate from 'react-paginate';
 
 interface UserListProps { }
 
 export const UserList: React.FC<UserListProps> = ({ }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
-    const { data, error, loading } = useUsersQuery({
+    const { data, error, loading, refetch } = useUsersQuery({
         variables: {
+            page: 1,
             limit: 5
         },
         notifyOnNetworkStatusChange: true
     })
     const [deleteUser] = useDeleteUserMutation()
     const router = useRouter()
+    const totalPage = Math.ceil((data?.users?.meta?.total ?? 0) / 5)
 
     useEffect(() => {
         if (typeof router.query.delete == 'string') {
@@ -32,7 +36,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
             refetchQueries: [
                 {
                     query: UsersDocument,
-                    variables: { limit: 5 }
+                    variables: { page: 1, limit: 5 }
                 }
             ]
         })
@@ -45,7 +49,7 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
         delete router.query.email
         router.replace({
             pathname: router.pathname,
-            query: {...router.query}
+            query: { ...router.query }
         })
     }, [router.query])
 
@@ -99,6 +103,23 @@ export const UserList: React.FC<UserListProps> = ({ }) => {
                     </Tbody>
                 </Table>
             </div>
+            <ReactPaginate
+                previousLabel={''}
+                nextLabel={''}
+                breakLabel={'..'}
+                pageCount={totalPage}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={5}
+                onPageChange={({ selected }) => {
+                    refetch({
+                        page: selected + 1
+                    })
+                }}
+                containerClassName={paginate.pagination}
+                activeClassName={paginate.pagination__link_active}
+                previousClassName={`${paginate.pagination_nav} ${paginate.pagination_prev}`}
+                nextClassName={`${paginate.pagination_nav} ${paginate.pagination_next}`}
+            />
             <ModalConfirm
                 title="Delete User"
                 isOpen={openDeleteModal}
