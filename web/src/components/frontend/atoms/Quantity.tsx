@@ -1,12 +1,13 @@
 import { IconButton } from '@chakra-ui/button'
-import React, { useState } from 'react'
+import React from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi';
 
-interface QuantityProps { }
+interface QuantityProps { 
+    setValue: React.Dispatch<React.SetStateAction<number>>
+    value: number
+}
 
-export const Quantity: React.FC<QuantityProps> = ({ }) => {
-    const [amount, setAmount] = useState(1)
-
+export const Quantity: React.FC<QuantityProps> = ({ setValue, value }) => {
     return (
         <div className="w-4/6 flex justify-between items-center text-white border border-gray-600 rounded-3xl p-1">
             <IconButton
@@ -16,10 +17,10 @@ export const Quantity: React.FC<QuantityProps> = ({ }) => {
                 rounded="full"
                 aria-label="minus"
                 icon={<FiMinus />}
-                onClick={() => setAmount(a => a > 1 ? a - 1 : a)}
+                onClick={() => setValue(a => a > 1 ? a - 1 : a)}
             />
             <span className="font-bold text-black">
-            {amount}
+            {value}
             </span>
             <IconButton
                 size="xs"
@@ -28,7 +29,7 @@ export const Quantity: React.FC<QuantityProps> = ({ }) => {
                 rounded="full"
                 aria-label="minus"
                 icon={<FiPlus />}
-                onClick={() => setAmount(a => a + 1)}
+                onClick={() => setValue(a => a + 1)}
             />
         </div>
     );

@@ -1,12 +1,17 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import { cartReducer } from '../reducers/cartReducer';
-import { isServer } from '../utils/isServer';
 
 interface CartContextProps { }
 
+export type Cart = {
+    id: string
+    qty: number
+    size: string
+}
+
 export const CartContext = createContext<{
-    carts: string[];
-    dispatch: React.Dispatch<{ type: string, item?: any }>
+    carts: Cart[];
+    dispatch: React.Dispatch<{ type: string, payload?: any }>
 }>({
     carts: [],
     dispatch: () => null
@@ -17,7 +22,7 @@ const CartContextProvider: React.FC<CartContextProps> = ({ children }) => {
 
     useEffect(() => {
         let localData = localStorage.getItem('carts')
-        localData ? dispatch({ type: 'SET', item: JSON.parse(localData) }) : null
+        localData ? dispatch({ type: 'SET', payload: JSON.parse(localData) }) : null
     }, [])
 
     useEffect(() => {
