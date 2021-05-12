@@ -8,6 +8,7 @@ query Products(
   $sortByName: Sort
   $sortByPrice: Sort
   $search: String
+  $ids: [String!]
 ) {
   products(
     page: $page
@@ -19,6 +20,7 @@ query Products(
     sortByName: $sortByName
     sortByPrice: $sortByPrice
     search: $search
+    ids: $ids
   ) {
     meta {
       page

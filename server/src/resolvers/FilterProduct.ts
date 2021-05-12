@@ -18,11 +18,13 @@ export class FilterProduct {
     @Field({ nullable: true })
     isDiscount: boolean;
     @Field(() => Sort, { nullable: true })
-    sortByName: Sort | undefined
+    sortByName: Sort | undefined;
     @Field(() => Sort, { nullable: true })
-    sortByPrice: Sort | undefined
+    sortByPrice: Sort | undefined;
     @Field({ nullable: true })
     isAdmin: boolean;
     @Field({ nullable: true })
-    search: string
+    search: string;
+    @Field(() => [String], {nullable: true})
+    ids: string[];
 }

@@ -266,6 +266,7 @@ export type QueryProductsArgs = {
   sortByPrice?: Maybe<Sort>;
   isAdmin?: Maybe<Scalars['Boolean']>;
   search?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
   limit: Scalars['Int'];
   page: Scalars['Int'];
 };
@@ -694,6 +695,7 @@ export type ProductsQueryVariables = Exact<{
   sortByName?: Maybe<Sort>;
   sortByPrice?: Maybe<Sort>;
   search?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
 
@@ -1507,7 +1509,7 @@ export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
 export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
 export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
-    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isDiscount: Boolean, $isAdmin: Boolean, $sortByName: Sort, $sortByPrice: Sort, $search: String) {
+    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isDiscount: Boolean, $isAdmin: Boolean, $sortByName: Sort, $sortByPrice: Sort, $search: String, $ids: [String!]) {
   products(
     page: $page
     limit: $limit
@@ -1518,6 +1520,7 @@ export const ProductsDocument = gql`
     sortByName: $sortByName
     sortByPrice: $sortByPrice
     search: $search
+    ids: $ids
   ) {
     meta {
       page
@@ -1555,6 +1558,7 @@ export const ProductsDocument = gql`
  *      sortByName: // value for 'sortByName'
  *      sortByPrice: // value for 'sortByPrice'
  *      search: // value for 'search'
+ *      ids: // value for 'ids'
  *   },
  * });
  */

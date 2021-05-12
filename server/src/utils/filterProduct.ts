@@ -11,7 +11,8 @@ export const filterProduct = async (
         isDiscount,
         sortByName,
         sortByPrice,
-        isAdmin
+        isAdmin,
+        ids
     }: FilterProduct
 ) => {
     if (categoryId && categoryId !== 0) {
@@ -35,6 +36,10 @@ export const filterProduct = async (
 
     if (isAdmin == undefined || !isAdmin) {
         products = products.limit(LIMIT)
+    }
+
+    if (ids && ids.length > 0) {
+        products = products.where('product.id IN (:...ids)', { ids })
     }
 
     return products
