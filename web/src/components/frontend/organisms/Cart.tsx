@@ -8,6 +8,7 @@ import ShoppingCart from '../../../assets/shoppingcart-icon.svg'
 import { CartContext } from '../../../contexts/CartContext';
 import { Product, useProductsQuery } from '../../../generated/graphql';
 import styles from '../../../styles/frontend/Cart.module.css'
+import { generateText } from '../../../utils/generateText';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { CartItem } from '../molecules/CartItem';
 
@@ -37,6 +38,22 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
             }, 0)
         )
     }, [data, carts])
+
+    const handleBuy = () => {
+        const phone = '+6289652629124'
+        const items = carts.map((cart) => {
+            const details = data?.products?.products.find(d => d.id == cart.id)
+            return {
+                title: details?.title ?? "",
+                size: cart.size,
+                price: toRupiah(details?.price ?? 0, { floatingPoint: 0 }) ?? "",
+                qty: cart.qty
+            }
+        })
+        const text = generateText(items, toRupiah(subTotal, { floatingPoint: 0 }))
+        console.log(text)
+        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank')
+    }
 
     const errorMessage = loadingOrQueryFailed({ data, error, loading })
     if (errorMessage) {
@@ -74,7 +91,7 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
                     </DrawerBody>
                     <DrawerFooter className={styles.footer}>
                         <p>SubTotal <span className="font-bold">{toRupiah(subTotal, { floatPoint: 0 })}</span></p>
-                        <Button className={styles.button}>Beli</Button>
+                        <Button className={styles.button} onClick={handleBuy}>Beli</Button>
                     </DrawerFooter>
                 </DrawerContent>
             </DrawerOverlay>

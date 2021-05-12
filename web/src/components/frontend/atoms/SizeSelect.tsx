@@ -18,7 +18,7 @@ export const SizeSelect: React.FC<SizeSelectProps> = ({ outlineColor = 'gold', s
             placeholder="Pilih Ukuran"
             value={value}>
             {sizes?.map((size) => (
-                <option key={size.id} value={size.id}>{size.name}</option>
+                <option key={size.id} value={size.name}>{size.name}</option>
             ))}
         </Select>
     );
