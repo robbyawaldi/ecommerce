@@ -39,7 +39,9 @@ export const filterProduct = async (
     }
 
     if (ids) {
-        if (ids.length == 0) ids = [""]
+        if (ids.length == 0) {
+            ids = [""]
+        }
         products = products.where('product.id IN (:...ids)', { ids })
     }
 

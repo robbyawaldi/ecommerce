@@ -1,3 +1,4 @@
+import { GraphQLResolveInfo } from "graphql";
 import {
     Resolver,
     Query,
@@ -9,7 +10,9 @@ import {
     ObjectType,
     Int,
     Args,
+    Info
 } from "type-graphql";
+import graphqlFields from 'graphql-fields'
 import { getRepository, SelectQueryBuilder } from "typeorm";
 import { ulid } from "ulid";
 import { Category } from "../entities/Category";
@@ -27,6 +30,7 @@ import { FieldError } from "./FieldError";
 import { FilterProduct } from "./FilterProduct";
 import { PaginatedProducts } from "./PaginatedProducts";
 import { ProductInput } from "./ProductInput";
+import { joinProduct } from "../utils/joinsProduct";
 
 @ObjectType()
 class ProductResponse {
@@ -49,27 +53,32 @@ export class ProductResolver {
         @Ctx() { req }: MyContext,
         @Arg("page", () => Int) page: number,
         @Arg("limit", () => Int) limit: number,
-        @Args() filter: FilterProduct
+        @Args() filter: FilterProduct,
+        @Info() info: GraphQLResolveInfo,
     ): Promise<PaginatedProducts> {
-        const start = (page - 1) * limit;
 
-        let products: Product[] | SelectQueryBuilder<Product> = this.productRepository
-            .createQueryBuilder('product')
-            .leftJoinAndSelect('product.images', 'images')
-            .leftJoinAndSelect('product.categories', 'categories')
-            .leftJoinAndSelect('product.sizes', 'sizes')
+        const fields = Object.keys(graphqlFields(info).products)
+
+        let products: Product[] | SelectQueryBuilder<Product> = this.productRepository.createQueryBuilder('product')
+            .select(fields
+                .filter(field => !['images', 'categories', 'sizes'].includes(field))
+                .map(field => `product.${field}`)
+                .concat(['product.id', 'product.createdAt'])
+            )
+
+        products = joinProduct(products, info, fields, 'images')
+        products = joinProduct(products, info, fields, 'categories')
+        products = joinProduct(products, info, fields, 'sizes')
 
         products = await filterProduct(products, filter)
         products = await searchProduct(products, filter)
 
         const total = await products.getCount();
-
+        const start = (page - 1) * limit;
         products = products.skip(start).take(limit);
         products = await products.getMany()
-        
-        products = products.map(product => {
-            return { ...product, images: getImagesUrl(product, req) } as Product
-        });
+
+        products = products.map(product => ({ ...product, images: getImagesUrl(product, req) } as Product));
 
         let filterBy
 
