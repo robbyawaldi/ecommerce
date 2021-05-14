@@ -24,7 +24,7 @@ import { SizeResolver } from "./resolvers/size";
 import { CategoryResolver } from "./resolvers/category";
 
 const main = async () => {
-  await createConnection({
+  const conn = await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
@@ -39,6 +39,8 @@ const main = async () => {
       Image,
     ],
   });
+
+  conn.runMigrations()
 
   const app = express();
 
