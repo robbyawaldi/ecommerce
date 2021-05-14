@@ -10,7 +10,6 @@ import {
     useDisclosure,
     IconButton
 } from '@chakra-ui/react';
-import LogoWhite from '../../../assets/Logo-white.svg'
 import styles from '../../../styles/frontend/SideBar.module.css'
 import React from 'react'
 import { CategoriesSidebar } from '../atoms/CategoriesSidebar';
@@ -34,7 +33,7 @@ export const SideBar: React.FC<SideBarProps> = ({ disclosure: { isOpen, onClose 
                 <DrawerContent bgColor="black" color="white">
                     <DrawerCloseButton />
                     <DrawerHeader borderBottomWidth="2px" className={styles.header}>
-                        <LogoWhite />
+                        <img src="/assets/logo-white.svg" alt="logo white" />
                     </DrawerHeader>
                     <DrawerBody className={styles.body}>
                         <ul>

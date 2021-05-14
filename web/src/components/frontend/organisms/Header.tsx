@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import styles from '../../../styles/frontend/Header.module.css'
-import Line from '../../../assets/Line.svg'
-import ShoppingCart from '../../../assets/ShoppingCart.svg'
 import { Searchbar } from '../molecules/Searchbar'
 import { Navs } from '../molecules/Navs'
 import { IconButton } from '@chakra-ui/button'
@@ -38,10 +36,10 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
 
     return (
         <header className={styles.header}>
-            <img src="/assets/Logo.png" width="120px" />
+            <img src="/assets/Logo.png" alt="logo" width="120px" />
             <Searchbar />
-            <Line />
-            <ShoppingCart onClick={onOpenCart} />
+            <img src="/assets/line.svg" alt="line" />
+            <img src="/assets/shoppingcart.svg" alt="shopping icon" onClick={onOpenCart} />
             <Navs />
             <IconButton variant="ghost" size="xs" icon={<CgMenu size={24} />} aria-label="menu" onClick={onOpenSideBar} />
             <Cart disclosure={disclosureCart} />

@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react'
 import styles from '../../../styles/frontend/Footer.module.css'
-import LogoWhite from '../../../assets/Logo-white.svg'
-import BCA from '../../../assets/bca.svg'
-import Mandiri from '../../../assets/mandiri.svg'
-import BRI from '../../../assets/bri.svg'
 
 interface FooterProps { }
 
@@ -13,7 +9,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
     return (
         <footer>
             <div className={styles.footerTop}>
-                <LogoWhite />
+                <img src="/assets/logo-white.svg" alt="logo white"/>
                 <h1>#TrendIslami</h1>
             </div>
             <div className={styles.container}>
@@ -47,9 +43,9 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                 </div>
                 <div className={styles.payment}>
                     <h1>PEMBAYARAN</h1>
-                    <BCA />
-                    <Mandiri />
-                    <BRI />
+                    <img src="/assets/bca.svg" alt="bca"/>
+                    <img src="/assets/mandiri.svg" alt="mandiri"/>
+                    <img src="/assets/bri.svg" alt="bri"/>
                 </div>
             </div>
             <div className="text-center font-bold mb-2">

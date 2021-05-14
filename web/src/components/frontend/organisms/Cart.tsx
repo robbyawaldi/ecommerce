@@ -3,8 +3,6 @@ import { UseDisclosureReturn } from '@chakra-ui/hooks';
 import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay } from '@chakra-ui/modal';
 import toRupiah from '@develoka/angka-rupiah-js';
 import React, { useContext, useEffect, useState } from 'react'
-import LogoWhite from '../../../assets/Logo-white.svg'
-import ShoppingCart from '../../../assets/shoppingcart-icon.svg'
 import { CartContext } from '../../../contexts/CartContext';
 import { Product, useProductsQuery } from '../../../generated/graphql';
 import styles from '../../../styles/frontend/Cart.module.css'
@@ -71,8 +69,8 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
                 <DrawerContent bgColor="black" color="white" className={styles.content}>
                     <DrawerCloseButton className={styles.close} />
                     <DrawerHeader className={styles.header}>
-                        <LogoWhite />
-                        <ShoppingCart />
+                        <img src="/assets/logo-white.svg" alt="logo white" />
+                        <img src="/assets/shoppingcart-icon.svg" alt="shopping icon" />
                         <div className={styles.title}>Barang Belanja</div>
                     </DrawerHeader>
                     <DrawerBody className={styles.body}>
