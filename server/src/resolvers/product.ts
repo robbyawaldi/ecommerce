@@ -61,7 +61,7 @@ export class ProductResolver {
 
         let products: Product[] | SelectQueryBuilder<Product> = this.productRepository.createQueryBuilder('product')
             .select(fields
-                .filter(field => !['images', 'categories', 'sizes'].includes(field))
+                .filter(field => !['images', 'categories', 'sizes', '__typename'].includes(field))
                 .map(field => `product.${field}`)
                 .concat(['product.id', 'product.createdAt'])
             )

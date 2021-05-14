@@ -13,7 +13,7 @@ export const joinProduct = (
         const imagesField = Object.keys(graphqlFields(info).products[relation])
         return products
             .leftJoinAndSelect(`product.${relation}`, relation)
-            .addSelect(imagesField.filter(field => !['url'].includes(field)).map(field => `${relation}.${field}`))
+            .addSelect(imagesField.filter(field => !['url', '__typename'].includes(field)).map(field => `${relation}.${field}`))
     }
     return products
 }
