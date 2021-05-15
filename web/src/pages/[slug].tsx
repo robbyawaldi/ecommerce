@@ -8,6 +8,7 @@ import { useRouter } from "next/router"
 import { Image, Product as ProductGraphql, useProductQuery } from "../generated/graphql"
 import { useMemo } from "react"
 import { loadingOrQueryFailed } from "../utils/loadingOrQueryFailed"
+import Head from "next/head"
 
 const Product = () => {
     const router = useRouter()
@@ -26,6 +27,9 @@ const Product = () => {
 
     return (
         <Layouts>
+            <Head>
+                <title>Jual {data?.product?.title ?? ''}</title>
+            </Head>
             <div className={styles.box}>
                 <ProductCarousel images={data?.product?.images as Image[]} />
                 <ProductCard product={data?.product as ProductGraphql} />

@@ -2,6 +2,7 @@ import { withApollo } from "../utils/withApollo"
 import styles from '../styles/frontend/About.module.css'
 import { Header } from "../components/frontend/organisms/Header"
 import { Footer } from "../components/frontend/organisms/Footer"
+import Head from "next/head"
 
 const wording = {
     about: [
@@ -27,6 +28,9 @@ const wording = {
 const About = () => {
     return (
         <>
+            <Head>
+                <title>Tentang Siti Hajar</title>
+            </Head>
             <Header />
             <div className={styles.box}>
                 <div className="pt-6 relative mb-12">

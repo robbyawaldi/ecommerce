@@ -7,7 +7,6 @@ const Adm = () => {
 
     return (
         <Layout>
-            <h1>helllo world</h1>
         </Layout>
     )
 }
