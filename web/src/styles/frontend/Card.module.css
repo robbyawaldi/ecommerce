@@ -1,4 +1,6 @@
 .card {
+    position: relative;
+    overflow: hidden;
     max-width: 20em;
     height: 28em;
     width: 100%;
@@ -9,12 +11,41 @@
     grid-template-rows: 1fr repeat(3, .2fr);
 }
 
-.card > :nth-child(2) {
+.card > h1 {
     font-weight: bold;
 }
 
 .img {
     border-radius: 1em;
+}
+
+.soldOut {
+    top: 2em;
+    left: -5em;
+    color: #fff;
+    display: block;
+    position:absolute;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: .06em;
+    background-color: #B38426;
+    padding: 0.5em 5em 0.4em 5em;
+    box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+    -webkit-transform: rotate(-45deg) scale(0.75,1);
+}
+
+.soldOut:before {
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    margin: -0.3em -5em;
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+    /* border: 2px rgba(255,255,255,0.7) dashed; */
 }
 
 @media screen and (min-width: 640px) {
