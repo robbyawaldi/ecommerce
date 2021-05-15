@@ -7,6 +7,7 @@ import {
   BaseEntity,
   PrimaryColumn,
   ManyToOne,
+  JoinColumn,
 } from "typeorm";
 import { Role } from "./Role";
 
@@ -27,11 +28,9 @@ export class User extends BaseEntity {
 
   @Column()
   password!: string;
-
-  @Column()
-  roleId: number;
   
   @Field(() => Role)
+  @JoinColumn()
   @ManyToOne(() => Role, (role) => role.users)
   role: Role;
 

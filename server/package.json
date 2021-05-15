@@ -10,7 +10,9 @@
     "dev": "nodemon dist/index.js",
     "start": "node dist/index.js",
     "dev2": "nodemon --exec ts-node src/index.ts",
-    "typeorm": "ts-node ./node_modules/typeorm/cli -f ormconfig.js"
+    "typeorm": "ts-node ./node_modules/typeorm/cli -f ormconfig.js",
+    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "keywords": [],
   "author": "robby awaldi",
@@ -49,6 +51,7 @@
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.2.31",
+    "typeorm-seeding": "^1.6.1",
     "ulid": "^2.3.0"
   },
   "mikro-orm": {

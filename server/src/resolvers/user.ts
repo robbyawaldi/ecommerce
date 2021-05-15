@@ -22,6 +22,7 @@ import { isAdmin } from "../middleware/isAdmin";
 import { FieldError } from "./FieldError";
 import { ErrorMessage } from "../static/errorMessage";
 import { Meta } from "./Meta";
+import { Role } from "../entities/Role";
 
 @ObjectType()
 class UserResponse {
@@ -110,7 +111,7 @@ export class UserResolver {
           name: options.name,
           email: options.email,
           password: hashedPassword,
-          roleId: options.roleId
+          role: await Role.findOne(options.roleId)
         })
         .execute();
     } catch (err) {

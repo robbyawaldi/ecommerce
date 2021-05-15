@@ -6,5 +6,7 @@ module.exports = {
   "password": process.env.DATABASE_PASSWORD || "postgres",
   "database": process.env.DATABASE_NAME || "ecommerce",
   "entities": ["dist/entities/*.js"],
-  "migrations": ["dist/migrations/*.js"]
+  "migrations": ["dist/migrations/*.js"],
+  "seeds": ['dist/seeds/**/*.js'],
+  "factories": ['dist/factories/**/*.js'],
 }
