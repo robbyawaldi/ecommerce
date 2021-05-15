@@ -43,7 +43,6 @@ const main = async () => {
   if (conn.isConnected) {
     console.log('database connected')
   }
-  // conn.runMigrations()
 
   const app = express();
 
