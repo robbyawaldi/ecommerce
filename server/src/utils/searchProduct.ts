@@ -9,6 +9,7 @@ export const searchProduct = async (
     }: FilterProduct
 ) => {
     if (search && search !== "") {
+        search = search.trim()
         products = products.where('product.title iLIKE :search', { search: `%${search}%` })
         if (await products.getCount() == 0)
             products = products.where('categories.name iLIKE :search', { search: `%${search}%` })
