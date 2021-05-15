@@ -1,0 +1,9 @@
+mutation UpdateProductPublish(
+  $id: String!
+  $isPublish: Boolean!
+) {
+  updateProductPublish(
+    id: $id
+    isPublish: $isPublish
+  )
+}

@@ -86,6 +86,7 @@ export type Mutation = {
   deleteUser: Scalars['Boolean'];
   createProduct: ProductResponse;
   updateProduct: ProductResponse;
+  updateProductPublish: Scalars['Boolean'];
   deleteProduct: Scalars['Boolean'];
   uploadImage: ImageUploadResponse;
   deleteImage: Scalars['Boolean'];
@@ -128,6 +129,12 @@ export type MutationCreateProductArgs = {
 
 export type MutationUpdateProductArgs = {
   options: ProductInput;
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateProductPublishArgs = {
+  isPublish: Scalars['Boolean'];
   id: Scalars['String'];
 };
 
@@ -206,6 +213,7 @@ export type Product = {
   price: Scalars['Float'];
   discount: Scalars['Float'];
   stockAvailable: Scalars['Boolean'];
+  isPublish: Scalars['Boolean'];
   isExclusive: Scalars['Boolean'];
   isDiscount: Scalars['Boolean'];
   sizes: Array<Size>;
@@ -222,6 +230,7 @@ export type ProductInput = {
   price?: Maybe<Scalars['Int']>;
   discount?: Maybe<Scalars['Int']>;
   stockAvailable?: Maybe<Scalars['Boolean']>;
+  isPublish?: Maybe<Scalars['Boolean']>;
   isExclusive?: Maybe<Scalars['Boolean']>;
   isDiscount?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput>>;
@@ -370,7 +379,7 @@ export type ErrorsFragment = (
 
 export type ProductFragment = (
   { __typename?: 'Product' }
-  & Pick<Product, 'id' | 'title' | 'slug' | 'description' | 'detail' | 'price' | 'discount' | 'stockAvailable' | 'isExclusive' | 'isDiscount'>
+  & Pick<Product, 'id' | 'title' | 'slug' | 'description' | 'detail' | 'price' | 'discount' | 'stockAvailable' | 'isPublish' | 'isExclusive' | 'isDiscount'>
   & { images: Array<(
     { __typename?: 'Image' }
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
@@ -602,6 +611,17 @@ export type UpdateProductMutation = (
   ) }
 );
 
+export type UpdateProductPublishMutationVariables = Exact<{
+  id: Scalars['String'];
+  isPublish: Scalars['Boolean'];
+}>;
+
+
+export type UpdateProductPublishMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateProductPublish'>
+);
+
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
@@ -796,6 +816,7 @@ export const ProductFragmentDoc = gql`
   price
   discount
   stockAvailable
+  isPublish
   isExclusive
   isDiscount
   images {
@@ -1294,6 +1315,38 @@ export function useUpdateProductMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateProductMutationHookResult = ReturnType<typeof useUpdateProductMutation>;
 export type UpdateProductMutationResult = Apollo.MutationResult<UpdateProductMutation>;
 export type UpdateProductMutationOptions = Apollo.BaseMutationOptions<UpdateProductMutation, UpdateProductMutationVariables>;
+export const UpdateProductPublishDocument = gql`
+    mutation UpdateProductPublish($id: String!, $isPublish: Boolean!) {
+  updateProductPublish(id: $id, isPublish: $isPublish)
+}
+    `;
+export type UpdateProductPublishMutationFn = Apollo.MutationFunction<UpdateProductPublishMutation, UpdateProductPublishMutationVariables>;
+
+/**
+ * __useUpdateProductPublishMutation__
+ *
+ * To run a mutation, you first call `useUpdateProductPublishMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProductPublishMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProductPublishMutation, { data, loading, error }] = useUpdateProductPublishMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      isPublish: // value for 'isPublish'
+ *   },
+ * });
+ */
+export function useUpdateProductPublishMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProductPublishMutation, UpdateProductPublishMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProductPublishMutation, UpdateProductPublishMutationVariables>(UpdateProductPublishDocument, options);
+      }
+export type UpdateProductPublishMutationHookResult = ReturnType<typeof useUpdateProductPublishMutation>;
+export type UpdateProductPublishMutationResult = Apollo.MutationResult<UpdateProductPublishMutation>;
+export type UpdateProductPublishMutationOptions = Apollo.BaseMutationOptions<UpdateProductPublishMutation, UpdateProductPublishMutationVariables>;
 export const UpdateUserDocument = gql`
     mutation UpdateUser($id: String!, $name: String, $email: String, $password: String, $roleId: Int) {
   updateUser(

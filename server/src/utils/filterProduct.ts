@@ -35,7 +35,7 @@ export const filterProduct = async (
         products = products.orderBy('product.createdAt', 'DESC')
 
     if (isAdmin == undefined || !isAdmin) {
-        products = products.limit(LIMIT)
+        products = products.where('product.isPublish is true').limit(LIMIT)
     }
 
     if (ids) {

@@ -16,6 +16,8 @@ export class ProductInput {
     @Field(() => Boolean, { nullable: true })
     stockAvailable: boolean;
     @Field(() => Boolean, { nullable: true })
+    isPublish: boolean;
+    @Field(() => Boolean, { nullable: true })
     isExclusive: boolean;
     @Field(() => Boolean, { nullable: true })
     isDiscount: boolean;

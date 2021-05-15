@@ -192,6 +192,22 @@ export class ProductResolver {
 
     @Mutation(() => Boolean)
     @UseMiddleware(isAuth)
+    async updateProductPublish(
+        @Arg('id', () => String) id: string,
+        @Arg('isPublish', () => Boolean) isPublish: boolean
+    ): Promise<boolean> {
+        try {
+            const product = await this.productRepository.findOneOrFail(id)
+            product.isPublish = isPublish
+            await this.productRepository.save(product)
+            return true
+        } catch (err) {
+            return false
+        }
+    }
+
+    @Mutation(() => Boolean)
+    @UseMiddleware(isAuth)
     async deleteProduct(
         @Arg("id", () => String) id: string
     ): Promise<boolean> {

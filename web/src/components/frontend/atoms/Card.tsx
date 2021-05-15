@@ -21,7 +21,7 @@ export const Card: React.FC<CardProps> = ({ product }) => {
 
     return (
         <div className={styles.card} onClick={handleClick}>
-            <img className={styles.img} src={product.images[0].url} />
+            <img className={styles.img} src={product.images[0]?.url ?? ''} />
             {
                 !product.stockAvailable && (
                     <div className={styles.soldOut}>Stok Kosong</div>

@@ -50,6 +50,10 @@ export class Product extends BaseEntity {
     stockAvailable: boolean;
 
     @Field()
+    @Column({ default: false})
+    isPublish: boolean;
+
+    @Field()
     @Column({ default: false })
     isExclusive: boolean;
 

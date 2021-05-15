@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { ImagesList } from './ImagesList';
 import { FaPen } from 'react-icons/fa'
 import { FaEraser } from 'react-icons/fa'
-import { useDeleteProductMutation, useProductsQuery } from '../../generated/graphql';
+import { useDeleteProductMutation, useProductsQuery, useUpdateProductPublishMutation } from '../../generated/graphql';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { ModalConfirm } from './ModalConfirm';
 import { useRouter } from 'next/router';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { IoBagCheckSharp } from 'react-icons/io5'
-import { IconButton, Tooltip } from '@chakra-ui/react';
+import { FormControl, FormLabel, IconButton, Switch, Tooltip } from '@chakra-ui/react';
 import ReactPaginate from 'react-paginate';
 import paginate from '../../styles/Paginate.module.css'
 import { LIMIT_PAGE_ADMIN } from '../../static/products';
@@ -22,12 +22,14 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
         variables: {
             page: 1,
             limit: LIMIT_PAGE_ADMIN,
-            categoryId: parseInt(router.query.fc as string) ?? 0
+            categoryId: parseInt(router.query.fc as string) ?? 0,
+            isAdmin: true
         },
         fetchPolicy: "no-cache",
         notifyOnNetworkStatusChange: true
     })
     const [deleteProduct] = useDeleteProductMutation()
+    const [updateProductPublish] = useUpdateProductPublishMutation()
     const id = router.query.delete as string
     const totalPage = Math.ceil((data?.products?.meta?.total ?? 0) / LIMIT_PAGE_ADMIN)
 
@@ -50,6 +52,12 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
         }
     }, [router.query.delete])
 
+    const handlePublish = async (id: string, isPublish: boolean) => {
+        await updateProductPublish({
+            variables: { id, isPublish }
+        })
+    }
+
     const handleModalClose = useCallback(() => {
         setOpenDeleteModal(false)
         router.replace({
@@ -70,7 +78,7 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                         className={`bg-white w-full rounded-md shadow-lg p-5 grid grid-flow-col grid-cols-2 gap-8`}>
                         <ImagesList
                             images={product.images.reduce<string[]>((arr, image) => [...arr, image.url as string], [])} />
-                        <div className="flex flex-col">
+                        <div className="flex flex-col justify-end">
                             <div>{product.title}</div>
                             <div className="flex items-center">
                                 <IoBagCheckSharp className="mr-2" />
@@ -104,6 +112,15 @@ export const ProductList: React.FC<ProductListProps> = ({ }) => {
                                     />
                                 </Tooltip>
                             </div>
+                            <FormControl className="flex-grow" display="flex" alignItems="flex-end">
+                                <FormLabel htmlFor="email-alerts" mb="0">
+                                    Publish?
+                                </FormLabel>
+                                <Switch
+                                    defaultChecked={product.isPublish}
+                                    onChange={(e => handlePublish(product.id, e.target.checked))}
+                                />
+                            </FormControl>
                         </div>
                     </div>
                 ))}
