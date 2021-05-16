@@ -43,15 +43,15 @@ services:
     volumes:
       - ./nginx:/etc/nginx/templates
     environment: 
-      - NGINX_HOST=localhost
-      - NGINX_PORT=80
+      - NGINX_HOST=${NGINX_HOST}
+      - NGINX_PORT=${NGINX_PORT}
     depends_on:
       - server
       - web
       - db
       - redis
     ports: 
-      - 80:80
+      - ${NGINX_PORT}:${NGINX_PORT}
     networks: 
       - shopping_app
 
