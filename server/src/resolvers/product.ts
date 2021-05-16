@@ -119,14 +119,13 @@ export class ProductResolver {
 
         const { images, categories, sizes, ...data } = options
         const slug = generateSlug(data.title);
-
-        let product = { id: ulid(), ...data, slug } as Product
+        const product = { id: ulid(), ...data, slug } as Product
 
         try {
             product.categories = await Category.findByIds(options.categories);
             product.sizes = await Size.findByIds(options.sizes);
-            await Image.saveImages(images as Image[], product.id)
             await this.productRepository.save(product)
+            await Image.saveImages(images as Image[], product.id)
             return { product }
         } catch (err) {
             return {

@@ -25,7 +25,6 @@ export class ImageResolver {
     ): Promise<ImageUploadResponse> {
 
         const fileName = renameFile(filename)
-        console.log(fileName)
 
         return new Promise(async (resolver) =>
             createReadStream()
