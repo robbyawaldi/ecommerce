@@ -3,6 +3,7 @@ import { Factory, Seeder } from "typeorm-seeding";
 import { ulid } from "ulid";
 import { User } from "../entities/User";
 import { Role } from "../entities/Role";
+import argon2 from 'argon2'
 
 export default class CreateAdmin implements Seeder {
     public async run(_: Factory, connection: Connection): Promise<any> {
@@ -36,6 +37,8 @@ export default class CreateAdmin implements Seeder {
             ])
             .execute()
 
+        const admin = await Role.findOne({ where: { slug: 'admin' } })
+
         await connection
             .createQueryBuilder()
             .insert()
@@ -45,8 +48,8 @@ export default class CreateAdmin implements Seeder {
                     id: ulid(),
                     name: 'admin',
                     email: 'admsitihajar@gmail.com',
-                    password: 'Sitihajar28',
-                    role: await Role.findOne(1)
+                    password: await argon2.hash('Sitihajar28'),
+                    role: admin
                 }
             ])
             .execute()

@@ -2,7 +2,6 @@ import { GraphQLResolveInfo } from "graphql";
 import {
     Resolver,
     Query,
-    Ctx,
     Mutation,
     Arg,
     UseMiddleware,
@@ -20,7 +19,6 @@ import { Image } from "../entities/Image";
 import { Product } from "../entities/Product";
 import { Size } from "../entities/Size";
 import { isAuth } from "../middleware/isAuth";
-import { MyContext } from "../types";
 import { filterProduct } from "../utils/filterProduct";
 import { generateSlug } from "../utils/generateSlug";
 import { getImagesUrl } from "../utils/getImagesUrl";
@@ -50,7 +48,6 @@ export class ProductResolver {
 
     @Query(() => PaginatedProducts, { nullable: true })
     async products(
-        @Ctx() { req }: MyContext,
         @Arg("page", () => Int) page: number,
         @Arg("limit", () => Int) limit: number,
         @Args() filter: FilterProduct,
@@ -78,7 +75,7 @@ export class ProductResolver {
         products = products.skip(start).take(limit);
         products = await products.getMany()
 
-        products = products.map(product => ({ ...product, images: getImagesUrl(product, req) } as Product));
+        products = products.map(product => ({ ...product, images: getImagesUrl(product) } as Product));
 
         let filterBy
 
@@ -95,7 +92,6 @@ export class ProductResolver {
 
     @Query(() => Product, { nullable: true })
     async product(
-        @Ctx() { req }: MyContext,
         @Arg("id", () => String, { nullable: true }) id: string,
         @Arg("slug", () => String, { nullable: true }) slug?: string,
     ): Promise<Product | undefined> {
@@ -106,7 +102,7 @@ export class ProductResolver {
         else
             product = await this.productRepository.findOne(id, { relations })
         return product
-            ? { ...product, images: getImagesUrl(product, req) } as Product
+            ? { ...product, images: getImagesUrl(product) } as Product
             : undefined
     }
 
@@ -149,7 +145,6 @@ export class ProductResolver {
     async updateProduct(
         @Arg('id', () => String) id: string,
         @Arg('options') options: ProductInput,
-        @Ctx() { req }: MyContext
     ): Promise<ProductResponse> {
 
         const errors = validateProduct(options)
@@ -175,7 +170,7 @@ export class ProductResolver {
 
             return {
                 product: product
-                    ? { ...product, images: getImagesUrl(product, req) } as Product
+                    ? { ...product, images: getImagesUrl(product) } as Product
                     : undefined
             }
         } catch (err) {

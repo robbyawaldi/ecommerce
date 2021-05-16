@@ -8,10 +8,8 @@ import {
   PrimaryColumn,
   ManyToOne,
   JoinColumn,
-  BeforeInsert,
 } from "typeorm";
 import { Role } from "./Role";
-import argon2 from 'argon2'
 
 @ObjectType()
 @Entity()
@@ -43,10 +41,4 @@ export class User extends BaseEntity {
   @Field(() => String)
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @BeforeInsert()
-  async setPassword(password: string) {
-    const hashedPassword = await argon2.hash(password)
-    this.password = hashedPassword
-  }
 }

@@ -1,8 +1,8 @@
 import { createWriteStream } from "fs";
 import { GraphQLUpload } from "graphql-upload";
-import { Arg, Ctx, Field, Mutation, ObjectType, Resolver } from "type-graphql";
+import { Arg, Field, Mutation, ObjectType, Resolver } from "type-graphql";
 import { Image } from "../entities/Image";
-import { MyContext, Upload } from "../types";
+import { Upload } from "../types";
 import { getImageUrl } from "../utils/getImagesUrl";
 import { renameFile } from "../utils/renameFile";
 
@@ -21,11 +21,11 @@ export class ImageResolver {
 
     @Mutation(() => ImageUploadResponse)
     async uploadImage(
-        @Ctx() { req }: MyContext,
         @Arg("file", () => GraphQLUpload) { createReadStream, filename }: Upload
     ): Promise<ImageUploadResponse> {
 
         const fileName = renameFile(filename)
+        console.log(fileName)
 
         return new Promise(async (resolver) =>
             createReadStream()
@@ -37,7 +37,7 @@ export class ImageResolver {
                 )
                 .on('finish', () => resolver({
                     uploaded: true,
-                    url: getImageUrl(fileName, req),
+                    url: getImageUrl(fileName),
                     image: fileName
                 }))
                 .on("error", () => resolver({

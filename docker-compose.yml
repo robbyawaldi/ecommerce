@@ -21,6 +21,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    volumes: 
+      - ./server/public/images:/usr/src/app/public/images
     depends_on:
       - db
       - redis

@@ -100,6 +100,7 @@ export class UserResolver {
       return { errors };
     }
 
+    const hashedPassword = await argon2.hash(options.password);
     try {
       await getConnection()
         .createQueryBuilder()
@@ -109,7 +110,7 @@ export class UserResolver {
           id: ulid(),
           name: options.name,
           email: options.email,
-          password: options.password,
+          password: hashedPassword,
           role: await Role.findOne(options.roleId)
         })
         .execute();
