@@ -48,6 +48,10 @@ const main = async () => {
     console.log('database connected')
   }
 
+  if (__prod__) {
+    console.log('running on production')
+  }
+
   const app = express();
 
   const RedisStore = require('connect-redis')(session);
