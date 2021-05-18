@@ -33,9 +33,7 @@ services:
       - shopping_app
   
   web:
-    build: 
-      context: ./web
-      dockerfile: Dockerfile
+    image: robbyawaldi/ecommerce_web:1.0.0
     restart: always
     depends_on:
       - server
