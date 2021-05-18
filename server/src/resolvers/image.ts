@@ -41,9 +41,13 @@ export class ImageResolver {
                     url: getImageUrl(fileName),
                     image: fileName
                 }))
-                .on("error", () => resolver({
-                    uploaded: false
-                }))
+                .on("error", (error) => {
+                    console.error(error)
+                    return resolver({
+                        uploaded: false
+                    })
+                }
+                )
         )
     }
 
