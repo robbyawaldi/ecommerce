@@ -2,10 +2,10 @@ server {
     listen ${NGINX_PORT};
     server_name ${NGINX_HOST};
 
-    location / {
-        proxy_pass          http://web:3000;
-        proxy_set_header    X-Forwarded-For $remote_addr;
-    }
+    # location / {
+    #     proxy_pass          http://web:3000;
+    #     proxy_set_header    X-Forwarded-For $remote_addr;
+    # }
 
     location /graphql {
         proxy_pass          http://server:4000/graphql;
