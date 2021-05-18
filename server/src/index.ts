@@ -49,7 +49,7 @@ const main = async () => {
   }
 
   if (__prod__) {
-    console.log('running on production')
+    console.log('running on production', process.env.DOMAIN)
   }
 
   const app = express();
@@ -78,7 +78,7 @@ const main = async () => {
     })
   );
 
-  app.set("trust proxy", 1);
+  // app.set("trust proxy", 1);
 
   app.use(
     cors({
