@@ -58,6 +58,8 @@ const main = async () => {
 
   const redis = new Redis(process.env.REDIS_URL);
 
+  app.set("trust proxy", 1);
+
   app.use(
     session({
       name: COOKIE_NAME,
@@ -77,8 +79,6 @@ const main = async () => {
       resave: false,
     })
   );
-
-  // app.set("trust proxy", 1);
 
   app.use(
     cors({
