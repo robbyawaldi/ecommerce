@@ -133,7 +133,7 @@ export class UserResolver {
   async login(
     @Arg("email") email: string,
     @Arg("password") password: string,
-    @Ctx() { req, res }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
     const user = await User.findOne({ where: { email: email }, relations: ['role'] });
     if (!user) {
@@ -160,7 +160,7 @@ export class UserResolver {
 
     req.session.userId = user.id;
     console.log(req.session.userId)
-    console.log(res.getHeaders())
+    console.log(req.session)
 
     return {
       user,
