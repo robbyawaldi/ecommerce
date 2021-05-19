@@ -9,7 +9,7 @@ import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 
 interface CategoriesSidebarProps {
     onClose: () => void
- }
+}
 
 export const CategoriesSidebar: React.FC<CategoriesSidebarProps> = ({ onClose }) => {
     const { data, error, loading } = useCategoriesQuery({
@@ -33,6 +33,12 @@ export const CategoriesSidebar: React.FC<CategoriesSidebarProps> = ({ onClose })
                         <li key={category.id}>
                             {category.name}
                             <IconButton
+                                _active={{
+                                    bg: '#000000'
+                                }}
+                                _hover={{
+                                    bg: '#000000'
+                                }}
                                 variant="ghost"
                                 aria-label="arrow"
                                 icon={<IoIosArrowDown />}

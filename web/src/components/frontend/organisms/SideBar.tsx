@@ -43,6 +43,12 @@ export const SideBar: React.FC<SideBarProps> = ({ disclosure: { isOpen, onClose 
                             <li>
                                 Kategori
                                 <IconButton
+                                    _active={{
+                                        bg: '#000000'
+                                    }}
+                                    _hover={{
+                                        bg: '#000000'
+                                    }}
                                     variant="ghost"
                                     aria-label="arrow"
                                     icon={<IoIosArrowDown />}
