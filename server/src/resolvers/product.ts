@@ -84,6 +84,10 @@ export class ProductResolver {
             filterBy = { category: category?.name || '' };
         }
 
+        await new Promise((resolver) =>
+            setTimeout(() => resolver(true), 5000)
+        )
+
         return {
             products,
             meta: { page, limit, total, filter: filterBy }

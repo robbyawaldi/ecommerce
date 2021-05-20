@@ -38,3 +38,8 @@ select:focus {
 .dot {
     background: #000000 !important;
 }
+
+:root {
+    --bgLoader1: #B38426;
+    --bgLoader2: #cea34e;
+}

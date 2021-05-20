@@ -1,4 +1,6 @@
 import React, { ReactElement } from 'react'
+import styles from '../styles/frontend/LoadingAndFailed.module.css'
+import { isServer } from './isServer';
 
 interface loadingOrQueryFailedProps {
     data: any;
@@ -14,14 +16,17 @@ export const loadingOrQueryFailed: ReactElementOrUndefined = ({ data, error, loa
     if (!loading && !data) {
         issue = (
             <div>
-                <div>you got query failed for some reason</div>
+                <div>something error</div>
                 <div>{error?.message}</div>
             </div>
         )
     }
 
     if (!data && loading) {
-        issue = <div>loading...</div>
+        if (!isServer()) document.querySelector("body")?.classList.add(styles.body)
+        issue = <div className={styles.preloader}></div>
+    } else {
+        if (!isServer()) document.querySelector("body")?.classList.remove(styles.body)
     }
 
     return issue

@@ -1,0 +1,67 @@
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 90;
+}
+
+.preloader::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    background: #B38426;
+    animation: loading 0.9s linear infinite;
+}
+
+.body {
+    overflow: hidden;
+}
+
+@keyframes loading {
+    0% {
+		box-shadow: -12px -6px 0 var(--bgLoader1), 12px 0 0 var(--bgLoader2);
+		background: $bg2;
+	}
+	
+	17% {
+		box-shadow: -12px 0 0 var(--bgLoader2), 12px 3px 0 var(--bgLoader2);
+		background: var(--bgLoader1);
+		margin-top: -3px;
+	}
+	
+	34% {
+		box-shadow: -12px 6px 0 var(--bgLoader2), 12px 3px 0 var(--bgLoader2);
+		background: var(--bgLoader1);
+		margin-top: -6px;
+	}
+
+	51% {
+		box-shadow: -12px 3px 0 var(--bgLoader2), 12px -3px 0 var(--bgLoader1);
+		background: var(--bgLoader2);
+		margin-top: -3px;
+	}
+	
+	68% {
+		box-shadow: -12px 0 0 var(--bgLoader2), 12px -6px 0 var(--bgLoader1);
+		background: var(--bgLoader2);
+	}
+
+	83% {
+		box-shadow: -12px -3px 0 var(--bgLoader1), 12px -3px 0 var(--bgLoader2);
+		background: var(--bgLoader2);
+	}
+	
+	100% {
+		box-shadow: -12px -6px 0 var(--bgLoader1), 12px 0 0 var(--bgLoader2);
+		background: var(--bgLoader2);
+	}
+}
