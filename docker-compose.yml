@@ -68,7 +68,7 @@ services:
       - certbot-var:/var/lib/letsencrypt
       - web-root:/var/www/html
     depends_on:
-      - webserver
+      - nginx
     command: certonly --webroot --webroot-path=/var/www/html --email robbyawaldi@gmail.com --agree-tos --no-eff-email --staging -d robbyawaldi.com  -d store.robbyawaldi.com
     networks: 
       - shopping_app
