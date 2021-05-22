@@ -2,6 +2,8 @@ server {
     listen ${NGINX_PORT};
     server_name ${NGINX_HOST};
 
+    root /var/www/html;
+
     location / {
         proxy_pass          http://web:3000;
         proxy_set_header    X-Forwarded-For $remote_addr;
@@ -19,5 +21,6 @@ server {
 
     location ~ /.well-known/acme-challenge {
         allow all;
+        root /var/www/html;
     }
 }

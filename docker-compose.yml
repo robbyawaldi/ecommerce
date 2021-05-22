@@ -44,6 +44,7 @@ services:
     image: nginx:mainline-alpine
     restart: always
     volumes:
+      - web-root:/var/www/html
       - ./nginx:/etc/nginx/templates
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
@@ -66,9 +67,10 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
     depends_on:
       - nginx
-    command: --nginx --email robbyawaldi@gmail.com -d robbyawaldi.com  -d store.robbyawaldi.com
+    command: certonly --webroot --webroot-path=/var/www/html --email robbyawaldi@gmail.com --agree-tos --no-eff-email --force-renewal -d robbyawaldi.com  -d store.robbyawaldi.com
     networks: 
       - shopping_app
 
@@ -81,3 +83,9 @@ volumes:
   pgdata:
   certbot-etc:
   certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ecommerce/web/public/
+      o: bind
