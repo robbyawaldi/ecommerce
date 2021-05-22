@@ -33,7 +33,7 @@ services:
       - shopping_app
   
   web:
-    image: robbyawaldi/ecommerce_web:1.0.0
+    image: robbyawaldi/ecommerce_web:1.0.1
     restart: always
     depends_on:
       - server
