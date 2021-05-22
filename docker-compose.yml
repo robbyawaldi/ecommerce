@@ -59,6 +59,7 @@ services:
       - redis
     ports: 
       - ${NGINX_PORT}:${NGINX_PORT}
+      - 443:443
     networks: 
       - shopping_app
 
