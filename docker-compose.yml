@@ -41,12 +41,12 @@ services:
       - shopping_app
 
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:mainline-alpine
     restart: always
     volumes:
       - ./nginx:/etc/nginx/templates
-      - ./nginx/certbot/conf:/etc/letsencrypt
-      - ./nginx/certbot/www:/var/www/certbot
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
     environment: 
       - NGINX_HOST=${NGINX_HOST}
       - NGINX_PORT=${NGINX_PORT}
@@ -60,9 +60,31 @@ services:
     networks: 
       - shopping_app
 
+    certbot:
+      image: certbot/certbot
+      container_name: certbot
+      volumes:
+        - certbot-etc:/etc/letsencrypt
+        - certbot-var:/var/lib/letsencrypt
+        - web-root:/var/www/html
+      depends_on:
+        - webserver
+      command: certonly --webroot --webroot-path=/var/www/html --email robbyawaldi@gmail.com --agree-tos --no-eff-email --staging -d robbyawaldi.com  -d store.robbyawaldi.com
+      networks: 
+        - shopping_app
+
 networks: 
   shopping_app:
     driver: bridge
 
+  
 volumes: 
   pgdata:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ecommerce/
+      o: bind
