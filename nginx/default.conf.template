@@ -28,7 +28,6 @@ server {
 server {
     listen 443 ssl http2;
     server_name ${NGINX_HOST};
-    root /public_html/;
 
     location / {
         proxy_pass          http://web:3000;
