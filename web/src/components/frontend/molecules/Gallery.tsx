@@ -6,6 +6,7 @@ import { LIMIT_PAGE_WEB } from '../../../static/products';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { Card } from '../atoms/Card'
 import paginate from '../../../styles/frontend/Paginate.module.css'
+import { SearchNotFound } from '../atoms/SearchNotFound';
 
 interface GalleryProps { }
 
@@ -40,23 +41,27 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
                     <Card key={product.id} product={product as Product} />
                 ))}
             </div>
-            <ReactPaginate
-                previousLabel={''}
-                nextLabel={''}
-                breakLabel={'..'}
-                pageCount={totalPage}
-                marginPagesDisplayed={1}
-                pageRangeDisplayed={5}
-                onPageChange={({ selected }) => {
-                    refetch({
-                        page: selected + 1
-                    })
-                }}
-                containerClassName={paginate.pagination}
-                activeClassName={paginate.pagination__link_active}
-                previousClassName={`${paginate.pagination_nav} ${paginate.pagination_prev}`}
-                nextClassName={`${paginate.pagination_nav} ${paginate.pagination_next}`}
-            />
+            {(data?.products?.products.length ?? 0) < 1 &&  typeof router.query.keyword == 'string'
+                ? <SearchNotFound />
+                : (
+                    <ReactPaginate
+                        previousLabel={''}
+                        nextLabel={''}
+                        breakLabel={'..'}
+                        pageCount={totalPage}
+                        marginPagesDisplayed={1}
+                        pageRangeDisplayed={5}
+                        onPageChange={({ selected }) => {
+                            refetch({
+                                page: selected + 1
+                            })
+                        }}
+                        containerClassName={paginate.pagination}
+                        activeClassName={paginate.pagination__link_active}
+                        previousClassName={`${paginate.pagination_nav} ${paginate.pagination_prev}`}
+                        nextClassName={`${paginate.pagination_nav} ${paginate.pagination_next}`}
+                    />
+                )}
         </div>
     );
 }

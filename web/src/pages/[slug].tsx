@@ -9,6 +9,8 @@ import { Image, Product as ProductGraphql, useProductQuery } from "../generated/
 import { useMemo } from "react"
 import { loadingOrQueryFailed } from "../utils/loadingOrQueryFailed"
 import Head from "next/head"
+import Error from "next/error"
+import { PageNotFound } from "../components/frontend/atoms/PageNotFound"
 
 const Product = () => {
     const router = useRouter()
@@ -28,13 +30,18 @@ const Product = () => {
     return (
         <Layouts>
             <Head>
-                <title>Jual {data?.product?.title ?? ''}</title>
+                <title>{data?.product ? `Jual ${data.product.title}` : '404 - Halaman tidak ditemukan'}</title>
             </Head>
-            <div className={styles.box}>
-                <ProductCarousel images={data?.product?.images as Image[]} />
-                <ProductCard product={data?.product as ProductGraphql} />
-                <ProductDetail product={data?.product as ProductGraphql} />
-            </div>
+            {data?.product == null
+                ? <PageNotFound />
+                : (
+                    <div className={styles.box}>
+                        <ProductCarousel images={data?.product?.images as Image[]} />
+                        <ProductCard product={data?.product as ProductGraphql} />
+                        <ProductDetail product={data?.product as ProductGraphql} />
+                    </div>
+                )
+            }
         </Layouts>
     )
 }

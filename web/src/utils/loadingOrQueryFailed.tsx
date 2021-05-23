@@ -13,21 +13,20 @@ type ReactElementOrUndefined = ({ }: loadingOrQueryFailedProps) => ReactElement 
 export const loadingOrQueryFailed: ReactElementOrUndefined = ({ data, error, loading }) => {
     let issue;
 
-    if (!loading && !data) {
+    if ((!data || loading) && !isServer())
+        document.querySelector("body")?.classList.add(styles.body)
+
+
+    if (!loading && !data)
         issue = (
-            <div>
-                <div>something error</div>
-                <div>{error?.message}</div>
+            <div className={styles.error}>
+                <h1>Oh Tidak</h1>, Ada yang salah 😱
             </div>
         )
-    }
-
-    if (!data && loading) {
-        if (!isServer()) document.querySelector("body")?.classList.add(styles.body)
+    else if (!data && loading)
         issue = <div className={styles.preloader}></div>
-    } else {
+    else
         if (!isServer()) document.querySelector("body")?.classList.remove(styles.body)
-    }
 
     return issue
 }
