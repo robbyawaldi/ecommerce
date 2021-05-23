@@ -74,18 +74,18 @@ services:
     networks: 
       - shopping_app
 
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./nginx/certbot/conf/:/etc/letsencrypt
-      - ./nginx/certbot/logs/:/var/log/letsencrypt
-      - ./nginx/certbot/data:/usr/share/nginx/html/letsencrypt
-    depends_on:
-      - nginx
-    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robbyawaldi@gmail.com --agree-tos --no-eff-email --force-renewal -d store.robbyawaldi.com
-    networks: 
-      - shopping_app
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes:
+  #     - ./nginx/certbot/conf/:/etc/letsencrypt
+  #     - ./nginx/certbot/logs/:/var/log/letsencrypt
+  #     - ./nginx/certbot/data:/usr/share/nginx/html/letsencrypt
+  #   depends_on:
+  #     - nginx
+  #   command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robbyawaldi@gmail.com --agree-tos --no-eff-email --force-renewal -d store.robbyawaldi.com
+  #   networks: 
+  #     - shopping_app
 
 networks: 
   shopping_app:
