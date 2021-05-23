@@ -5,9 +5,9 @@ services:
     image: postgres
     restart: always
     environment: 
-      - POSTGRES_DB=        ${DATABASE_NAME}
-      - POSTGRES_USER=      ${DATABASE_USERNAME}
-      - POSTGRES_PASSWORD=  ${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     volumes: 
       - pgdata:/var/lib/postgresql/data
     networks: 
@@ -27,16 +27,16 @@ services:
     volumes: 
       - ./server/public/images:/usr/src/app/public/images
     environment: 
-      - DATABASE_HOST=      ${DATABASE_HOST}
-      - DATABASE_PORT=      ${DATABASE_PORT}
-      - DATABASE_USERNAME=  ${DATABASE_USERNAME}
-      - DATABASE_PASSWORD=  ${DATABASE_PASSWORD}
-      - DATABASE_NAME=      ${DATABASE_NAME}
-      - REDIS_URL=          ${REDIS_URL}
-      - PORT=               ${PORT}
-      - SESSION_SECRET=     ${SESSION_SECRET}
-      - DOMAIN=             ${DOMAIN}
-      - APP_URL=            ${APP_URL}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - REDIS_URL=${REDIS_URL}
+      - PORT=${PORT}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - DOMAIN=${DOMAIN}
+      - APP_URL=${APP_URL}
     depends_on:
       - db
       - redis
@@ -47,7 +47,7 @@ services:
     image: robbyawaldi/ecommerce_web:1.0.2
     restart: always
     environment: 
-      - NEXT_PUBLIC_API_URL=  ${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     depends_on:
       - server
     networks: 
@@ -62,7 +62,7 @@ services:
       - ./nginx/certbot/conf/:/etc/nginx/ssl/
       - ./nginx/certbot/data:/usr/share/nginx/html/letsencrypt
     environment: 
-      - NGINX_HOST=       ${DOMAIN}
+      - NGINX_HOST=${DOMAIN}
     depends_on:
       - server
       - web
