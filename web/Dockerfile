@@ -8,7 +8,6 @@ COPY ./yarn.lock ./
 RUN yarn
 
 COPY . .
-COPY .env.production .env.local
 
 RUN yarn build
 

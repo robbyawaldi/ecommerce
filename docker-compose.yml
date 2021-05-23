@@ -35,19 +35,21 @@ services:
   web:
     image: robbyawaldi/ecommerce_web:1.0.1
     restart: always
+    environment: 
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     depends_on:
       - server
     networks: 
       - shopping_app
 
   nginx:
-    image: nginx:mainline-alpine
+    image: nginx:stable-alpine
     restart: always
     volumes:
       - ./nginx:/etc/nginx/templates
-      - ./dhparam:/etc/nginx/dhparam
-      - ./certbot/conf/:/etc/nginx/ssl/
-      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+      - ./nginx/dhparam:/etc/nginx/dhparam
+      - ./nginx/certbot/conf/:/etc/nginx/ssl/
+      - ./nginx/certbot/data:/usr/share/nginx/html/letsencrypt
     environment: 
       - NGINX_HOST=${NGINX_HOST}
       - NGINX_PORT=${NGINX_PORT}
@@ -66,9 +68,9 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - ./certbot/conf/:/etc/letsencrypt
-      - ./certbot/logs/:/var/log/letsencrypt
-      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+      - ./nginx/certbot/conf/:/etc/letsencrypt
+      - ./nginx/certbot/logs/:/var/log/letsencrypt
+      - ./nginx/certbot/data:/usr/share/nginx/html/letsencrypt
     depends_on:
       - nginx
     command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robbyawaldi@gmail.com --agree-tos --no-eff-email --force-renewal -d store.robbyawaldi.com
