@@ -28,13 +28,13 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                 </div>
                 <div className={styles.about}>
                     <h1>SITI HAJAR</h1>
-                    <a href="#">Tentang Kami</a>
+                    <a href="/about">Tentang Kami</a>
                 </div>
-                <div className={styles.service}>
+                {/* <div className={styles.service}>
                     <h1>PELAYANAN PELANGGAN</h1>
                     <a href="#">FAQ</a>
                     <a href="#">Syarat dan Ketentuan</a>
-                </div>
+                </div> */}
                 <div className={styles.social}>
                     <h1>IKUTI KAMI</h1>
                     <a href="">Instagram</a>
