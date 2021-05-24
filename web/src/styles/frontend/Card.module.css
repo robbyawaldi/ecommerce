@@ -17,6 +17,7 @@
 
 .img {
     border-radius: 1em;
+    object-fit: cover;
 }
 
 .soldOut {

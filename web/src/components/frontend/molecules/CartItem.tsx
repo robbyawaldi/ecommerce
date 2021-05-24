@@ -46,7 +46,7 @@ export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qt
                 icon={<RiCloseLine size={24} />}
                 variant="ghost"
                 onClick={handleDelete} />
-            <img src={product.images[0]?.url ?? ''} className="w-2/6 mr-2" />
+            <img src={product.images[0]?.url ?? ''} className="w-6/12 mr-2 object-cover" />
             <div className="flex flex-col w-6/12 box-border p-3">
                 <p className="font-bold my-5">{product.title}</p>
                 <SizeSelect
