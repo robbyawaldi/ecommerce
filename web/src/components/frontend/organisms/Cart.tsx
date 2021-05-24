@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../../contexts/CartContext';
 import { Product, useProductsQuery } from '../../../generated/graphql';
 import styles from '../../../styles/frontend/Cart.module.css'
+import { calculateDiscount } from '../../../utils/discount';
 import { generateText } from '../../../utils/generateText';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { CartItem } from '../molecules/CartItem';
@@ -32,7 +33,14 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
     useEffect(() => {
         setSubTotal(
             carts.reduce((a, b) => {
-                return (data?.products?.products.find(product => product.id == b.id)?.price ?? 0) * b.qty + a
+                const product = data?.products?.products.find(product => product.id == b.id)
+                if (product) {
+                    if (product.isDiscount) {
+                        return calculateDiscount({ price: product.price, discount: product.discount }) * b.qty + a
+                    }
+                    return product.price * b.qty + a
+                }
+                return 0
             }, 0)
         )
     }, [data, carts])
