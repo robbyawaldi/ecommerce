@@ -36,7 +36,9 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
 
     return (
         <header className={styles.header}>
-            <img src="/assets/Logo.png" alt="logo" width="120px" />
+            <a href="/">
+                <img src="/assets/Logo.png" alt="logo" width="120px" />
+            </a>
             <Searchbar />
             <img src="/assets/line.svg" alt="line" />
             <img src="/assets/shoppingcart.svg" alt="shopping icon" onClick={onOpenCart} />
