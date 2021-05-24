@@ -1,3 +1,4 @@
+import { __prod__ } from "../constants"
 import { Product } from "../entities/Product"
 
 export function getImagesUrl(product: Product) {
@@ -9,5 +10,5 @@ export function getImagesUrl(product: Product) {
 }
 
 export function getImageUrl(filename: string) {
-    return `${process.env.APP_URL}/images/${filename}`
+    return `${__prod__ ? process.env.APP_URL : 'http://localhost:4000'}/images/${filename}`
 }

@@ -41,8 +41,10 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
                     <Card key={product.id} product={product as Product} />
                 ))}
             </div>
-            {(data?.products?.products.length ?? 0) < 1 &&  typeof router.query.keyword == 'string'
-                ? <SearchNotFound />
+            {(data?.products?.products.length ?? 0) < 1
+                ? typeof router.query.keyword == 'string'
+                    ? <SearchNotFound />
+                    : null
                 : (
                     <ReactPaginate
                         previousLabel={''}

@@ -63,11 +63,11 @@ services:
       - ./nginx/certbot/data:/usr/share/nginx/html/letsencrypt
     environment: 
       - NGINX_HOST=${DOMAIN}
-    depends_on:
-      - server
-      - web
-      - db
-      - redis
+    # depends_on:
+    #   - server
+    #   - web
+    #   - db
+    #   - redis
     ports: 
       - 80:80
       - 443:443
