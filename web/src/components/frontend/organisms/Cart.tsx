@@ -40,7 +40,7 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
                     }
                     return product.price * b.qty + a
                 }
-                return 0
+                return a
             }, 0)
         )
     }, [data, carts])
