@@ -16,15 +16,15 @@ export const filterProduct = async (
     }: FilterProduct
 ) => {
     if (categoryId && categoryId !== 0) {
-        products = products.where('categories.id = :categoryId', { categoryId });
+        products = products.andWhere('categories.id = :categoryId', { categoryId });
     }
 
     if (isExclusive) {
-        products = products.where('product.isExclusive = :isExclusive', { isExclusive })
+        products = products.andWhere('product.isExclusive = :isExclusive', { isExclusive })
     }
 
     if (isDiscount) {
-        products = products.where('product.isDiscount = :isDiscount', { isDiscount })
+        products = products.andWhere('product.isDiscount = :isDiscount', { isDiscount })
     }
 
     if (sortByName)
@@ -35,14 +35,14 @@ export const filterProduct = async (
         products = products.orderBy('product.createdAt', 'DESC')
 
     if (isAdmin == undefined || !isAdmin) {
-        products = products.where('product.isPublish is true').limit(LIMIT)
+        products = products.andWhere('product.isPublish is true').limit(LIMIT)
     }
 
     if (ids) {
         if (ids.length == 0) {
             ids = [""]
         }
-        products = products.where('product.id IN (:...ids)', { ids })
+        products = products.andWhere('product.id IN (:...ids)', { ids })
     }
 
     return products
