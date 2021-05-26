@@ -27,6 +27,7 @@ export class CategoryResolver {
             where: {
                 level: level
             },
+            order: { sequence: 'ASC' },
             relations: ['parent', 'child']
         })
     }

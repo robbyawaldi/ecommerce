@@ -32,6 +32,9 @@ export class Category extends BaseEntity {
   @Column({ default: 0 })
   level: number;
 
+  @Column({ default: 1 })
+  sequence: number;
+
   @Field()
   @Column()
   name!: string;

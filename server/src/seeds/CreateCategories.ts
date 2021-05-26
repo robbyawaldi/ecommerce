@@ -17,15 +17,18 @@ export default class CreateAdmin implements Seeder {
             .values([
                 {
                     name: 'Pakaian',
-                    level: 0
+                    level: 0,
+                    sequence: 1
                 },
                 {
                     name: 'Kerudung',
-                    level: 0
+                    level: 0,
+                    sequence: 2
                 },
                 {
                     name: 'Ciput',
-                    level: 0
+                    level: 0,
+                    sequence: 3
                 },
             ])
             .execute()
