@@ -11,3 +11,31 @@
             py-2 
             overflow-x-hidden;
 }
+
+.popUp {
+    @apply  fixed
+            flex
+            px-4
+            cursor-pointer
+            justify-evenly
+            items-center
+            text-white
+            w-44
+            h-8
+            right-1
+            rounded-xl
+            bottom-2;
+}
+
+.popUp {
+    background-color: #1E3A28;
+    z-index: 2000;
+    transition: all .1s ease-in-out;
+    opacity: 100;
+    transform: translateX(0);
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateX(5rem);
+}

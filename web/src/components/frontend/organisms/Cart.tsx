@@ -57,7 +57,6 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
             }
         })
         const text = generateText(items, toRupiah(subTotal, { floatingPoint: 0 }))
-        console.log(text)
         window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank')
     }
 
