@@ -1,6 +1,7 @@
 .box {
     width: 100%;
     background-color: #F0E9D6;
+    padding: 3rem 1rem;
 }
 
 .wrap {
@@ -56,9 +57,9 @@
     text-align: center;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 768px) {
     .wrap {
-        padding: 2em 9em;
+        padding: 2em 0;
         justify-items: flex-start;
         grid-template-columns: 16em 1fr 1fr 12em;
         grid-template-rows: repeat(3, 1fr);
@@ -73,12 +74,22 @@
     }
 
     .box {
-        padding: 3rem 6rem;
+        padding: 3rem 2rem;
     }
 }
 
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1024px) {
     .box {
-        padding: 3rem 24rem;
+        padding: 3rem 6rem;
+    }
+
+    .wrap {
+        padding: 2rem 0;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .box {
+        padding: 3rem 12rem;
     }
 }

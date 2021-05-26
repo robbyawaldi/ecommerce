@@ -34,12 +34,12 @@ const About = () => {
             <Header />
             <div className={styles.box}>
                 <div className="pt-6 relative mb-12">
-                    <h1 className="font-bold text-2xl z-10 relative"><span className="text-4xl z-10">T</span>ENTANG</h1>
                     <div className="bg-gold w-48 h-10 absolute top-10 z-0">
                         <div className={`w-36 absolute ${styles.logo}`}>
                             <img src="/assets/logo-black.svg" />
                         </div>
                     </div>
+                    <h1 className="font-bold text-2xl relative"><span className="text-4xl">T</span>ENTANG</h1>
                 </div>
                 {wording.about.map((wording: string, i: number) => (
                     <p key={i} className="mt-6">{wording}</p>
