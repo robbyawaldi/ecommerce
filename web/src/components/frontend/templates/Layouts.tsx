@@ -15,7 +15,7 @@ export const Layouts: React.FC<layoutProps> = ({ children }) => {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <Header />
-                <main className="2xl:px-96 lg:px-24 px-4 py-2 overflow-x-hidden">
+                <main className={styles.main}>
                     {children}
                 </main>
                 <Footer />

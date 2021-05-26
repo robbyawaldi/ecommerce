@@ -2,3 +2,12 @@
     font-family: 'Poppins', sans-serif !important;
     font-size: 14px !important;
 }
+
+.main {
+    @apply  xl:px-48 
+            lg:px-24 
+            md:px-8 
+            px-4 
+            py-2 
+            overflow-x-hidden;
+}

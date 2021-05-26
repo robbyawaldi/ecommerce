@@ -46,7 +46,7 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
     }, [data, carts])
 
     const handleBuy = () => {
-        const phone = '+6289652629124'
+        const phone = '+6282118093170'
         const items = carts.map((cart) => {
             const details = data?.products?.products.find(d => d.id == cart.id)
             return {
