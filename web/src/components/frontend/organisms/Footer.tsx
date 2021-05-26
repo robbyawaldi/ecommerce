@@ -24,7 +24,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                 </address>
                 <div className={styles.address}>
                     <h1>SITI HAJAR OFFICE</h1>
-                    <p>Ruko MTC Blok J-10 Jalan Soekarno Hatta Bandung 40212</p>
+                    <p>JL Kencana Puri III No.6 Komplek Margawangi Estate Bandung</p>
                 </div>
                 <div className={styles.about}>
                     <h1>SITI HAJAR</h1>

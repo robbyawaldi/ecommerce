@@ -7,6 +7,7 @@ import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { Card } from '../atoms/Card'
 import paginate from '../../../styles/frontend/Paginate.module.css'
 import { SearchNotFound } from '../atoms/SearchNotFound';
+import styles from '../../../styles/frontend/Gallery.module.css'
 
 interface GalleryProps { }
 
@@ -36,7 +37,7 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
 
     return (
         <div>
-            <div className="h-auto grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-8">
+            <div className={styles.cards}>
                 {data?.products?.products.map((product) => (
                     <Card key={product.id} product={product as Product} />
                 ))}
