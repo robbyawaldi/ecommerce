@@ -6,11 +6,12 @@ import { withApollo } from "../utils/withApollo"
 import styles from '../styles/frontend/Product.module.css'
 import { useRouter } from "next/router"
 import { Image, Product as ProductGraphql, useProductQuery } from "../generated/graphql"
-import { useMemo } from "react"
+import React, { useMemo } from "react"
 import { loadingOrQueryFailed } from "../utils/loadingOrQueryFailed"
 import Head from "next/head"
-import Error from "next/error"
 import { PageNotFound } from "../components/frontend/atoms/PageNotFound"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react"
+import { IoIosArrowForward } from "react-icons/io"
 
 const Product = () => {
     const router = useRouter()
@@ -35,11 +36,22 @@ const Product = () => {
             {data?.product == null
                 ? <PageNotFound />
                 : (
-                    <div className={styles.box}>
-                        <ProductCarousel images={data?.product?.images as Image[]} />
-                        <ProductCard product={data?.product as ProductGraphql} />
-                        <ProductDetail product={data?.product as ProductGraphql} />
-                    </div>
+                    <>
+                        <Breadcrumb separator={<img src="/assets/1fsxS23o.svg" className="transform rotate-90 w-6" />}>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink href="/">Beranda</BreadcrumbLink>
+                            </BreadcrumbItem>
+                            <BreadcrumbItem isCurrentPage>
+                                <BreadcrumbLink href="#">Detail Produk</BreadcrumbLink>
+                            </BreadcrumbItem>
+                        </Breadcrumb>
+
+                        <div className={styles.box}>
+                            <ProductCarousel images={data?.product?.images as Image[]} />
+                            <ProductCard product={data?.product as ProductGraphql} />
+                            <ProductDetail product={data?.product as ProductGraphql} />
+                        </div>
+                    </>
                 )
             }
         </Layouts>
