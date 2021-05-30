@@ -45,17 +45,21 @@ export class Image extends BaseEntity {
 
   static async saveImages(images: Image[], productId: string) {
     for (const [sequence, { image }] of images.entries()) {
-      await this
-        .createQueryBuilder()
-        .insert()
-        .into(Image)
-        .values({
-          id: ulid(),
-          image,
-          sequence,
-          productId
-        })
-        .execute()
+      try {
+        await this
+          .createQueryBuilder()
+          .insert()
+          .into(Image)
+          .values({
+            id: ulid(),
+            image,
+            sequence,
+            productId
+          })
+          .execute()
+      } catch (err) {
+        console.log("insert image" , err)
+      }
     }
   }
 }

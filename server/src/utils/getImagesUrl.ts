@@ -1,8 +1,8 @@
 import { __prod__ } from "../constants"
-import { Product } from "../entities/Product"
+import { Image } from "../entities/Image"
 
-export function getImagesUrl(product: Product) {
-    return product.images?.sort((prev, next) => {
+export function getImagesUrl(images: Image[]) {
+    return images?.sort((prev, next) => {
         return prev.sequence - next.sequence
     }).map(image => {
         return { ...image, url: getImageUrl(image.image) }

@@ -34,6 +34,7 @@
     "react-paginate": "^7.1.2",
     "react-quill": "^2.0.0-beta.2",
     "react-responsive-carousel": "^3.2.18",
+    "react-spring-bottom-sheet": "^3.2.1",
     "urql": "^2.0.1"
   },
   "devDependencies": {

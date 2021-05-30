@@ -75,7 +75,7 @@ export class ProductResolver {
         products = products.skip(start).take(limit);
         products = await products.getMany()
 
-        products = products.map(product => ({ ...product, images: getImagesUrl(product) } as Product));
+        products = products.map(product => ({ ...product, images: getImagesUrl(product.images as Image[]) } as Product));
 
         let filterBy
 
@@ -102,7 +102,7 @@ export class ProductResolver {
         else
             product = await this.productRepository.findOne(id, { relations })
         return product
-            ? { ...product, images: getImagesUrl(product) } as Product
+            ? { ...product, images: getImagesUrl(product.images as Image[]) } as Product
             : undefined
     }
 
@@ -151,10 +151,10 @@ export class ProductResolver {
             return { errors }
         }
 
-        const { images, categories, sizes, ...data } = options
+        let { images, categories, sizes, ...data } = options
 
         try {
-            let product = await this.productRepository.findOneOrFail(id, { relations: ['images'] })
+            let product = await this.productRepository.findOneOrFail(id)
             product = { ...product, ...data } as Product
             product.categories = await Category.findByIds(categories)
             product.sizes = await Size.findByIds(sizes)
@@ -167,9 +167,11 @@ export class ProductResolver {
 
             await this.productRepository.save(product)
 
+            images = await Image.find({ where: { productId: product.id } })
+
             return {
                 product: product
-                    ? { ...product, images: getImagesUrl(product) } as Product
+                    ? { ...product, images: getImagesUrl(images as Image[]) } as Product
                     : undefined
             }
         } catch (err) {
