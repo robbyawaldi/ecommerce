@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
     return (
         <header className={styles.header}>
             <a href="/">
-                <img src="/assets/Logo.png" alt="logo" width="120px" />
+                <img src="/assets/Logo_black.png" alt="logo" width="120px" />
             </a>
             <Searchbar />
             <img src="/assets/line.svg" alt="line" />

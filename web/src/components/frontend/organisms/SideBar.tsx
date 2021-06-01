@@ -60,6 +60,9 @@ export const SideBar: React.FC<SideBarProps> = ({ disclosure: { isOpen, onClose 
                             <Link href="/exclusive">
                                 <li>Koleksi Ekslusif</li>
                             </Link>
+                            <Link href="/malikha-indonesia">
+                                <li>Malikha Indonesia</li>
+                            </Link>
                             <Link href="/about">
                                 <li>Tentang Siti Hajar</li>
                             </Link>
