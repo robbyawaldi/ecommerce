@@ -9,7 +9,7 @@ import { getGreeting } from '../../../utils/generateText';
 import { useState } from 'react';
 import { isServer } from '../../../utils/isServer';
 import { useEffect } from 'react';
-import { useCallback } from 'react';
+import { PHONE } from '../../../static/contacts';
 
 interface layoutProps { }
 
@@ -18,7 +18,7 @@ export const Layouts: React.FC<layoutProps> = ({ children }) => {
     const [visible, setVisible] = useState(false)
 
     const handleCall = () => {
-        const phone = '+6282118093170'
+        const phone = PHONE
         const text = `Selamat ${getGreeting()}`
         window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank')
     }

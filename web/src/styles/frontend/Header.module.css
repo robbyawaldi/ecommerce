@@ -84,3 +84,9 @@
         grid-template-columns: 12rem 1fr 1fr repeat(2, 6rem) 12rem;
     }
 }
+
+@media screen and (min-width: 1536px) {
+    .header {
+        grid-template-columns: 24rem 1fr 1fr repeat(2, 6rem) 24rem;
+    }
+}

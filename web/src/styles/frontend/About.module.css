@@ -59,7 +59,9 @@
 
 @media screen and (min-width: 768px) {
     .wrap {
+        margin: 0 auto;
         padding: 2em 0;
+        max-width: 64rem;
         justify-items: flex-start;
         grid-template-columns: 16em 1fr 1fr 12em;
         grid-template-rows: repeat(3, 1fr);
@@ -82,14 +84,16 @@
     .box {
         padding: 3rem 6rem;
     }
-
-    .wrap {
-        padding: 2rem 0;
-    }
 }
 
 @media screen and (min-width: 1280px) {
     .box {
         padding: 3rem 12rem;
+    }
+}
+
+@media screen and (min-width: 1536px) {
+    .box {
+        padding: 3rem 24rem;
     }
 }

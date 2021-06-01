@@ -76,7 +76,7 @@
 
 @media screen and (min-width: 768px) {
  .footerTop {
-     padding: 0 6em;
+     padding: 0 2em;
  }
 
  .container {
@@ -104,6 +104,10 @@
 }
 
 @media screen and (min-width: 1024px) {
+    .footerTop {
+        padding: 0 6rem;
+    }
+
     .container {
         padding: 3rem 6rem;
     }
@@ -111,10 +115,20 @@
 
 @media screen and (min-width: 1280px) {
     .footerTop {
-        padding: 0 24rem;
+        padding: 0 12rem;
     }
 
     .container {
         padding: 3rem 12rem;
+    }
+}
+
+@media screen and (min-width: 1536px) {
+    .footerTop {
+        padding: 0 24rem;
+    }
+
+    .container {
+        padding: 3rem 24rem;
     }
 }

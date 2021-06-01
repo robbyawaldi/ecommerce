@@ -5,6 +5,7 @@ import toRupiah from '@develoka/angka-rupiah-js';
 import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../../contexts/CartContext';
 import { Product, useProductsQuery } from '../../../generated/graphql';
+import { PHONE } from '../../../static/contacts';
 import styles from '../../../styles/frontend/Cart.module.css'
 import { calculateDiscount } from '../../../utils/discount';
 import { generateText } from '../../../utils/generateText';
@@ -46,7 +47,7 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
     }, [data, carts])
 
     const handleBuy = () => {
-        const phone = '+6282118093170'
+        const phone = PHONE
         const items = carts.map((cart) => {
             const details = data?.products?.products.find(d => d.id == cart.id)
             return {

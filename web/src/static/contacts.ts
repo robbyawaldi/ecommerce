@@ -1,0 +1,1 @@
+export const PHONE = '+6282118093170'

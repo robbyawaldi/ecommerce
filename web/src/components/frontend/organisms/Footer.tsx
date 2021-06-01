@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { PHONE } from '../../../static/contacts';
 import styles from '../../../styles/frontend/Footer.module.css'
 
 interface FooterProps { }
@@ -9,7 +10,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
     return (
         <footer>
             <div className={styles.footerTop}>
-                <img src="/assets/logo-white.svg" alt="logo white"/>
+                <img src="/assets/logo-white.svg" alt="logo white" />
                 <h1>#TrendIslami</h1>
             </div>
             <div className={styles.container}>
@@ -19,7 +20,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                         Email: <a href="mailto:sitihajar@gmail.com">sitihajar@gmail.com</a>
                     </p>
                     <p>
-                        Telepon: <a href="tel:+6282127888393">082127888393</a>
+                        Telepon: <a href={`tel:${PHONE}`}>{PHONE.replace('+62', '0')}</a>
                     </p>
                 </address>
                 <div className={styles.address}>
@@ -43,9 +44,9 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                 </div>
                 <div className={styles.payment}>
                     <h1>PEMBAYARAN</h1>
-                    <img src="/assets/bca.svg" alt="bca"/>
-                    <img src="/assets/mandiri.svg" alt="mandiri"/>
-                    <img src="/assets/bri.svg" alt="bri"/>
+                    <img src="/assets/bca.svg" alt="bca" />
+                    <img src="/assets/mandiri.svg" alt="mandiri" />
+                    <img src="/assets/bri.svg" alt="bri" />
                 </div>
             </div>
             <div className="text-center font-bold mb-2">
