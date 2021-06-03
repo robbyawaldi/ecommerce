@@ -11,6 +11,7 @@ import {
     OneToMany,
 } from "typeorm";
 import { Category } from "./Category";
+import { Color } from "./Color";
 import { Image } from "./Image";
 import { Size } from "./Size";
 
@@ -26,7 +27,7 @@ export class Product extends BaseEntity {
     title!: string;
 
     @Field()
-    @Column({nullable: true})
+    @Column({ nullable: true })
     slug: string;
 
     @Field()
@@ -34,7 +35,7 @@ export class Product extends BaseEntity {
     description!: string;
 
     @Field()
-    @Column({ default: ""})
+    @Column({ default: "" })
     detail!: string;
 
     @Field()
@@ -50,7 +51,7 @@ export class Product extends BaseEntity {
     stockAvailable: boolean;
 
     @Field()
-    @Column({ default: false})
+    @Column({ default: false })
     isPublish: boolean;
 
     @Field()
@@ -60,6 +61,10 @@ export class Product extends BaseEntity {
     @Field()
     @Column({ default: false })
     isDiscount: boolean;
+
+    @Field()
+    @Column({ default: false })
+    isMalikha: boolean;
 
     @Field(() => [Size])
     @ManyToMany(() => Size)
@@ -74,6 +79,10 @@ export class Product extends BaseEntity {
     @Field(() => [Image])
     @OneToMany(() => Image, (image) => image.product)
     images?: Image[];
+
+    @Field(() => [Color])
+    @OneToMany(() => Color, (color) => color.product)
+    colors?: Color[];
 
     @Field(() => String)
     @CreateDateColumn()

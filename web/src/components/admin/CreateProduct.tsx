@@ -17,6 +17,7 @@ import { Multiselect } from './Multiselect';
 import { Item } from '../../types/item';
 import { LIMIT_PAGE_ADMIN } from '../../static/products';
 import { calculateDiscount } from '../../utils/discount';
+import { BlockPicker } from 'react-color'
 
 interface CreateProductProps { }
 
@@ -42,6 +43,8 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
 
     const errorCategoryMessage = loadingOrQueryFailed({ data: categories, error: categoryError, loading: categoryLoading });
     if (errorCategoryMessage) return errorCategoryMessage;
+
+    const [color, setColor] = useState('#22194D')
 
     return (
         <section className={`${card.box} md:max-w-md`}>
@@ -174,6 +177,13 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                     setSelected={setSelectedCategories} />
                             </FormControl>
                         </div>
+                        <Box mt={4}>
+                            <BlockPicker
+                                colors={['#FFF', '#000']}
+                                color={color}
+                                onChangeComplete={(color) => setColor(color.hex)}
+                            />
+                        </Box>
                         <Box mt={4}>
                             <InputField
                                 rich

@@ -126,6 +126,7 @@ export class ProductResolver {
             product.sizes = await Size.findByIds(options.sizes);
             await this.productRepository.save(product)
             await Image.saveImages(images as Image[], product.id)
+            
             return { product }
         } catch (err) {
             return {
