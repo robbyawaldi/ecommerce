@@ -44,8 +44,6 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     const errorCategoryMessage = loadingOrQueryFailed({ data: categories, error: categoryError, loading: categoryLoading });
     if (errorCategoryMessage) return errorCategoryMessage;
 
-    const [color, setColor] = useState('#22194D')
-
     return (
         <section className={`${card.box} md:max-w-md`}>
             <h1 className={card.title}>Add Product</h1>
@@ -178,11 +176,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             </FormControl>
                         </div>
                         <Box mt={4}>
-                            <BlockPicker
-                                colors={['#FFF', '#000']}
-                                color={color}
-                                onChangeComplete={(color) => setColor(color.hex)}
-                            />
+                            
                         </Box>
                         <Box mt={4}>
                             <InputField

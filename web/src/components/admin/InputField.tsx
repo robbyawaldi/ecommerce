@@ -8,7 +8,8 @@ import {
   FormErrorMessage,
   Textarea,
 } from "@chakra-ui/react";
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import type { ReactQuillProps } from 'react-quill'
+const ReactQuill = dynamic(() => import('react-quill') as any, { ssr: false }) as React.ComponentType<ReactQuillProps>;
 import 'react-quill/dist/quill.snow.css';
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -32,7 +33,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
       {
         textarea
-          ? <Textarea {...field} placeholder={props.placeholder} />
+          ? <Textarea {...field} placeholder={props.placeholder ?? ""} />
           : rich
             ? <ReactQuill
               value={field.value}
