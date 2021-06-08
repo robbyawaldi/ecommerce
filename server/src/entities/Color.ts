@@ -37,7 +37,7 @@ export class Color extends BaseEntity {
     updatedAt: Date;
 
     static async saveColors(colors: Color[], productId: string) {
-        for (const [sequence, { code }] of colors.entries()) {
+        for (const [sequence, { code, name }] of colors.entries()) {
             try {
                 await this
                     .createQueryBuilder()
@@ -46,12 +46,13 @@ export class Color extends BaseEntity {
                     .values({
                         id: ulid(),
                         code,
+                        name,
                         sequence,
                         productId
                     })
                     .execute()
             } catch (err) {
-                console.log("insert image", err)
+                console.log("insert color", err)
             }
         }
     }

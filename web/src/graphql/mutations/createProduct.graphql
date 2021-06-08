@@ -7,7 +7,9 @@ mutation CreateProduct(
   $stockAvailable: Boolean!
   $isExclusive: Boolean!
   $isDiscount: Boolean!
+  $isMalikha: Boolean!
   $images: [ImageInput!]
+  $colors: [ColorInput!]
   $categories: [Int!]
   $sizes: [Int!]
 ) {
@@ -20,7 +22,9 @@ mutation CreateProduct(
     stockAvailable: $stockAvailable
     isExclusive: $isExclusive
     isDiscount: $isDiscount
+    isMalikha: $isMalikha
     images: $images
+    colors: $colors
     categories: $categories
     sizes: $sizes
   }) {

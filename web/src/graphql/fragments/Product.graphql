@@ -16,6 +16,10 @@ fragment Product on Product {
     url
     sequence
   }
+  colors {
+    code
+    name
+  }
   categories {
     id
     name

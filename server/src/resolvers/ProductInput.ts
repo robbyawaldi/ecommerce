@@ -1,5 +1,7 @@
 import { InputType, Field, Int } from "type-graphql";
+import { Color } from "../entities/Color";
 import { Image } from "../types";
+import { ColorInput } from "./ColorInput";
 import { ImageInput } from "./ImageInput";
 @InputType()
 export class ProductInput {
@@ -21,8 +23,12 @@ export class ProductInput {
     isExclusive: boolean;
     @Field(() => Boolean, { nullable: true })
     isDiscount: boolean;
+    @Field(() => Boolean, { nullable: true })
+    isMalikha: boolean;
     @Field(() => [ImageInput], { nullable: true })
     images: Image[];
+    @Field(() => [ColorInput], { nullable: true })
+    colors: Color[];
     @Field(() => [Int], { nullable: true })
     categories: number[];
     @Field(() => [Int], { nullable: true })

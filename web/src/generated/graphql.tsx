@@ -37,6 +37,21 @@ export type CategoryResponse = {
   category?: Maybe<Category>;
 };
 
+export type Color = {
+  __typename?: 'Color';
+  id: Scalars['String'];
+  code: Scalars['String'];
+  name: Scalars['String'];
+  sequence: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type ColorInput = {
+  code: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -216,9 +231,11 @@ export type Product = {
   isPublish: Scalars['Boolean'];
   isExclusive: Scalars['Boolean'];
   isDiscount: Scalars['Boolean'];
+  isMalikha: Scalars['Boolean'];
   sizes: Array<Size>;
   categories: Array<Category>;
   images: Array<Image>;
+  colors: Array<Color>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -233,7 +250,9 @@ export type ProductInput = {
   isPublish?: Maybe<Scalars['Boolean']>;
   isExclusive?: Maybe<Scalars['Boolean']>;
   isDiscount?: Maybe<Scalars['Boolean']>;
+  isMalikha?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput>>;
+  colors?: Maybe<Array<ColorInput>>;
   categories?: Maybe<Array<Scalars['Int']>>;
   sizes?: Maybe<Array<Scalars['Int']>>;
 };
@@ -383,6 +402,9 @@ export type ProductFragment = (
   & { images: Array<(
     { __typename?: 'Image' }
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
+  )>, colors: Array<(
+    { __typename?: 'Color' }
+    & Pick<Color, 'code' | 'name'>
   )>, categories: Array<(
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name'>
@@ -454,7 +476,9 @@ export type CreateProductMutationVariables = Exact<{
   stockAvailable: Scalars['Boolean'];
   isExclusive: Scalars['Boolean'];
   isDiscount: Scalars['Boolean'];
+  isMalikha: Scalars['Boolean'];
   images?: Maybe<Array<ImageInput> | ImageInput>;
+  colors?: Maybe<Array<ColorInput> | ColorInput>;
   categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
 }>;
@@ -825,6 +849,10 @@ export const ProductFragmentDoc = gql`
     url
     sequence
   }
+  colors {
+    code
+    name
+  }
   categories {
     id
     name
@@ -935,9 +963,9 @@ export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCatego
 export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const CreateProductDocument = gql`
-    mutation CreateProduct($title: String!, $description: String!, $detail: String!, $price: Int!, $discount: Int, $stockAvailable: Boolean!, $isExclusive: Boolean!, $isDiscount: Boolean!, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
+    mutation CreateProduct($title: String!, $description: String!, $detail: String!, $price: Int!, $discount: Int, $stockAvailable: Boolean!, $isExclusive: Boolean!, $isDiscount: Boolean!, $isMalikha: Boolean!, $images: [ImageInput!], $colors: [ColorInput!], $categories: [Int!], $sizes: [Int!]) {
   createProduct(
-    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, categories: $categories, sizes: $sizes}
+    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, isMalikha: $isMalikha, images: $images, colors: $colors, categories: $categories, sizes: $sizes}
   ) {
     errors {
       ...Errors
@@ -975,7 +1003,9 @@ export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutat
  *      stockAvailable: // value for 'stockAvailable'
  *      isExclusive: // value for 'isExclusive'
  *      isDiscount: // value for 'isDiscount'
+ *      isMalikha: // value for 'isMalikha'
  *      images: // value for 'images'
+ *      colors: // value for 'colors'
  *      categories: // value for 'categories'
  *      sizes: // value for 'sizes'
  *   },
