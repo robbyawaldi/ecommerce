@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { InputField } from './InputField';
 import { useCategoriesQuery, useProductQuery, useSizesQuery, useUpdateProductMutation } from '../../generated/graphql';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
-import { reducer } from './imageReducer';
+import { imageReducer } from './imageReducer';
 import { UploadImage } from './UploadImage';
 import { ProductImage } from '../../types/images';
 import { toErrorMap } from '../../utils/toErrorMap';
@@ -37,7 +37,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
     })
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
-    const [{ images }, dispatch] = useReducer(reducer, { images: [] })
+    const [{ images }, dispatch] = useReducer(imageReducer, { images: [] })
 
     useEffect(() => {
         if (data?.product?.images) {
@@ -73,13 +73,13 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
             <h1 className={card.title}>Edit Product</h1>
             <Formik
                 initialValues={{
-                    title: data?.product?.title,
-                    description: data?.product?.description,
-                    detail: data?.product?.detail,
+                    title: data?.product?.title ?? "",
+                    description: data?.product?.description ?? "",
+                    detail: data?.product?.detail ?? "",
                     price: data?.product?.price ?? 0,
-                    stockAvailable: data?.product?.stockAvailable,
-                    isExclusive: data?.product?.isExclusive,
-                    isDiscount: data?.product?.isDiscount,
+                    stockAvailable: data?.product?.stockAvailable ?? true,
+                    isExclusive: data?.product?.isExclusive ?? false,
+                    isDiscount: data?.product?.isDiscount ?? false,
                     discount: data?.product?.discount ?? 0,
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {

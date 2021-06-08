@@ -1,4 +1,4 @@
-export type Action =
+export type ImageAction =
     | { type: "ADD" }
     | { type: "UPDATE", id: string, image: string, url: string }
     | { type: "DELETE", id: string }
@@ -11,6 +11,6 @@ export interface ProductImage {
     __typename?: string
 }
 
-export interface State {
+export interface Images {
     images: ProductImage[]
 }

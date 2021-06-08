@@ -98,7 +98,7 @@ export class ProductResolver {
         @Arg("slug", () => String, { nullable: true }) slug?: string,
     ): Promise<Product | undefined> {
         let product;
-        const relations = ['images', 'colors' , 'categories', 'sizes']
+        const relations = ['images', 'colors', 'categories', 'sizes']
         if (slug)
             product = await this.productRepository.findOne({ where: { slug }, relations })
         else
@@ -155,7 +155,7 @@ export class ProductResolver {
             return { errors }
         }
 
-        let { images, categories, sizes, ...data } = options
+        let { categories, sizes, images, colors, ...data } = options
 
         try {
             let product = await this.productRepository.findOneOrFail(id)
@@ -164,6 +164,7 @@ export class ProductResolver {
             product.sizes = await Size.findByIds(sizes)
 
             await Image.saveImages(images as Image[], product.id)
+            await Color.saveColors(colors as Color[], product.id)
 
             if (product.slug == undefined) {
                 product.slug = generateSlug(product.title)
@@ -172,10 +173,15 @@ export class ProductResolver {
             await this.productRepository.save(product)
 
             images = await Image.find({ where: { productId: product.id } })
-
+            colors = await Color.find({ where: { productId: product.id } })
+            
             return {
                 product: product
-                    ? { ...product, images: getImagesUrl(images as Image[]) } as Product
+                    ? {
+                        ...product,
+                        images: getImagesUrl(images as Image[]),
+                        colors
+                    } as Product
                     : undefined
             }
         } catch (err) {

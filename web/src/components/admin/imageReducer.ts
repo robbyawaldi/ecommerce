@@ -1,7 +1,7 @@
-import { State, Action, ProductImage } from "../../types/images"
+import { Images, ImageAction, ProductImage } from "../../types/images"
 import { randomId } from "../../utils/randomId"
 
-export function reducer(state: State, action: Action) {
+export function imageReducer(state: Images, action: ImageAction) {
     switch (action.type) {
         case "ADD":
             return {

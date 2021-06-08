@@ -616,6 +616,7 @@ export type UpdateProductMutationVariables = Exact<{
   isExclusive?: Maybe<Scalars['Boolean']>;
   isDiscount?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput> | ImageInput>;
+  colors?: Maybe<Array<ColorInput> | ColorInput>;
   categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
 }>;
@@ -1293,10 +1294,10 @@ export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCatego
 export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
 export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
 export const UpdateProductDocument = gql`
-    mutation UpdateProduct($id: String!, $title: String, $description: String, $detail: String, $price: Int, $discount: Int, $stockAvailable: Boolean, $isExclusive: Boolean, $isDiscount: Boolean, $images: [ImageInput!], $categories: [Int!], $sizes: [Int!]) {
+    mutation UpdateProduct($id: String!, $title: String, $description: String, $detail: String, $price: Int, $discount: Int, $stockAvailable: Boolean, $isExclusive: Boolean, $isDiscount: Boolean, $images: [ImageInput!], $colors: [ColorInput!], $categories: [Int!], $sizes: [Int!]) {
   updateProduct(
     id: $id
-    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, categories: $categories, sizes: $sizes}
+    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, colors: $colors, categories: $categories, sizes: $sizes}
   ) {
     errors {
       ...Errors
@@ -1333,6 +1334,7 @@ export type UpdateProductMutationFn = Apollo.MutationFunction<UpdateProductMutat
  *      isExclusive: // value for 'isExclusive'
  *      isDiscount: // value for 'isDiscount'
  *      images: // value for 'images'
+ *      colors: // value for 'colors'
  *      categories: // value for 'categories'
  *      sizes: // value for 'sizes'
  *   },

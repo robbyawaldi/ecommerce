@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { UploadImage } from './UploadImage';
 import upload from '../../styles/Upload.module.css'
 import { randomId } from '../../utils/randomId';
-import { reducer } from './imageReducer';
+import { imageReducer } from './imageReducer';
 import { toErrorMap } from '../../utils/toErrorMap';
 import { loadingOrQueryFailed } from '../../utils/loadingOrQueryFailed';
 import { Multiselect } from './Multiselect';
@@ -33,7 +33,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     });
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
-    const [{ images }, dispatch] = useReducer(reducer, {
+    const [{ images }, dispatch] = useReducer(imageReducer, {
         images: [
             { id: randomId(), image: undefined, url: undefined }
         ]
