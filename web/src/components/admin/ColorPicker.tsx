@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { BlockPicker, ColorResult } from 'react-color';
 import styles from '../../styles/ColorPicker.module.css'
 import { isServer } from '../../utils/isServer';
+import { BsFillTrashFill } from 'react-icons/bs'
 
 interface ColorPickerProps { }
 
@@ -41,6 +42,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ }) => {
                                         : null
                                 }
                         </div>
+                        <BsFillTrashFill className={styles.delete} />
                 </div>
         );
 }

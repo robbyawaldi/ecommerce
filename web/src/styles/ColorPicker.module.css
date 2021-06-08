@@ -3,6 +3,7 @@
     box-sizing: border-box;
     padding: .5rem;
     justify-content: center;
+    align-items: center;
 }
 
 .color {
@@ -17,6 +18,7 @@
 .field {
     order: 2;
     margin-left: 1rem;
+    margin-right: 1rem;
     width: max-content !important;
 }
 
@@ -27,6 +29,13 @@
     box-shadow: 3px 6px 25px -1px rgba(188,188,188,0.75) !important;
     -webkit-box-shadow: 3px 6px 25px -1px rgba(188,188,188,0.75) !important;
     -moz-box-shadow: 3px 6px 25px -1px rgba(188,188,188,0.75) !important;
+}
+
+.delete {
+    position: relative;
+    order: 3;
+    color: crimson;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 640px) {

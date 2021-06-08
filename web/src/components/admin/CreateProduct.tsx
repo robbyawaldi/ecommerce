@@ -58,6 +58,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                     stockAvailable: true,
                     isExclusive: false,
                     isDiscount: false,
+                    isMalikha: false,
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     const response = await product({
@@ -99,7 +100,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 placeholder="description"
                                 label="Description" />
                         </Box>
-                        <div className="grid grid-cols-3 mt-4 justify-items-center">
+                        <div className="grid grid-cols-4 mt-4 justify-items-center">
                             <Checkbox
                                 name="isExclusive"
                                 checked={values.isExclusive}
@@ -117,7 +118,13 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 defaultChecked
                                 checked={values.stockAvailable}
                                 onChange={(e) => setFieldValue('stockAvailabe', e.currentTarget.checked)}>
-                                Stock Available
+                                Stock
+                            </Checkbox>
+                            <Checkbox
+                                name="isMalikha"
+                                checked={values.isMalikha}
+                                onChange={(e) => setFieldValue('isMalikha', e.currentTarget.checked)}>
+                                Malikha
                             </Checkbox>
                         </div>
                         <div className={`grid gap-2 grid-cols-${values.isDiscount ? 2 : 0} mt-4 justify-items-center`}>

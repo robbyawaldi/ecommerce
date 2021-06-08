@@ -16,6 +16,10 @@ export class Color extends BaseEntity {
 
     @Field()
     @Column()
+    name!: string;
+
+    @Field()
+    @Column()
     sequence!: number;
 
     @Column()
