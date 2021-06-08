@@ -18,6 +18,7 @@ import { Item } from '../../types/item';
 import { LIMIT_PAGE_ADMIN } from '../../static/products';
 import { calculateDiscount } from '../../utils/discount';
 import { BlockPicker } from 'react-color'
+import { ColorPicker } from './ColorPicker';
 
 interface CreateProductProps { }
 
@@ -176,7 +177,12 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             </FormControl>
                         </div>
                         <Box mt={4}>
-                            
+                            <FormControl>
+                                <FormLabel>Colors</FormLabel>
+                                <ColorPicker />
+                                <ColorPicker />
+                                <ColorPicker />
+                            </FormControl>
                         </Box>
                         <Box mt={4}>
                             <InputField
