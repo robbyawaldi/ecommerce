@@ -5,6 +5,7 @@ import styles from '../../styles/ColorPicker.module.css'
 import { isServer } from '../../utils/isServer';
 import { BsFillTrashFill } from 'react-icons/bs'
 import { ColorAction, ProductColor } from '../../types/colors';
+import { useDeleteColorMutation } from '../../generated/graphql';
 
 interface ColorPickerProps {
         dispatch: React.Dispatch<ColorAction>;
@@ -13,6 +14,7 @@ interface ColorPickerProps {
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id, code, name, __typename } }) => {
         const [show, setShow] = useState(false)
+        const [deleteColor] = useDeleteColorMutation()
 
         const handleShow: React.MouseEventHandler<HTMLDivElement> = (e) => {
                 if (e.target == e.currentTarget) setShow(s => !s)
@@ -34,6 +36,11 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id,
 
         const handleDelete = async () => {
                 dispatch({ type: "DELETE", id })
+                if (__typename) {
+                        await deleteColor({
+                                variables: { id }
+                        })
+                }
         }
 
         return (
