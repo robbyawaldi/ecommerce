@@ -23,6 +23,7 @@ import { graphqlUploadExpress } from "graphql-upload";
 import { SizeResolver } from "./resolvers/size";
 import { CategoryResolver } from "./resolvers/category";
 import { Color } from "./entities/Color";
+import { ColorResolver } from "./resolvers/color";
 
 const main = async () => {
   const conn = await createConnection({
@@ -101,6 +102,7 @@ const main = async () => {
         ImageResolver,
         SizeResolver,
         CategoryResolver,
+        ColorResolver,
       ],
       validate: false,
     }),

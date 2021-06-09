@@ -112,6 +112,7 @@ export type Mutation = {
   updateCategory: CategoryResponse;
   addCategoryChild: CategoryResponse;
   deleteCategory: Scalars['Boolean'];
+  deleteColor: Scalars['Boolean'];
 };
 
 
@@ -204,6 +205,11 @@ export type MutationAddCategoryChildArgs = {
 
 export type MutationDeleteCategoryArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationDeleteColorArgs = {
+  id: Scalars['String'];
 };
 
 export type PaginatedProducts = {
@@ -506,6 +512,16 @@ export type DeleteCategoryMutationVariables = Exact<{
 export type DeleteCategoryMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteCategory'>
+);
+
+export type DeleteColorMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteColorMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteColor'>
 );
 
 export type DeleteImageMutationVariables = Exact<{
@@ -1051,6 +1067,37 @@ export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export const DeleteColorDocument = gql`
+    mutation DeleteColor($id: String!) {
+  deleteColor(id: $id)
+}
+    `;
+export type DeleteColorMutationFn = Apollo.MutationFunction<DeleteColorMutation, DeleteColorMutationVariables>;
+
+/**
+ * __useDeleteColorMutation__
+ *
+ * To run a mutation, you first call `useDeleteColorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteColorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteColorMutation, { data, loading, error }] = useDeleteColorMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteColorMutation(baseOptions?: Apollo.MutationHookOptions<DeleteColorMutation, DeleteColorMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteColorMutation, DeleteColorMutationVariables>(DeleteColorDocument, options);
+      }
+export type DeleteColorMutationHookResult = ReturnType<typeof useDeleteColorMutation>;
+export type DeleteColorMutationResult = Apollo.MutationResult<DeleteColorMutation>;
+export type DeleteColorMutationOptions = Apollo.BaseMutationOptions<DeleteColorMutation, DeleteColorMutationVariables>;
 export const DeleteImageDocument = gql`
     mutation DeleteImage($id: String!) {
   deleteImage(id: $id)

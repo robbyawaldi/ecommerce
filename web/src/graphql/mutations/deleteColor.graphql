@@ -1,0 +1,5 @@
+mutation DeleteColor(
+  $id: String!
+) {
+  deleteColor(id: $id)
+}
