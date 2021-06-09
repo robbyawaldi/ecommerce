@@ -3,10 +3,10 @@ import { useDropzone } from 'react-dropzone';
 import { useDeleteImageMutation, useUploadImageMutation } from '../../generated/graphql';
 import { ImFilePicture } from 'react-icons/im'
 import { CgCloseO } from 'react-icons/cg'
-import { Action, ProductImage } from '../../types/images';
+import { ImageAction, ProductImage } from '../../types/images';
 
 interface UploadImageProps {
-    dispatch: React.Dispatch<Action>;
+    dispatch: React.Dispatch<ImageAction>;
     image: ProductImage;
 }
 

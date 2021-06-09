@@ -1,6 +1,6 @@
 export type ColorAction =
     | { type: "ADD" }
-    | { type: "UPDATE", id: string, code: string, name: string }
+    | { type: "UPDATE", id: string, code?: string | undefined, name?: string | undefined }
     | { type: "DELETE", id: string }
     | { type: "SET", colors: ProductColor[] }
 

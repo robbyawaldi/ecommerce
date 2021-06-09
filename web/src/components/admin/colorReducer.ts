@@ -5,13 +5,13 @@ export function colorReducer(state: Colors, action: ColorAction) {
     switch (action.type) {
         case "ADD":
             return {
-                colors: [...state.colors, { id: randomId(), code: undefined, name: undefined }]
+                colors: [...state.colors, { id: randomId(), code: '#B38426', name: undefined }]
             }
         case "UPDATE":
             return {
                 colors: state.colors.map((color: ProductColor) =>
                     color.id === action.id
-                        ? { ...color, code: action.code, name: action.name }
+                        ? { ...color, code: action?.code ?? color.code, name: action?.name ?? color.name}
                         : color)
             }
         case "DELETE":
@@ -20,7 +20,7 @@ export function colorReducer(state: Colors, action: ColorAction) {
             }
         case "SET":
             return {
-                colors: [...action.colors, { id: randomId(), color: undefined, url: undefined }]
+                colors: [...action.colors, { id: randomId(), code: '#B38426', name: undefined }]
             }
         default:
             return state

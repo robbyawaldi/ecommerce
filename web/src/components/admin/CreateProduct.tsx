@@ -17,7 +17,7 @@ import { Multiselect } from './Multiselect';
 import { Item } from '../../types/item';
 import { LIMIT_PAGE_ADMIN } from '../../static/products';
 import { calculateDiscount } from '../../utils/discount';
-import { BlockPicker } from 'react-color'
+import { colorReducer } from './colorReducer';
 import { ColorPicker } from './ColorPicker';
 
 interface CreateProductProps { }
@@ -33,11 +33,17 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
     });
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
-    const [{ images }, dispatch] = useReducer(imageReducer, {
+    const [{ images }, imageDispatch] = useReducer(imageReducer, {
         images: [
             { id: randomId(), image: undefined, url: undefined }
         ]
     });
+
+    const [{ colors }, colorDispatch] = useReducer(colorReducer, {
+        colors: [
+            { id: randomId(), code: '#B38426', name: undefined }
+        ]
+    })
 
     const errorSizeMessage = loadingOrQueryFailed({ data: sizes, error: sizeError, loading: sizeLoading });
     if (errorSizeMessage) return errorSizeMessage;
@@ -67,6 +73,9 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             images: images
                                 .filter(image => image.image !== undefined)
                                 .map(image => ({ image: image.image as string })),
+                            colors: colors
+                                .filter(color => color.code !== undefined && color.name !== undefined)
+                                .map(color => ({ code: color.code as string, name: color.name as string })),
                             categories: selectedCategories.map((category: Item) => category.id),
                             sizes: selectedSizes.map((size: Item) => size.id),
                         },
@@ -185,10 +194,17 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                         </div>
                         <Box mt={4}>
                             <FormControl>
-                                <FormLabel>Colors</FormLabel>
-                                <ColorPicker />
-                                <ColorPicker />
-                                <ColorPicker />
+                                <FormLabel>
+                                    Colors
+                                    <Button size="xs" ml={3} onClick={() => colorDispatch({ type: "ADD" })}>Add Color</Button>
+                                </FormLabel>
+                                {colors.map((color, i) => (
+                                    <ColorPicker
+                                        key={i}
+                                        color={color}
+                                        dispatch={colorDispatch}
+                                    />
+                                ))}
                             </FormControl>
                         </Box>
                         <Box mt={4}>
@@ -203,7 +219,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 <UploadImage
                                     key={i}
                                     image={image}
-                                    dispatch={dispatch} />
+                                    dispatch={imageDispatch} />
                             ))}
                         </div>
 

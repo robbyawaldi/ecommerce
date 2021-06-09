@@ -4,12 +4,14 @@ import { BlockPicker, ColorResult } from 'react-color';
 import styles from '../../styles/ColorPicker.module.css'
 import { isServer } from '../../utils/isServer';
 import { BsFillTrashFill } from 'react-icons/bs'
+import { ColorAction, ProductColor } from '../../types/colors';
 
-interface ColorPickerProps { }
+interface ColorPickerProps {
+        dispatch: React.Dispatch<ColorAction>;
+        color: ProductColor
+}
 
-export const ColorPicker: React.FC<ColorPickerProps> = ({ }) => {
-        const [color, setColor] = useState('#22194D')
-        const [name, setName] = useState('')
+export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id, code, name, __typename } }) => {
         const [show, setShow] = useState(false)
 
         const handleShow: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -17,7 +19,11 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ }) => {
         }
 
         const handleChangeColor = (color: ColorResult) => {
-                setColor(color.hex)
+                dispatch({ type: "UPDATE", id, code: color.hex })
+        }
+
+        const handleChangeName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+                dispatch({ type: "UPDATE", id, name: e.target.value })
         }
 
         const handleKeyPress: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
@@ -26,15 +32,26 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ }) => {
                 }
         }
 
+        const handleDelete = async () => {
+                dispatch({ type: "DELETE", id })
+        }
+
         return (
                 <div className={styles.wrapper}>
-                        <Input className={styles.field} value={name} onChange={(e) => setName(e.target.value)} placeholder="color name" />
-                        <div className={styles.color} onClick={handleShow} onKeyPress={handleKeyPress} style={{ backgroundColor: color }}>
+                        <Input
+                                className={styles.field}
+                                value={name ?? ""} onChange={handleChangeName}
+                                placeholder="color name" />
+                        <div
+                                className={styles.color}
+                                onClick={handleShow}
+                                onKeyPress={handleKeyPress}
+                                style={{ backgroundColor: code ?? "" }}>
                                 {show
                                         ?
                                         <BlockPicker
                                                 className={styles.picker}
-                                                color={color}
+                                                color={code ?? ""}
                                                 triangle={!isServer() && window.screen.width > 640 ? "top" : "hide"}
                                                 onChangeComplete={handleChangeColor}
 
@@ -42,7 +59,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ }) => {
                                         : null
                                 }
                         </div>
-                        <BsFillTrashFill className={styles.delete} />
+                        <BsFillTrashFill className={styles.delete} onClick={handleDelete} />
                 </div>
         );
 }
