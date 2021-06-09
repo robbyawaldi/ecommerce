@@ -1,3 +1,5 @@
+import { randomId } from "../utils/randomId"
+
 export type ColorAction =
     | { type: "ADD" }
     | { type: "UPDATE", id: string, code?: string | undefined, name?: string | undefined }
@@ -13,4 +15,10 @@ export interface ProductColor {
 
 export interface Colors {
     colors: ProductColor[]
+}
+
+export const colorItem = {
+    id: randomId(),
+    code: '#12A7D6',
+    name: undefined
 }

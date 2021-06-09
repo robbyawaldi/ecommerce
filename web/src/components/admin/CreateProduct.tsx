@@ -19,6 +19,7 @@ import { LIMIT_PAGE_ADMIN } from '../../static/products';
 import { calculateDiscount } from '../../utils/discount';
 import { colorReducer } from './colorReducer';
 import { ColorPicker } from './ColorPicker';
+import { colorItem } from '../../types/colors';
 
 interface CreateProductProps { }
 
@@ -41,7 +42,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
 
     const [{ colors }, colorDispatch] = useReducer(colorReducer, {
         colors: [
-            { id: randomId(), code: '#B38426', name: undefined }
+            colorItem
         ]
     })
 

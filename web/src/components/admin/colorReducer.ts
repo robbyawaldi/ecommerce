@@ -1,17 +1,17 @@
-import { ColorAction, Colors, ProductColor } from "../../types/colors";
+import { ColorAction, colorItem, Colors, ProductColor } from "../../types/colors";
 import { randomId } from "../../utils/randomId";
 
 export function colorReducer(state: Colors, action: ColorAction) {
     switch (action.type) {
         case "ADD":
             return {
-                colors: [...state.colors, { id: randomId(), code: '#B38426', name: undefined }]
+                colors: [...state.colors, { ...colorItem, id: randomId() }]
             }
         case "UPDATE":
             return {
                 colors: state.colors.map((color: ProductColor) =>
                     color.id === action.id
-                        ? { ...color, code: action?.code ?? color.code, name: action?.name ?? color.name}
+                        ? { ...color, code: action?.code ?? color.code, name: action?.name ?? color.name }
                         : color)
             }
         case "DELETE":
@@ -20,7 +20,7 @@ export function colorReducer(state: Colors, action: ColorAction) {
             }
         case "SET":
             return {
-                colors: [...action.colors, { id: randomId(), code: '#B38426', name: undefined }]
+                colors: [...action.colors, colorItem]
             }
         default:
             return state

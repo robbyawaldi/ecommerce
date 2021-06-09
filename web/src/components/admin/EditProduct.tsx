@@ -16,6 +16,9 @@ import { toErrorMap } from '../../utils/toErrorMap';
 import { Item } from '../../types/item';
 import { Multiselect } from './Multiselect';
 import { calculateDiscount } from '../../utils/discount';
+import { colorReducer } from './colorReducer';
+import { ProductColor } from '../../types/colors';
+import { ColorPicker } from './ColorPicker';
 
 interface EditProductProps { }
 
@@ -37,11 +40,17 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
     })
     const [selectedSizes, setSelectedSizes] = useState<Item[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Item[]>([]);
-    const [{ images }, dispatch] = useReducer(imageReducer, { images: [] })
+
+    const [{ images }, imageDispatch] = useReducer(imageReducer, { images: [] })
+    const [{ colors }, colorDispatch] = useReducer(colorReducer, { colors: [] })
 
     useEffect(() => {
         if (data?.product?.images) {
-            dispatch({ type: "SET", images: data.product.images as ProductImage[] })
+            imageDispatch({ type: "SET", images: data.product.images as ProductImage[] })
+        }
+
+        if (data?.product?.colors) {
+            colorDispatch({ type: "SET", colors: data.product.colors as ProductColor[] })
         }
 
         if (data?.product?.sizes && data.product.sizes.length > 0) {
@@ -91,6 +100,11 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                     image.image !== undefined
                                     && !image.__typename)
                                 .map(image => ({ image: image.image as string })),
+                            colors: colors
+                                .filter(color =>
+                                    color.name !== undefined
+                                    && !color.__typename)
+                                .map(color => ({ code: color.code as string, name: color.name as string })),
                             categories: selectedCategories.map((category: Item) => category.id),
                             sizes: selectedSizes.map((size: Item) => size.id),
                             ...values
@@ -196,6 +210,21 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                             </FormControl>
                         </div>
                         <Box mt={4}>
+                            <FormControl>
+                                <FormLabel>
+                                    Colors
+                                    <Button size="xs" ml={3} onClick={() => colorDispatch({ type: "ADD" })}>Add Color</Button>
+                                </FormLabel>
+                                {colors.map((color, i) => (
+                                    <ColorPicker
+                                        key={i}
+                                        color={color}
+                                        dispatch={colorDispatch}
+                                    />
+                                ))}
+                            </FormControl>
+                        </Box>
+                        <Box mt={4}>
                             <InputField
                                 rich
                                 name="detail"
@@ -207,7 +236,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 <UploadImage
                                     key={i}
                                     image={image}
-                                    dispatch={dispatch} />
+                                    dispatch={imageDispatch} />
                             ))}
                         </div>
 

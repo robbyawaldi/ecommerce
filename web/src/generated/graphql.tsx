@@ -404,7 +404,7 @@ export type ProductFragment = (
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
   )>, colors: Array<(
     { __typename?: 'Color' }
-    & Pick<Color, 'code' | 'name'>
+    & Pick<Color, 'id' | 'code' | 'name'>
   )>, categories: Array<(
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name'>
@@ -851,6 +851,7 @@ export const ProductFragmentDoc = gql`
     sequence
   }
   colors {
+    id
     code
     name
   }

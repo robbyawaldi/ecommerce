@@ -17,6 +17,7 @@ fragment Product on Product {
     sequence
   }
   colors {
+    id
     code
     name
   }
