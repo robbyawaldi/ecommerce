@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import form from '../../styles/Form.module.css'
 import card from '../../styles/Card.module.css'
 import upload from '../../styles/Upload.module.css'
-import { Box, FormControl, FormLabel, Input, Checkbox, Button, InputGroup, InputRightAddon, NumberInput, NumberInputField, NumberInputStepper, InputLeftElement } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Checkbox, Button, InputGroup, InputRightAddon, NumberInput, NumberInputField } from '@chakra-ui/react';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
@@ -19,6 +19,8 @@ import { calculateDiscount } from '../../utils/discount';
 import { colorReducer } from './colorReducer';
 import { ProductColor } from '../../types/colors';
 import { ColorPicker } from './ColorPicker';
+import { priceSizeReducer } from './priceSizeReducer';
+import { PriceSize } from './PriceSize';
 
 interface EditProductProps { }
 
@@ -43,6 +45,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
 
     const [{ images }, imageDispatch] = useReducer(imageReducer, { images: [] })
     const [{ colors }, colorDispatch] = useReducer(colorReducer, { colors: [] })
+    const [{ priceSizes }, priceDispatch] = useReducer(priceSizeReducer, { priceSizes: [] })
 
     useEffect(() => {
         if (data?.product?.images) {
@@ -209,6 +212,22 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                     setSelected={setSelectedCategories} />
                             </FormControl>
                         </div>
+                        <Box mt={4}>
+                            <FormControl>
+                                <FormLabel>
+                                    Price per Size
+                                    <Button size="xs" ml={3} onClick={() => priceDispatch({ type: "ADD" })}>Add Price</Button>
+                                </FormLabel>
+                                {priceSizes.map((price, i) => (
+                                    <PriceSize
+                                        key={i}
+                                        priceSize={price}
+                                        dispatch={priceDispatch}
+                                        selectedSizes={selectedSizes}
+                                    />
+                                ))}
+                            </FormControl>
+                        </Box>
                         <Box mt={4}>
                             <FormControl>
                                 <FormLabel>

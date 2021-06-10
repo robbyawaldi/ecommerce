@@ -8,6 +8,10 @@ import { Size } from "./Size";
 export class PriceSize extends BaseEntity {
     @Field()
     @PrimaryColumn()
+    id!: string;
+
+    @Field()
+    @PrimaryColumn()
     productId: string;
 
     @ManyToOne(() => Product)

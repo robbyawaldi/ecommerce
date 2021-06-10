@@ -31,6 +31,8 @@ fragment Product on Product {
     description
   }
   priceSizes {
+    id
+    productId
     sizeId
     price
   }

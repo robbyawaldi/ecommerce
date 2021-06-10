@@ -12,7 +12,8 @@ export function colorReducer(state: Colors, action: ColorAction) {
                 colors: state.colors.map((color: ProductColor) =>
                     color.id === action.id
                         ? { ...color, code: action?.code ?? color.code, name: action?.name ?? color.name }
-                        : color)
+                        : color
+                )
             }
         case "DELETE":
             return {

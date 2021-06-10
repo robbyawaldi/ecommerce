@@ -1,0 +1,13 @@
+.wrapper {
+    display: grid;
+    box-sizing: border-box;
+    padding: .5rem;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.delete {
+    color: crimson;
+    cursor: pointer;
+}
