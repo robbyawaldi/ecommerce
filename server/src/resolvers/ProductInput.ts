@@ -1,8 +1,10 @@
 import { InputType, Field, Int } from "type-graphql";
 import { Color } from "../entities/Color";
+import { PriceSize } from "../entities/PriceSize";
 import { Image } from "../types";
 import { ColorInput } from "./ColorInput";
 import { ImageInput } from "./ImageInput";
+import { PriceSizeInput } from "./PriceSizeInput";
 @InputType()
 export class ProductInput {
     @Field({ nullable: true })
@@ -29,6 +31,8 @@ export class ProductInput {
     images: Image[];
     @Field(() => [ColorInput], { nullable: true })
     colors: Color[];
+    @Field(() => [PriceSizeInput], { nullable: true })
+    priceSizes: PriceSize[];
     @Field(() => [Int], { nullable: true })
     categories: number[];
     @Field(() => [Int], { nullable: true })

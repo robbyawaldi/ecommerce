@@ -13,6 +13,7 @@ import {
 import { Category } from "./Category";
 import { Color } from "./Color";
 import { Image } from "./Image";
+import { PriceSize } from "./PriceSize";
 import { Size } from "./Size";
 
 @ObjectType()
@@ -83,6 +84,10 @@ export class Product extends BaseEntity {
     @Field(() => [Color])
     @OneToMany(() => Color, (color) => color.product)
     colors?: Color[];
+
+    @Field(() => [PriceSize])
+    @OneToMany(() => PriceSize, (priceSize) => priceSize.product)
+    priceSizes?: PriceSize[];
 
     @Field(() => String)
     @CreateDateColumn()

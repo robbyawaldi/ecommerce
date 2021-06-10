@@ -24,6 +24,7 @@ import { SizeResolver } from "./resolvers/size";
 import { CategoryResolver } from "./resolvers/category";
 import { Color } from "./entities/Color";
 import { ColorResolver } from "./resolvers/color";
+import { PriceSize } from "./entities/PriceSize";
 
 const main = async () => {
   const conn = await createConnection({
@@ -44,6 +45,7 @@ const main = async () => {
       Category,
       Image,
       Color,
+      PriceSize,
     ],
   });
 
