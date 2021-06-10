@@ -1,0 +1,5 @@
+mutation DeletePriceSize(
+  $id: String!
+) {
+  deletePriceSize(id: $id)
+}

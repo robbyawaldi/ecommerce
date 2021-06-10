@@ -558,6 +558,16 @@ export type DeleteImageMutation = (
   & Pick<Mutation, 'deleteImage'>
 );
 
+export type DeletePriceSizeMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeletePriceSizeMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deletePriceSize'>
+);
+
 export type DeleteProductMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -1159,6 +1169,37 @@ export function useDeleteImageMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteImageMutationHookResult = ReturnType<typeof useDeleteImageMutation>;
 export type DeleteImageMutationResult = Apollo.MutationResult<DeleteImageMutation>;
 export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<DeleteImageMutation, DeleteImageMutationVariables>;
+export const DeletePriceSizeDocument = gql`
+    mutation DeletePriceSize($id: String!) {
+  deletePriceSize(id: $id)
+}
+    `;
+export type DeletePriceSizeMutationFn = Apollo.MutationFunction<DeletePriceSizeMutation, DeletePriceSizeMutationVariables>;
+
+/**
+ * __useDeletePriceSizeMutation__
+ *
+ * To run a mutation, you first call `useDeletePriceSizeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePriceSizeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePriceSizeMutation, { data, loading, error }] = useDeletePriceSizeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePriceSizeMutation(baseOptions?: Apollo.MutationHookOptions<DeletePriceSizeMutation, DeletePriceSizeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePriceSizeMutation, DeletePriceSizeMutationVariables>(DeletePriceSizeDocument, options);
+      }
+export type DeletePriceSizeMutationHookResult = ReturnType<typeof useDeletePriceSizeMutation>;
+export type DeletePriceSizeMutationResult = Apollo.MutationResult<DeletePriceSizeMutation>;
+export type DeletePriceSizeMutationOptions = Apollo.BaseMutationOptions<DeletePriceSizeMutation, DeletePriceSizeMutationVariables>;
 export const DeleteProductDocument = gql`
     mutation DeleteProduct($id: String!) {
   deleteProduct(id: $id)
