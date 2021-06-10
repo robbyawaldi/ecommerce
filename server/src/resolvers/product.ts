@@ -30,6 +30,7 @@ import { PaginatedProducts } from "./PaginatedProducts";
 import { ProductInput } from "./ProductInput";
 import { joinProduct } from "../utils/joinsProduct";
 import { Color } from "../entities/Color";
+import { PriceSize } from "../entities/PriceSize";
 
 @ObjectType()
 class ProductResponse {
@@ -59,7 +60,7 @@ export class ProductResolver {
 
         let products: Product[] | SelectQueryBuilder<Product> = this.productRepository.createQueryBuilder('product')
             .select(fields
-                .filter(field => !['images', 'colors', 'categories', 'sizes', '__typename'].includes(field))
+                .filter(field => !['images', 'colors', 'categories', 'sizes', 'priceSizes', '__typename'].includes(field))
                 .map(field => `product.${field}`)
                 .concat(['product.id', 'product.createdAt'])
             )
@@ -68,6 +69,7 @@ export class ProductResolver {
         products = joinProduct(products, info, fields, 'colors')
         products = joinProduct(products, info, fields, 'categories')
         products = joinProduct(products, info, fields, 'sizes')
+        products = joinProduct(products, info, fields, 'priceSizes')
 
         products = await filterProduct(products, filter)
         products = await searchProduct(products, filter)
@@ -98,7 +100,7 @@ export class ProductResolver {
         @Arg("slug", () => String, { nullable: true }) slug?: string,
     ): Promise<Product | undefined> {
         let product;
-        const relations = ['images', 'colors', 'categories', 'sizes']
+        const relations = ['images', 'colors', 'categories', 'sizes', 'priceSizes']
         if (slug)
             product = await this.productRepository.findOne({ where: { slug }, relations })
         else
@@ -119,7 +121,7 @@ export class ProductResolver {
             return { errors }
         }
 
-        const { categories, sizes, images, colors, ...data } = options
+        const { categories, sizes, images, colors, priceSizes, ...data } = options
         const slug = generateSlug(data.title);
         const product = { id: ulid(), ...data, slug } as Product
 
@@ -129,6 +131,7 @@ export class ProductResolver {
             await this.productRepository.save(product)
             await Image.saveImages(images as Image[], product.id)
             await Color.saveColors(colors as Color[], product.id)
+            await PriceSize.savePriceSizes(priceSizes as PriceSize[], product.id)
 
             return { product }
         } catch (err) {
@@ -155,7 +158,7 @@ export class ProductResolver {
             return { errors }
         }
 
-        let { categories, sizes, images, colors, ...data } = options
+        let { categories, sizes, images, colors, priceSizes, ...data } = options
 
         try {
             let product = await this.productRepository.findOneOrFail(id)
@@ -165,8 +168,9 @@ export class ProductResolver {
 
             await Image.saveImages(images as Image[], product.id)
             await Color.saveColors(colors as Color[], product.id)
+            await PriceSize.savePriceSizes(priceSizes as PriceSize[], product.id)
 
-            if (product.slug == undefined) {
+            if (product.slug == undefined && product.title !== data.title) {
                 product.slug = generateSlug(product.title)
             }
 
@@ -174,7 +178,7 @@ export class ProductResolver {
 
             images = await Image.find({ where: { productId: product.id } })
             colors = await Color.find({ where: { productId: product.id } })
-            
+
             return {
                 product: product
                     ? {

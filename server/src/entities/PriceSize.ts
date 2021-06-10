@@ -26,4 +26,23 @@ export class PriceSize extends BaseEntity {
     @Column()
     price: number;
 
+    static async savePriceSizes(priceSizes: PriceSize[], productId: string) {
+        for (const { sizeId, price } of priceSizes) {
+            try {
+                await this
+                    .createQueryBuilder()
+                    .insert()
+                    .into(PriceSize)
+                    .values({
+                        productId,
+                        sizeId,
+                        price
+                    })
+                    .execute()
+            } catch (err) {
+                console.log("insert price size", err)
+            }
+        }
+    }
+
 }
