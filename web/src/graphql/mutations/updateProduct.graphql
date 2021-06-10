@@ -10,6 +10,7 @@ mutation UpdateProduct(
   $isDiscount: Boolean
   $images: [ImageInput!]
   $colors: [ColorInput!]
+  $priceSizes: [PriceSizeInput!]
   $categories: [Int!]
   $sizes: [Int!]
 ) {
@@ -26,6 +27,7 @@ mutation UpdateProduct(
       isDiscount: $isDiscount
       images: $images
       colors: $colors
+      priceSizes: $priceSizes
       categories: $categories
       sizes: $sizes
     }

@@ -113,6 +113,7 @@ export type Mutation = {
   addCategoryChild: CategoryResponse;
   deleteCategory: Scalars['Boolean'];
   deleteColor: Scalars['Boolean'];
+  deletePriceSize: Scalars['Boolean'];
 };
 
 
@@ -212,6 +213,11 @@ export type MutationDeleteColorArgs = {
   id: Scalars['String'];
 };
 
+
+export type MutationDeletePriceSizeArgs = {
+  id: Scalars['String'];
+};
+
 export type PaginatedProducts = {
   __typename?: 'PaginatedProducts';
   products: Array<Product>;
@@ -222,6 +228,18 @@ export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   users: Array<User>;
   meta: Meta;
+};
+
+export type PriceSize = {
+  __typename?: 'PriceSize';
+  productId: Scalars['String'];
+  sizeId: Scalars['Float'];
+  price: Scalars['Float'];
+};
+
+export type PriceSizeInput = {
+  sizeId: Scalars['Float'];
+  price: Scalars['Float'];
 };
 
 export type Product = {
@@ -242,6 +260,7 @@ export type Product = {
   categories: Array<Category>;
   images: Array<Image>;
   colors: Array<Color>;
+  priceSizes: Array<PriceSize>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -259,6 +278,7 @@ export type ProductInput = {
   isMalikha?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput>>;
   colors?: Maybe<Array<ColorInput>>;
+  priceSizes?: Maybe<Array<PriceSizeInput>>;
   categories?: Maybe<Array<Scalars['Int']>>;
   sizes?: Maybe<Array<Scalars['Int']>>;
 };
@@ -417,6 +437,9 @@ export type ProductFragment = (
   )>, sizes: Array<(
     { __typename?: 'Size' }
     & Pick<Size, 'id' | 'name' | 'description'>
+  )>, priceSizes: Array<(
+    { __typename?: 'PriceSize' }
+    & Pick<PriceSize, 'sizeId' | 'price'>
   )> }
 );
 
@@ -485,6 +508,7 @@ export type CreateProductMutationVariables = Exact<{
   isMalikha: Scalars['Boolean'];
   images?: Maybe<Array<ImageInput> | ImageInput>;
   colors?: Maybe<Array<ColorInput> | ColorInput>;
+  priceSizes?: Maybe<Array<PriceSizeInput> | PriceSizeInput>;
   categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
 }>;
@@ -633,6 +657,7 @@ export type UpdateProductMutationVariables = Exact<{
   isDiscount?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput> | ImageInput>;
   colors?: Maybe<Array<ColorInput> | ColorInput>;
+  priceSizes?: Maybe<Array<PriceSizeInput> | PriceSizeInput>;
   categories?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   sizes?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
 }>;
@@ -880,6 +905,10 @@ export const ProductFragmentDoc = gql`
     name
     description
   }
+  priceSizes {
+    sizeId
+    price
+  }
 }
     `;
 export const SizeFragmentDoc = gql`
@@ -981,9 +1010,9 @@ export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCatego
 export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const CreateProductDocument = gql`
-    mutation CreateProduct($title: String!, $description: String!, $detail: String!, $price: Int!, $discount: Int, $stockAvailable: Boolean!, $isExclusive: Boolean!, $isDiscount: Boolean!, $isMalikha: Boolean!, $images: [ImageInput!], $colors: [ColorInput!], $categories: [Int!], $sizes: [Int!]) {
+    mutation CreateProduct($title: String!, $description: String!, $detail: String!, $price: Int!, $discount: Int, $stockAvailable: Boolean!, $isExclusive: Boolean!, $isDiscount: Boolean!, $isMalikha: Boolean!, $images: [ImageInput!], $colors: [ColorInput!], $priceSizes: [PriceSizeInput!], $categories: [Int!], $sizes: [Int!]) {
   createProduct(
-    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, isMalikha: $isMalikha, images: $images, colors: $colors, categories: $categories, sizes: $sizes}
+    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, isMalikha: $isMalikha, images: $images, colors: $colors, priceSizes: $priceSizes, categories: $categories, sizes: $sizes}
   ) {
     errors {
       ...Errors
@@ -1024,6 +1053,7 @@ export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutat
  *      isMalikha: // value for 'isMalikha'
  *      images: // value for 'images'
  *      colors: // value for 'colors'
+ *      priceSizes: // value for 'priceSizes'
  *      categories: // value for 'categories'
  *      sizes: // value for 'sizes'
  *   },
@@ -1342,10 +1372,10 @@ export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCatego
 export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
 export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
 export const UpdateProductDocument = gql`
-    mutation UpdateProduct($id: String!, $title: String, $description: String, $detail: String, $price: Int, $discount: Int, $stockAvailable: Boolean, $isExclusive: Boolean, $isDiscount: Boolean, $images: [ImageInput!], $colors: [ColorInput!], $categories: [Int!], $sizes: [Int!]) {
+    mutation UpdateProduct($id: String!, $title: String, $description: String, $detail: String, $price: Int, $discount: Int, $stockAvailable: Boolean, $isExclusive: Boolean, $isDiscount: Boolean, $images: [ImageInput!], $colors: [ColorInput!], $priceSizes: [PriceSizeInput!], $categories: [Int!], $sizes: [Int!]) {
   updateProduct(
     id: $id
-    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, colors: $colors, categories: $categories, sizes: $sizes}
+    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, colors: $colors, priceSizes: $priceSizes, categories: $categories, sizes: $sizes}
   ) {
     errors {
       ...Errors
@@ -1383,6 +1413,7 @@ export type UpdateProductMutationFn = Apollo.MutationFunction<UpdateProductMutat
  *      isDiscount: // value for 'isDiscount'
  *      images: // value for 'images'
  *      colors: // value for 'colors'
+ *      priceSizes: // value for 'priceSizes'
  *      categories: // value for 'categories'
  *      sizes: // value for 'sizes'
  *   },

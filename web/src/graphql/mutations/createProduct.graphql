@@ -10,6 +10,7 @@ mutation CreateProduct(
   $isMalikha: Boolean!
   $images: [ImageInput!]
   $colors: [ColorInput!]
+  $priceSizes: [PriceSizeInput!]
   $categories: [Int!]
   $sizes: [Int!]
 ) {
@@ -25,6 +26,7 @@ mutation CreateProduct(
     isMalikha: $isMalikha
     images: $images
     colors: $colors
+    priceSizes: $priceSizes
     categories: $categories
     sizes: $sizes
   }) {
