@@ -1,6 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import { ulid } from "ulid";
 import { Product } from "./Product";
 
 @ObjectType()
@@ -37,19 +36,20 @@ export class Color extends BaseEntity {
     updatedAt: Date;
 
     static async saveColors(colors: Color[], productId: string) {
-        for (const [sequence, { code, name }] of colors.entries()) {
+        for (const [sequence, { id, code, name }] of colors.entries()) {
             try {
                 await this
                     .createQueryBuilder()
                     .insert()
                     .into(Color)
                     .values({
-                        id: ulid(),
+                        id,
                         code,
                         name,
                         sequence,
                         productId
                     })
+                    .orUpdate({ conflict_target: ["id"], overwrite: ['code', 'name'] })
                     .execute()
             } catch (err) {
                 console.log("insert color", err)

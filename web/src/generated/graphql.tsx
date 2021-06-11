@@ -48,6 +48,7 @@ export type Color = {
 };
 
 export type ColorInput = {
+  id: Scalars['String'];
   code: Scalars['String'];
   name: Scalars['String'];
 };
@@ -239,6 +240,7 @@ export type PriceSize = {
 };
 
 export type PriceSizeInput = {
+  id: Scalars['String'];
   sizeId: Scalars['Float'];
   price: Scalars['Float'];
 };

@@ -76,10 +76,10 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 .map(image => ({ image: image.image as string })),
                             colors: colors
                                 .filter(color => color.code !== undefined && color.name !== undefined)
-                                .map(color => ({ code: color.code as string, name: color.name as string })),
+                                .map(color => ({ id: color.id, code: color.code as string, name: color.name as string })),
                             priceSizes: priceSizes
                                 .filter(priceSize => priceSize.sizeId !== undefined && priceSize.price !== 0)
-                                .map(priceSize => ({ sizeId: priceSize.sizeId as number, price: priceSize.price as number })),
+                                .map(priceSize => ({ id: priceSize.id, sizeId: priceSize.sizeId as number, price: priceSize.price as number })),
                             categories: selectedCategories.map((category: Item) => category.id),
                             sizes: selectedSizes.map((size: Item) => size.id),
                         },

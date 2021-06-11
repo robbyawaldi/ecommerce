@@ -111,14 +111,14 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                             colors: colors
                                 .filter(color =>
                                     color.name !== undefined
-                                    && !color.__typename)
-                                .map(color => ({ code: color.code as string, name: color.name as string })),
+                                )
+                                .map(color => ({ id: color.id, code: color.code as string, name: color.name as string })),
                             priceSizes: priceSizes
                                 .filter(priceSize =>
                                     priceSize.price !== 0
                                     && priceSize.sizeId !== undefined
-                                    && !priceSize.__typename)
-                                .map(priceSize => ({ sizeId: priceSize.sizeId as number, price: priceSize.price as number })),
+                                )
+                                .map(priceSize => ({ id: priceSize.id, sizeId: priceSize.sizeId as number, price: priceSize.price as number })),
                             categories: selectedCategories.map((category: Item) => category.id),
                             sizes: selectedSizes.map((size: Item) => size.id),
                             ...values

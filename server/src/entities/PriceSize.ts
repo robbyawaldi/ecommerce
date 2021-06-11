@@ -1,6 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { ulid } from "ulid";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Product } from "./Product";
 import { Size } from "./Size";
 
@@ -8,11 +7,11 @@ import { Size } from "./Size";
 @Entity()
 export class PriceSize extends BaseEntity {
     @Field()
-    @PrimaryColumn()
+    @Column({ primary: true })
     id!: string;
 
     @Field()
-    @PrimaryColumn()
+    @Column()
     productId: string;
 
     @ManyToOne(() => Product)
@@ -20,7 +19,7 @@ export class PriceSize extends BaseEntity {
     product: Product;
 
     @Field()
-    @PrimaryColumn()
+    @Column()
     sizeId: number;
 
     @ManyToOne(() => Size)
@@ -32,18 +31,19 @@ export class PriceSize extends BaseEntity {
     price: number;
 
     static async savePriceSizes(priceSizes: PriceSize[], productId: string) {
-        for (const { sizeId, price } of priceSizes) {
+        for (const { id, sizeId, price } of priceSizes) {
             try {
                 await this
                     .createQueryBuilder()
                     .insert()
                     .into(PriceSize)
                     .values({
-                        id: ulid(),
+                        id,
                         productId,
                         sizeId,
                         price
                     })
+                    .orUpdate({ conflict_target: ["id"], overwrite: ['sizeId', 'price'] })
                     .execute()
             } catch (err) {
                 console.log("insert price size", err)
