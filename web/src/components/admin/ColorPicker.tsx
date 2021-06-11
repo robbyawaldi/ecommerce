@@ -45,10 +45,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id,
 
         return (
                 <div className={styles.wrapper}>
-                        <Input
-                                className={styles.field}
-                                value={name ?? ""} onChange={handleChangeName}
-                                placeholder="color name" />
                         <div
                                 className={styles.color}
                                 onClick={handleShow}
@@ -66,6 +62,10 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id,
                                         : null
                                 }
                         </div>
+                        <Input
+                                className={styles.field}
+                                value={name ?? ""} onChange={handleChangeName}
+                                placeholder="color name" />
                         <BsFillTrashFill className={styles.delete} onClick={handleDelete} />
                 </div>
         );

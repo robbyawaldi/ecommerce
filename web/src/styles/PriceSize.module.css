@@ -2,8 +2,9 @@
     display: grid;
     box-sizing: border-box;
     padding: .5rem;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr .2fr;
     gap: 1rem;
+    justify-items: flex-end;
     align-items: center;
 }
 

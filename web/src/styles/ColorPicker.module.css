@@ -1,8 +1,10 @@
 .wrapper {
-    display: flex;
+    display: grid;
     box-sizing: border-box;
     padding: .5rem;
-    justify-content: center;
+    grid-template-columns: 1fr 1fr .2fr;
+    gap: 1rem;
+    justify-items: flex-end;
     align-items: center;
 }
 
@@ -10,15 +12,11 @@
     position: relative;
     width: 33px;
     height: 33px;
-    order: 1;
     border-radius: 100%;
     cursor: pointer;
 }
 
 .field {
-    order: 2;
-    margin-left: 1rem;
-    margin-right: 1rem;
     width: max-content !important;
 }
 
@@ -33,7 +31,6 @@
 
 .delete {
     position: relative;
-    order: 3;
     color: crimson;
     cursor: pointer;
 }
