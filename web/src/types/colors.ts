@@ -1,4 +1,3 @@
-import { randomId } from "../utils/randomId"
 
 export type ColorAction =
     | { type: "ADD" }
@@ -18,7 +17,7 @@ export interface Colors {
 }
 
 export const colorItem = {
-    id: randomId(),
+    id: "",
     code: '#12A7D6',
     name: undefined
 }

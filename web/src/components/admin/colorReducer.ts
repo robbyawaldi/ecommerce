@@ -21,7 +21,7 @@ export function colorReducer(state: Colors, action: ColorAction) {
             }
         case "SET":
             return {
-                colors: [...action.colors, colorItem]
+                colors: [...action.colors]
             }
         default:
             return state

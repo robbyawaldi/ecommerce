@@ -1,10 +1,11 @@
 import { PriceSizeAction, priceSizeItem, PriceSizes, ProductPriceSize } from "../../types/priceSizes";
+import { randomId } from "../../utils/randomId";
 
 export function priceSizeReducer(state: PriceSizes, action: PriceSizeAction) {
     switch (action.type) {
         case "ADD":
             return {
-                priceSizes: [...state.priceSizes, { ...priceSizeItem }]
+                priceSizes: [...state.priceSizes, { ...priceSizeItem, id: randomId() }]
             }
         case "UPDATE":
             return {

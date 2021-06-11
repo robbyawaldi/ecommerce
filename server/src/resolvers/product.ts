@@ -178,13 +178,15 @@ export class ProductResolver {
 
             images = await Image.find({ where: { productId: product.id } })
             colors = await Color.find({ where: { productId: product.id } })
+            priceSizes = await PriceSize.find({ where: { productId: product.id } })
 
             return {
                 product: product
                     ? {
                         ...product,
                         images: getImagesUrl(images as Image[]),
-                        colors
+                        colors,
+                        priceSizes,
                     } as Product
                     : undefined
             }

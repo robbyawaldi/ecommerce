@@ -1,5 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { ulid } from "ulid";
 import { Product } from "./Product";
 import { Size } from "./Size";
 
@@ -38,6 +39,7 @@ export class PriceSize extends BaseEntity {
                     .insert()
                     .into(PriceSize)
                     .values({
+                        id: ulid(),
                         productId,
                         sizeId,
                         price

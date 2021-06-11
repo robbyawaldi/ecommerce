@@ -18,11 +18,11 @@ export const PriceSize: React.FC<PriceSizeProps> = ({ dispatch, priceSize: { id,
 
     const handleChangePrice: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const nominal = e.currentTarget.value.replace(/[^\d]/g, "")
-        dispatch({ type: "UPDATE", price: parseInt(nominal) })
+        dispatch({ type: "UPDATE", id, price: parseInt(nominal) })
     }
 
     const handleChangeSize: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-        dispatch({ type: "UPDATE", sizeId: parseInt(e.currentTarget.value) })
+        dispatch({ type: "UPDATE", id, sizeId: parseInt(e.currentTarget.value) })
     }
 
     const handleDelete = async () => {
@@ -36,7 +36,7 @@ export const PriceSize: React.FC<PriceSizeProps> = ({ dispatch, priceSize: { id,
 
     return (
         <div className={styles.wrapper}>
-            <Select onChange={handleChangeSize}>
+            <Select onChange={handleChangeSize} value={sizeId ?? 0}>
                 {selectedSizes.map(size => (
                     <option key={size.id} value={size.id}>{size.name}</option>
                 ))}

@@ -1,4 +1,3 @@
-import { randomId } from "../utils/randomId"
 
 export type PriceSizeAction =
     | { type: "ADD" }
@@ -9,7 +8,7 @@ export type PriceSizeAction =
 export interface ProductPriceSize {
     id: string
     sizeId: number | undefined
-    productId: number | undefined
+    productId: string | undefined
     price: number | undefined
     __typename?: string
 }
@@ -19,7 +18,7 @@ export interface PriceSizes {
 }
 
 export const priceSizeItem = {
-    id: randomId(),
+    id: "",
     sizeId: undefined,
     productId: undefined,
     price: 0

@@ -43,11 +43,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
             { id: randomId(), image: undefined, url: undefined }
         ]
     });
-    const [{ colors }, colorDispatch] = useReducer(colorReducer, {
-        colors: [
-            colorItem
-        ]
-    })
+    const [{ colors }, colorDispatch] = useReducer(colorReducer, { colors: [] })
     const [{ priceSizes }, priceDispatch] = useReducer(priceSizeReducer, { priceSizes: [] })
 
     const errorSizeMessage = loadingOrQueryFailed({ data: sizes, error: sizeError, loading: sizeLoading });
@@ -81,6 +77,9 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             colors: colors
                                 .filter(color => color.code !== undefined && color.name !== undefined)
                                 .map(color => ({ code: color.code as string, name: color.name as string })),
+                            priceSizes: priceSizes
+                                .filter(priceSize => priceSize.sizeId !== undefined && priceSize.price !== 0)
+                                .map(priceSize => ({ sizeId: priceSize.sizeId as number, price: priceSize.price as number })),
                             categories: selectedCategories.map((category: Item) => category.id),
                             sizes: selectedSizes.map((size: Item) => size.id),
                         },

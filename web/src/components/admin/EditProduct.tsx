@@ -21,6 +21,7 @@ import { ProductColor } from '../../types/colors';
 import { ColorPicker } from './ColorPicker';
 import { priceSizeReducer } from './priceSizeReducer';
 import { PriceSize } from './PriceSize';
+import { ProductPriceSize } from '../../types/priceSizes';
 
 interface EditProductProps { }
 
@@ -54,6 +55,10 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
 
         if (data?.product?.colors) {
             colorDispatch({ type: "SET", colors: data.product.colors as ProductColor[] })
+        }
+
+        if (data?.product?.priceSizes) {
+            priceDispatch({ type: "SET", priceSizes: data.product.priceSizes as ProductPriceSize[] })
         }
 
         if (data?.product?.sizes && data.product.sizes.length > 0) {
@@ -108,6 +113,12 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                     color.name !== undefined
                                     && !color.__typename)
                                 .map(color => ({ code: color.code as string, name: color.name as string })),
+                            priceSizes: priceSizes
+                                .filter(priceSize =>
+                                    priceSize.price !== 0
+                                    && priceSize.sizeId !== undefined
+                                    && !priceSize.__typename)
+                                .map(priceSize => ({ sizeId: priceSize.sizeId as number, price: priceSize.price as number })),
                             categories: selectedCategories.map((category: Item) => category.id),
                             sizes: selectedSizes.map((size: Item) => size.id),
                             ...values
