@@ -20,9 +20,9 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
     }
 
     useEffect(() => {
-        document.body.addEventListener('mousedown', (e: MouseEvent) => {
-            if (!(e.target as HTMLInputElement).classList.contains('logout') && toggleDropdown) setToggle(() => false)
-        }, false)
+        // document.body.addEventListener('mousedown', (e: MouseEvent) => {
+        //     if (!(e.target as HTMLInputElement).classList.contains('logout') && toggleDropdown) setToggle(() => false)
+        // }, false)
     }, [toggleDropdown])
 
     const menuList = useMemo(() => (

@@ -1,5 +1,5 @@
 import { Input } from '@chakra-ui/react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BlockPicker, ColorResult } from 'react-color';
 import styles from '../../styles/ColorPicker.module.css'
 import { isServer } from '../../utils/isServer';
@@ -15,6 +15,13 @@ interface ColorPickerProps {
 export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id, code, name, __typename } }) => {
         const [show, setShow] = useState(false)
         const [deleteColor] = useDeleteColorMutation()
+
+        useEffect(() => {
+                document.body.addEventListener('mousedown', (e: MouseEvent) => {
+                        const targetClassName = (e.target as HTMLDivElement).offsetParent?.className ?? ""
+                        if (!targetClassName.includes('ColorPicker')) setShow(false)
+                })
+        }, [])
 
         const handleShow: React.MouseEventHandler<HTMLDivElement> = (e) => {
                 if (e.target == e.currentTarget) setShow(s => !s)
@@ -57,7 +64,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id,
                                                 color={code ?? ""}
                                                 triangle={!isServer() && window.screen.width > 640 ? "top" : "hide"}
                                                 onChangeComplete={handleChangeColor}
-
                                         />
                                         : null
                                 }
