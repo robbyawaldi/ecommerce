@@ -16,17 +16,14 @@ export const Carousel: React.FC<CarouselProps> = ({ }) => {
                 <img src="/assets/banner_1.png" className="rounded-2xl"/>
             </div>
             <div>
-                <img src="/assets/banner_1.png" className="rounded-2xl"/>
-            </div>
-            {/* <div>
-                <img src="/assets/slide1.svg" className="rounded-2xl"/>
-            </div> */}
-            {/* <div>
-                <img src="/assets/slide2.svg" className="rounded-2xl"/>
+                <img src="/assets/banner_2.jpg" className="rounded-2xl"/>
             </div>
             <div>
-                <img src="/assets/slide3.svg" className="rounded-2xl"/>
-            </div> */}
+                <img src="/assets/banner_3.jpg" className="rounded-2xl"/>
+            </div>
+            <div>
+                <img src="/assets/banner_4.jpg" className="rounded-2xl"/>
+            </div>
         </CarouselContainer>
     );  
 }
