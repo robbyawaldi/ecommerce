@@ -10,5 +10,6 @@ declare namespace NodeJS {
     SESSION_SECRET: string;
     DOMAIN: string;
     APP_URL:string;
+    ADMIN_PASSWORD:string;
   }
 }

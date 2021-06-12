@@ -37,6 +37,7 @@ services:
       - SESSION_SECRET=${SESSION_SECRET}
       - DOMAIN=${DOMAIN}
       - APP_URL=${APP_URL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     depends_on:
       - db
       - redis
