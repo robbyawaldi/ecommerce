@@ -1,5 +1,5 @@
 import { IconButton } from '@chakra-ui/button';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { Quantity } from '../atoms/Quantity'
 import { SizeSelect } from '../atoms/SizeSelect';
 import { RiCloseLine } from 'react-icons/ri'
@@ -17,11 +17,16 @@ interface CartItemProps {
 }
 
 export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qty: qtyProps, color: colorProps }) => {
-    console.log(colorProps)
     const [size, setSize] = useState(sizeProps)
     const [qty, setQty] = useState(qtyProps)
     const [color, setColor] = useState(colorProps)
     const { dispatch } = useContext(CartContext)
+
+    const price = useMemo(() => {
+        return product.priceSizes
+            .find(p => p.sizeName == size)?.price
+            ?? product.price
+    }, [size])
 
     useEffect(() => {
         dispatch({
@@ -71,11 +76,11 @@ export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qt
                 {
                     product.isDiscount ? (
                         <div className="my-5">
-                            <div className="text-xs line-through">{toRupiah(product.price, { floatingPoint: 0 })}</div>
-                            <div className="font-semibold text-gold">{toRupiah(calculateDiscount({ price: product.price, discount: product.discount }), { floatingPoint: 0 })}</div>
+                            <div className="text-xs line-through">{toRupiah(price, { floatingPoint: 0 })}</div>
+                            <div className="font-semibold text-gold">{toRupiah(calculateDiscount({ price, discount: product.discount }), { floatingPoint: 0 })}</div>
                         </div>
                     ) : (
-                        <div className="font-semibold text-gold my-5">{toRupiah(product.price, { floatingPoint: 0 })}</div>
+                        <div className="font-semibold text-gold my-5">{toRupiah(price, { floatingPoint: 0 })}</div>
                     )
                 }
                 <Quantity

@@ -10,10 +10,10 @@ export const joinProduct = (
     relation: string,
 ): SelectQueryBuilder<Product> => {
     if (fields.includes(relation)) {
-        const imagesField = Object.keys(graphqlFields(info).products[relation])
+        const fields = Object.keys(graphqlFields(info).products[relation])
         return products
             .leftJoinAndSelect(`product.${relation}`, relation)
-            .addSelect(imagesField.filter(field => !['url', '__typename'].includes(field)).map(field => `${relation}.${field}`))
+            .addSelect(fields.filter(field => !['url', '__typename', 'sizeName'].includes(field)).map(field => `${relation}.${field}`))
     }
     return products
 }

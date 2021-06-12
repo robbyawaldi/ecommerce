@@ -36,10 +36,12 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
             carts.reduce((a, b) => {
                 const product = data?.products?.products.find(product => product.id == b.id)
                 if (product) {
+                    const price = product.priceSizes.find(p => p.sizeName == b.size)?.price ?? product.price
+
                     if (product.isDiscount) {
-                        return calculateDiscount({ price: product.price, discount: product.discount }) * b.qty + a
+                        return calculateDiscount({ price, discount: product.discount }) * b.qty + a
                     }
-                    return product.price * b.qty + a
+                    return price * b.qty + a
                 }
                 return a
             }, 0)
@@ -49,10 +51,12 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
     const handleBuy = () => {
         const items = carts.map((cart) => {
             const details = data?.products?.products.find(d => d.id == cart.id)
+            const price = details?.priceSizes.find(p => p.sizeName == cart.size)?.price ?? details?.price
+
             return {
                 title: details?.title ?? "",
                 size: cart.size,
-                price: toRupiah(details?.price ?? 0, { floatingPoint: 0 }) ?? "",
+                price: toRupiah(price ?? 0, { floatingPoint: 0 }) ?? "",
                 qty: cart.qty,
                 color: cart.color
             }

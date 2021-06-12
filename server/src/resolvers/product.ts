@@ -31,6 +31,7 @@ import { ProductInput } from "./ProductInput";
 import { joinProduct } from "../utils/joinsProduct";
 import { Color } from "../entities/Color";
 import { PriceSize } from "../entities/PriceSize";
+import { getSizeName } from "../utils/getSizeName";
 
 @ObjectType()
 class ProductResponse {
@@ -79,7 +80,12 @@ export class ProductResolver {
         products = products.skip(start).take(limit);
         products = await products.getMany()
 
-        products = products.map(product => ({ ...product, images: getImagesUrl(product.images as Image[]) } as Product));
+        products = await Promise.all(products.map(async (product) =>
+        ({
+            ...product,
+            images: getImagesUrl(product.images as Image[]),
+            priceSizes: await getSizeName(product.priceSizes as PriceSize[])
+        } as Product)));
 
         let filterBy
 
@@ -106,7 +112,11 @@ export class ProductResolver {
         else
             product = await this.productRepository.findOne(id, { relations })
         return product
-            ? { ...product, images: getImagesUrl(product.images as Image[]) } as Product
+            ? {
+                ...product,
+                images: getImagesUrl(product.images as Image[]),
+                priceSizes: await getSizeName(product.priceSizes as PriceSize[])
+            } as Product
             : undefined
     }
 

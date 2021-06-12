@@ -2,7 +2,7 @@ import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, 
 import toRupiah from '@develoka/angka-rupiah-js';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { AiOutlinePlus } from 'react-icons/ai';
 import { CartContext } from '../../../contexts/CartContext';
 import { Product, Size } from '../../../generated/graphql';
@@ -23,6 +23,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const [color, setColor] = useState("")
 
     const router = useRouter()
+
+    const price = useMemo(() => {
+        return product.priceSizes
+            .find(p => p.sizeName == size)?.price
+            ?? product.price
+    }, [size])
 
     const handleAddToCart = () => {
         onOpen()
@@ -47,11 +53,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 {
                     product.isDiscount ? (
                         <>
-                            <div className="line-through">{toRupiah(product.price, { floatingPoint: 0 })}</div>
-                            <div className="text-lg font-semibold text-gold">{toRupiah(calculateDiscount({ price: product.price, discount: product.discount }), { floatingPoint: 0 })}</div>
+                            <div className="line-through">{toRupiah(price, { floatingPoint: 0 })}</div>
+                            <div className="text-lg font-semibold text-gold">{toRupiah(calculateDiscount({ price, discount: product.discount }), { floatingPoint: 0 })}</div>
                         </>
                     ) : (
-                        <div className="text-lg font-semibold text-gold">{toRupiah(product.price, { floatingPoint: 0 })}</div>
+                        <div className="text-lg font-semibold text-gold">{toRupiah(price, { floatingPoint: 0 })}</div>
                     )
                 }
             </div>

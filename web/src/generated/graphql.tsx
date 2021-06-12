@@ -236,6 +236,7 @@ export type PriceSize = {
   id: Scalars['String'];
   productId: Scalars['String'];
   sizeId: Scalars['Float'];
+  sizeName: Scalars['String'];
   price: Scalars['Float'];
 };
 
@@ -442,7 +443,7 @@ export type ProductFragment = (
     & Pick<Size, 'id' | 'name' | 'description'>
   )>, priceSizes: Array<(
     { __typename?: 'PriceSize' }
-    & Pick<PriceSize, 'id' | 'productId' | 'sizeId' | 'price'>
+    & Pick<PriceSize, 'id' | 'productId' | 'sizeId' | 'sizeName' | 'price'>
   )> }
 );
 
@@ -922,6 +923,7 @@ export const ProductFragmentDoc = gql`
     id
     productId
     sizeId
+    sizeName
     price
   }
 }

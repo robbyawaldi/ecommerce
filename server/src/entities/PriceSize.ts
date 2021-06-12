@@ -22,6 +22,9 @@ export class PriceSize extends BaseEntity {
     @Column()
     sizeId: number;
 
+    @Field()
+    sizeName: string;
+
     @ManyToOne(() => Size)
     @JoinColumn({ name: "sizeId" })
     size: Size;
