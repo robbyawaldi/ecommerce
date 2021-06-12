@@ -9,6 +9,7 @@ import { Product, Size } from '../../../generated/graphql';
 import styles from '../../../styles/frontend/ProductCard.module.css'
 import { calculateDiscount } from '../../../utils/discount';
 import { textLimit } from '../../../utils/textLimit';
+import { ColorSelect } from './ColorSelect';
 import { SizeSelect } from '../atoms/SizeSelect';
 
 interface ProductCardProps {
@@ -19,6 +20,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { dispatch } = useContext(CartContext)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [size, setSize] = useState("")
+    const [color, setColor] = useState("")
+
     const router = useRouter()
 
     const handleAddToCart = () => {
@@ -28,7 +31,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             payload: {
                 id: product.id,
                 qty: 1,
-                size
+                size,
+                color
             }
         })
     }
@@ -51,6 +55,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     )
                 }
             </div>
+            <ColorSelect
+                colors={product.colors}
+                value={color}
+                setValue={setColor}
+            />
+
             <SizeSelect
                 sizes={product.sizes as Size[]}
                 value={size}

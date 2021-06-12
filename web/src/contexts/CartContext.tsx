@@ -7,6 +7,7 @@ export type Cart = {
     id: string
     qty: number
     size: string
+    color: string
 }
 
 export const CartContext = createContext<{

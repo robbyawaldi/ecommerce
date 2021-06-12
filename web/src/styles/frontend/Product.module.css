@@ -4,7 +4,7 @@
     row-gap: 1em;
     margin-bottom: 2em;
     grid-template-columns: 1fr;
-    grid-template-rows: auto 20em auto;
+    grid-template-rows: repeat(3, auto);
     grid-template-areas: 
         'carousel'
         'card'
@@ -13,6 +13,7 @@
 
 .box > :nth-child(1) {
     grid-area: carousel;
+    align-self: flex-start;
 }
 
 .box > :nth-child(2) {

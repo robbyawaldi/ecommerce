@@ -1,0 +1,20 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    cursor: pointer;
+    padding: .3rem;
+}
+
+.wrapper[data-checked] {
+    background-color: rgba(179, 132, 38, 0.3);
+    border-radius: 0.5rem;
+}
+
+.color {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100%;
+    border: 2px solid white;
+    box-shadow: 3px 6px 5px -1px rgba(188,188,188,0.45);
+}
