@@ -2,7 +2,8 @@ export type Item = {
     title: string
     size: string
     price: string
-    qty: number
+    qty: number,
+    color: string,
 }
 
 export const getGreeting = (): string => {
@@ -24,8 +25,8 @@ export const generateText = (items: Item[], subTotal: string): string => {
     const FOOTER = `;-------------------------------------------------------------;Terima Kasih`
 
     let text = HEADER;
-    for (const { title, size, price, qty } of items) {
-        text = text + `${title} ukuran ${size} @${price} x ${qty};;`
+    for (const { title, size, price, qty, color } of items) {
+        text = text + `${title} ukuran ${size} warna ${color} @${price} x ${qty};;`
     }
     text = text + `;-------------------------------------------------------------;Total ${subTotal}`
     return (text + FOOTER).replace(/[;]/g, '%0a')

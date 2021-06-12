@@ -47,18 +47,18 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
     }, [data, carts])
 
     const handleBuy = () => {
-        const phone = PHONE
         const items = carts.map((cart) => {
             const details = data?.products?.products.find(d => d.id == cart.id)
             return {
                 title: details?.title ?? "",
                 size: cart.size,
                 price: toRupiah(details?.price ?? 0, { floatingPoint: 0 }) ?? "",
-                qty: cart.qty
+                qty: cart.qty,
+                color: cart.color
             }
         })
         const text = generateText(items, toRupiah(subTotal, { floatingPoint: 0 }))
-        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank')
+        window.open(`https://api.whatsapp.com/send?phone=${PHONE}&text=${text}`, '_blank')
     }
 
     const errorMessage = loadingOrQueryFailed({ data, error, loading })
@@ -91,6 +91,7 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
                                     product={product as Product}
                                     size={cart?.size as string}
                                     qty={cart?.qty as number}
+                                    color={cart?.color as string}
                                 />
                             )
                         })}

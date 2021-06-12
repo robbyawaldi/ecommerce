@@ -7,16 +7,20 @@ import { Product } from '../../../generated/graphql';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { CartContext } from '../../../contexts/CartContext';
 import { calculateDiscount } from '../../../utils/discount';
+import { ColorSelect } from './ColorSelect';
 
 interface CartItemProps {
     product: Product,
     size: string,
-    qty: number
+    qty: number,
+    color: string,
 }
 
-export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qty: qtyProps }) => {
+export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qty: qtyProps, color: colorProps }) => {
+    console.log(colorProps)
     const [size, setSize] = useState(sizeProps)
     const [qty, setQty] = useState(qtyProps)
+    const [color, setColor] = useState(colorProps)
     const { dispatch } = useContext(CartContext)
 
     useEffect(() => {
@@ -25,10 +29,11 @@ export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qt
             payload: {
                 id: product.id,
                 size,
-                qty
+                qty,
+                color
             }
         })
-    }, [size, qty])
+    }, [size, qty, color])
 
     const handleDelete = () => {
         dispatch({
@@ -55,6 +60,13 @@ export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qt
                     setValue={setSize}
                     value={size}
                 />
+                <div className="my-3">
+                <ColorSelect
+                    colors={product.colors}
+                    value={color}
+                    setValue={setColor}
+                />
+                </div>
 
                 {
                     product.isDiscount ? (

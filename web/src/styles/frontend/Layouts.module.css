@@ -23,7 +23,7 @@
             text-white
             w-44
             h-8
-            right-1
+            left-1
             rounded-xl
             bottom-2;
 }
@@ -38,5 +38,5 @@
 
 .hidden {
     opacity: 0;
-    transform: translateX(5rem);
+    transform: translateX(-5rem);
 }
