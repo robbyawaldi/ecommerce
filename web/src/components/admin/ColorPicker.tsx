@@ -60,6 +60,20 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id,
                                 {show
                                         ?
                                         <BlockPicker
+                                                colors={[
+                                                        '#000000',
+                                                        '#ffffff',
+                                                        '#898989',
+                                                        '#ff002b',
+                                                        '#ffde00',
+                                                        '#ff8400',
+                                                        '#50bc00',
+                                                        '#003cff',
+                                                        '#edd3a9',
+                                                        '#ba00ff',
+                                                        '#c345b9',
+                                                        '#8f5e10'
+                                                ]}
                                                 className={styles.picker}
                                                 color={code ?? ""}
                                                 triangle={!isServer() && window.screen.width > 640 ? "top" : "hide"}
