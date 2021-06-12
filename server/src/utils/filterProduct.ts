@@ -9,6 +9,7 @@ export const filterProduct = async (
         categoryId,
         isExclusive,
         isDiscount,
+        isMalikha,
         sortByName,
         sortByPrice,
         isAdmin,
@@ -21,6 +22,10 @@ export const filterProduct = async (
 
     if (isExclusive) {
         products = products.andWhere('product.isExclusive = :isExclusive', { isExclusive })
+    }
+
+    if (isMalikha) {
+        products = products.andWhere('product.isMalikha = :isMalikha', { isMalikha })
     }
 
     if (isDiscount) {

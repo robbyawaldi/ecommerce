@@ -8,6 +8,7 @@ mutation UpdateProduct(
   $stockAvailable: Boolean
   $isExclusive: Boolean
   $isDiscount: Boolean
+  $isMalikha: Boolean
   $images: [ImageInput!]
   $colors: [ColorInput!]
   $priceSizes: [PriceSizeInput!]
@@ -25,6 +26,7 @@ mutation UpdateProduct(
       stockAvailable: $stockAvailable
       isExclusive: $isExclusive
       isDiscount: $isDiscount
+      isMalikha: $isMalikha
       images: $images
       colors: $colors
       priceSizes: $priceSizes

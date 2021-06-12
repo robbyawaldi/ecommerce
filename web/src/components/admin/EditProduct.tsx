@@ -96,6 +96,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                     price: data?.product?.price ?? 0,
                     stockAvailable: data?.product?.stockAvailable ?? true,
                     isExclusive: data?.product?.isExclusive ?? false,
+                    isMalikha: data?.product?.isMalikha ?? false,
                     isDiscount: data?.product?.isDiscount ?? false,
                     discount: data?.product?.discount ?? 0,
                 }}
@@ -144,7 +145,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 placeholder="description"
                                 label="Description" />
                         </Box>
-                        <div className="grid grid-cols-3 mt-4 justify-items-center">
+                        <div className="grid grid-cols-4 mt-4 justify-items-center">
                             <Checkbox
                                 name="isExclusive"
                                 defaultChecked={values.isExclusive}
@@ -164,7 +165,14 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 defaultChecked={values.stockAvailable}
                                 checked={values.stockAvailable}
                                 onChange={(e) => setFieldValue('stockAvailable', e.currentTarget.checked)}>
-                                Stock Available
+                                Stock
+                            </Checkbox>
+                            <Checkbox
+                                name="isMalikha"
+                                defaultChecked={values.isMalikha}
+                                checked={values.isMalikha}
+                                onChange={(e) => setFieldValue('isMalikha', e.currentTarget.checked)}>
+                                Malikha
                             </Checkbox>
                         </div>
                         <div className={`grid gap-2 grid-cols-${values.isDiscount ? 2 : 0} mt-4 justify-items-center`}>

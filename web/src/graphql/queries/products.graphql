@@ -4,6 +4,7 @@ query Products(
   $categoryId: Int
   $isExclusive: Boolean
   $isDiscount: Boolean
+  $isMalikha: Boolean
   $isAdmin: Boolean
   $sortByName: Sort
   $sortByPrice: Sort
@@ -17,6 +18,7 @@ query Products(
     isExclusive: $isExclusive
     isDiscount: $isDiscount
     isAdmin: $isAdmin
+    isMalikha: $isMalikha
     sortByName: $sortByName
     sortByPrice: $sortByPrice
     search: $search

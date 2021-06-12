@@ -236,7 +236,7 @@ export type PriceSize = {
   id: Scalars['String'];
   productId: Scalars['String'];
   sizeId: Scalars['Float'];
-  sizeName: Scalars['String'];
+  sizeName?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
 };
 
@@ -320,6 +320,7 @@ export type QueryUsersArgs = {
 export type QueryProductsArgs = {
   categoryId?: Maybe<Scalars['Int']>;
   isExclusive?: Maybe<Scalars['Boolean']>;
+  isMalikha?: Maybe<Scalars['Boolean']>;
   isDiscount?: Maybe<Scalars['Boolean']>;
   sortByName?: Maybe<Sort>;
   sortByPrice?: Maybe<Sort>;
@@ -428,7 +429,7 @@ export type ErrorsFragment = (
 
 export type ProductFragment = (
   { __typename?: 'Product' }
-  & Pick<Product, 'id' | 'title' | 'slug' | 'description' | 'detail' | 'price' | 'discount' | 'stockAvailable' | 'isPublish' | 'isExclusive' | 'isDiscount'>
+  & Pick<Product, 'id' | 'title' | 'slug' | 'description' | 'detail' | 'price' | 'discount' | 'stockAvailable' | 'isPublish' | 'isExclusive' | 'isMalikha' | 'isDiscount'>
   & { images: Array<(
     { __typename?: 'Image' }
     & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
@@ -669,6 +670,7 @@ export type UpdateProductMutationVariables = Exact<{
   stockAvailable?: Maybe<Scalars['Boolean']>;
   isExclusive?: Maybe<Scalars['Boolean']>;
   isDiscount?: Maybe<Scalars['Boolean']>;
+  isMalikha?: Maybe<Scalars['Boolean']>;
   images?: Maybe<Array<ImageInput> | ImageInput>;
   colors?: Maybe<Array<ColorInput> | ColorInput>;
   priceSizes?: Maybe<Array<PriceSizeInput> | PriceSizeInput>;
@@ -792,6 +794,7 @@ export type ProductsQueryVariables = Exact<{
   categoryId?: Maybe<Scalars['Int']>;
   isExclusive?: Maybe<Scalars['Boolean']>;
   isDiscount?: Maybe<Scalars['Boolean']>;
+  isMalikha?: Maybe<Scalars['Boolean']>;
   isAdmin?: Maybe<Scalars['Boolean']>;
   sortByName?: Maybe<Sort>;
   sortByPrice?: Maybe<Sort>;
@@ -898,6 +901,7 @@ export const ProductFragmentDoc = gql`
   stockAvailable
   isPublish
   isExclusive
+  isMalikha
   isDiscount
   images {
     id
@@ -1420,10 +1424,10 @@ export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCatego
 export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
 export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
 export const UpdateProductDocument = gql`
-    mutation UpdateProduct($id: String!, $title: String, $description: String, $detail: String, $price: Int, $discount: Int, $stockAvailable: Boolean, $isExclusive: Boolean, $isDiscount: Boolean, $images: [ImageInput!], $colors: [ColorInput!], $priceSizes: [PriceSizeInput!], $categories: [Int!], $sizes: [Int!]) {
+    mutation UpdateProduct($id: String!, $title: String, $description: String, $detail: String, $price: Int, $discount: Int, $stockAvailable: Boolean, $isExclusive: Boolean, $isDiscount: Boolean, $isMalikha: Boolean, $images: [ImageInput!], $colors: [ColorInput!], $priceSizes: [PriceSizeInput!], $categories: [Int!], $sizes: [Int!]) {
   updateProduct(
     id: $id
-    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, images: $images, colors: $colors, priceSizes: $priceSizes, categories: $categories, sizes: $sizes}
+    options: {title: $title, description: $description, detail: $detail, price: $price, discount: $discount, stockAvailable: $stockAvailable, isExclusive: $isExclusive, isDiscount: $isDiscount, isMalikha: $isMalikha, images: $images, colors: $colors, priceSizes: $priceSizes, categories: $categories, sizes: $sizes}
   ) {
     errors {
       ...Errors
@@ -1459,6 +1463,7 @@ export type UpdateProductMutationFn = Apollo.MutationFunction<UpdateProductMutat
  *      stockAvailable: // value for 'stockAvailable'
  *      isExclusive: // value for 'isExclusive'
  *      isDiscount: // value for 'isDiscount'
+ *      isMalikha: // value for 'isMalikha'
  *      images: // value for 'images'
  *      colors: // value for 'colors'
  *      priceSizes: // value for 'priceSizes'
@@ -1725,7 +1730,7 @@ export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
 export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
 export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
-    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isDiscount: Boolean, $isAdmin: Boolean, $sortByName: Sort, $sortByPrice: Sort, $search: String, $ids: [String!]) {
+    query Products($page: Int!, $limit: Int!, $categoryId: Int, $isExclusive: Boolean, $isDiscount: Boolean, $isMalikha: Boolean, $isAdmin: Boolean, $sortByName: Sort, $sortByPrice: Sort, $search: String, $ids: [String!]) {
   products(
     page: $page
     limit: $limit
@@ -1733,6 +1738,7 @@ export const ProductsDocument = gql`
     isExclusive: $isExclusive
     isDiscount: $isDiscount
     isAdmin: $isAdmin
+    isMalikha: $isMalikha
     sortByName: $sortByName
     sortByPrice: $sortByPrice
     search: $search
@@ -1770,6 +1776,7 @@ export const ProductsDocument = gql`
  *      categoryId: // value for 'categoryId'
  *      isExclusive: // value for 'isExclusive'
  *      isDiscount: // value for 'isDiscount'
+ *      isMalikha: // value for 'isMalikha'
  *      isAdmin: // value for 'isAdmin'
  *      sortByName: // value for 'sortByName'
  *      sortByPrice: // value for 'sortByPrice'

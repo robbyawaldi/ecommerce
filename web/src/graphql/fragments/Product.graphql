@@ -9,6 +9,7 @@ fragment Product on Product {
   stockAvailable
   isPublish
   isExclusive
+  isMalikha
   isDiscount
   images {
     id

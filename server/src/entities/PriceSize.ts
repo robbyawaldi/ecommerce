@@ -22,7 +22,7 @@ export class PriceSize extends BaseEntity {
     @Column()
     sizeId: number;
 
-    @Field()
+    @Field({ nullable: true })
     sizeName: string;
 
     @ManyToOne(() => Size)

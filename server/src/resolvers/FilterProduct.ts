@@ -11,10 +11,12 @@ registerEnumType(Sort, {
 
 @ArgsType()
 export class FilterProduct {
-    @Field(() => Int,{ nullable: true })
+    @Field(() => Int, { nullable: true })
     categoryId: number;
     @Field({ nullable: true })
     isExclusive: boolean;
+    @Field({ nullable: true })
+    isMalikha: boolean;
     @Field({ nullable: true })
     isDiscount: boolean;
     @Field(() => Sort, { nullable: true })
@@ -25,6 +27,6 @@ export class FilterProduct {
     isAdmin: boolean;
     @Field({ nullable: true })
     search: string;
-    @Field(() => [String], {nullable: true})
+    @Field(() => [String], { nullable: true })
     ids: string[];
 }
