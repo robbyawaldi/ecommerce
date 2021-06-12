@@ -48,7 +48,7 @@ export default class CreateAdmin implements Seeder {
                     id: ulid(),
                     name: 'admin',
                     email: 'admsitihajar@gmail.com',
-                    password: await argon2.hash('Sitihajar28'),
+                    password: await argon2.hash('sho.com555'),
                     role: admin
                 }
             ])

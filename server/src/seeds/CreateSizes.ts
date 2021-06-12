@@ -28,10 +28,6 @@ export default class CreateAdmin implements Seeder {
                     description: 'Medium'
                 },
                 {
-                    name: 'ML',
-                    description: 'Medium Large'
-                },
-                {
                     name: 'L',
                     description: 'Large'
                 },
@@ -42,6 +38,10 @@ export default class CreateAdmin implements Seeder {
                 {
                     name: 'XXL',
                     description: 'Double Extra Large'
+                },
+                {
+                    name: 'XXXL',
+                    description: 'Triple Extra Large'
                 },
                 {
                     name: 'ALL SIZE',
