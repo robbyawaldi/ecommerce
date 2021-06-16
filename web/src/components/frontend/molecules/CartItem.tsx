@@ -67,7 +67,7 @@ export const CartItem: React.FC<CartItemProps> = ({ product, size: sizeProps, qt
                 />
                 <div className="my-3">
                     <ColorSelect
-                        colors={product.colors.filter(color => color.exceptSizes.find(s => s.name == size) == undefined)}
+                        colors={product.colors.filter(color => color.exceptSizes?.find(s => s.name == size) == undefined)}
                         value={color}
                         setValue={setColor}
                     />

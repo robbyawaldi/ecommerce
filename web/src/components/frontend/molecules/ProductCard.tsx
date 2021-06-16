@@ -62,7 +62,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 }
             </div>
             <ColorSelect
-                colors={product.colors.filter(color => color.exceptSizes.find(s => s.name == size) == undefined)}
+                colors={product.colors.filter(color => color.exceptSizes?.find(s => s.name == size) == undefined)}
                 value={color}
                 setValue={setColor}
             />
