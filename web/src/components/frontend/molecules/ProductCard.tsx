@@ -2,7 +2,7 @@ import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, 
 import toRupiah from '@develoka/angka-rupiah-js';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { AiOutlinePlus } from 'react-icons/ai';
 import { CartContext } from '../../../contexts/CartContext';
 import { Product, Size } from '../../../generated/graphql';
@@ -62,7 +62,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 }
             </div>
             <ColorSelect
-                colors={product.colors}
+                colors={product.colors.filter(color => color.exceptSizes.find(s => s.name == size) == undefined)}
                 value={color}
                 setValue={setColor}
             />

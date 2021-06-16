@@ -21,6 +21,9 @@ fragment Product on Product {
     id
     code
     name
+    exceptSizes {
+      name
+    }
   }
   categories {
     id
