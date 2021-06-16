@@ -72,7 +72,15 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id,
                                                         '#edd3a9',
                                                         '#ba00ff',
                                                         '#c345b9',
-                                                        '#8f5e10'
+                                                        '#8f5e10',
+                                                        '#003688',
+                                                        '#530105',
+                                                        '#BC8AC2',
+                                                        '#806062',
+                                                        '#C49DB4',
+                                                        '#4B5320',
+                                                        '#FFC3B1',
+                                                        '#E8909C',
                                                 ]}
                                                 className={styles.picker}
                                                 color={code ?? ""}
