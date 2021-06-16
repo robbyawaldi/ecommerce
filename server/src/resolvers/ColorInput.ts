@@ -1,4 +1,4 @@
-import { Field, InputType } from "type-graphql";
+import { Field, InputType, Int } from "type-graphql";
 
 @InputType()
 export class ColorInput {
@@ -8,4 +8,6 @@ export class ColorInput {
     code: string;
     @Field()
     name: string;
+    @Field(() => [Int], { nullable: true })
+    exceptSizes: number[];
 }

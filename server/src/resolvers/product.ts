@@ -32,6 +32,7 @@ import { joinProduct } from "../utils/joinsProduct";
 import { Color } from "../entities/Color";
 import { PriceSize } from "../entities/PriceSize";
 import { getSizeName } from "../utils/getSizeName";
+import { ColorInput } from "./ColorInput";
 
 @ObjectType()
 class ProductResponse {
@@ -66,11 +67,8 @@ export class ProductResolver {
                 .concat(['product.id', 'product.createdAt'])
             )
 
-        products = joinProduct(products, info, fields, 'images')
-        products = joinProduct(products, info, fields, 'colors')
-        products = joinProduct(products, info, fields, 'categories')
-        products = joinProduct(products, info, fields, 'sizes')
-        products = joinProduct(products, info, fields, 'priceSizes')
+        const relations = ['images', 'colors', 'categories', 'sizes', 'priceSizes']
+        products = joinProduct(products, info, fields, relations)
 
         products = await filterProduct(products, filter)
         products = await searchProduct(products, filter)
@@ -84,7 +82,7 @@ export class ProductResolver {
         ({
             ...product,
             images: getImagesUrl(product.images as Image[]),
-            priceSizes: await getSizeName(product.priceSizes as PriceSize[])
+            priceSizes: product.priceSizes ? await getSizeName(product.priceSizes as PriceSize[]) : []
         } as Product)));
 
         let filterBy
@@ -106,7 +104,7 @@ export class ProductResolver {
         @Arg("slug", () => String, { nullable: true }) slug?: string,
     ): Promise<Product | undefined> {
         let product;
-        const relations = ['images', 'colors', 'categories', 'sizes', 'priceSizes']
+        const relations = ['images', 'colors', 'colors.exceptSizes', 'categories', 'sizes', 'priceSizes']
         if (slug)
             product = await this.productRepository.findOne({ where: { slug }, relations })
         else
@@ -140,7 +138,7 @@ export class ProductResolver {
             product.sizes = await Size.findByIds(options.sizes);
             await this.productRepository.save(product)
             await Image.saveImages(images as Image[], product.id)
-            await Color.saveColors(colors as Color[], product.id)
+            await Color.saveColors(colors as ColorInput[], product.id)
             await PriceSize.savePriceSizes(priceSizes as PriceSize[], product.id)
 
             return { product }
@@ -177,7 +175,7 @@ export class ProductResolver {
             product.sizes = await Size.findByIds(sizes)
 
             await Image.saveImages(images as Image[], product.id)
-            await Color.saveColors(colors as Color[], product.id)
+            await Color.saveColors(colors as ColorInput[], product.id)
             await PriceSize.savePriceSizes(priceSizes as PriceSize[], product.id)
 
             if (product.slug == undefined && product.title !== data.title) {

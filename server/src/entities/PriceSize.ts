@@ -14,7 +14,7 @@ export class PriceSize extends BaseEntity {
     @Column()
     productId: string;
 
-    @ManyToOne(() => Product)
+    @ManyToOne(() => Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
     @JoinColumn({ name: "productId" })
     product: Product;
 

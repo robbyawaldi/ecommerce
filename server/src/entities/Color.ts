@@ -1,6 +1,8 @@
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { ColorInput } from "../resolvers/ColorInput";
 import { Product } from "./Product";
+import { Size } from "./Size";
 
 @ObjectType()
 @Entity()
@@ -27,6 +29,11 @@ export class Color extends BaseEntity {
     @ManyToOne(() => Product, (product) => product.colors, { onDelete: "CASCADE", onUpdate: "CASCADE" })
     product: Product;
 
+    @Field(() => [Size])
+    @ManyToMany(() => Size)
+    @JoinTable()
+    exceptSizes?: Size[];
+
     @Field(() => String)
     @CreateDateColumn()
     createdAt: Date;
@@ -35,10 +42,11 @@ export class Color extends BaseEntity {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    static async saveColors(colors: Color[], productId: string) {
-        for (const [sequence, { id, code, name }] of colors.entries()) {
+    static async saveColors(colors: ColorInput[], productId: string) {
+        for (const [sequence, { id, code, name, exceptSizes }] of colors.entries()) {
+
             try {
-                await this
+                const insertResult = await this
                     .createQueryBuilder()
                     .insert()
                     .into(Color)
@@ -51,6 +59,12 @@ export class Color extends BaseEntity {
                     })
                     .orUpdate({ conflict_target: ["id"], overwrite: ['code', 'name'] })
                     .execute()
+
+                const color = await this.findOneOrFail(insertResult.identifiers[0].id)
+                const sizes = await Size.findByIds(exceptSizes)
+
+                color.exceptSizes = sizes
+                this.getRepository().save(color)
             } catch (err) {
                 console.log("insert color", err)
             }

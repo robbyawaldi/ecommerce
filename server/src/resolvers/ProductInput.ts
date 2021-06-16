@@ -28,11 +28,11 @@ export class ProductInput {
     @Field(() => Boolean, { nullable: true })
     isMalikha: boolean;
     @Field(() => [ImageInput], { nullable: true })
-    images: Image[];
+    images: Image[] | ImageInput[];
     @Field(() => [ColorInput], { nullable: true })
-    colors: Color[];
+    colors: Color[] | ColorInput[];
     @Field(() => [PriceSizeInput], { nullable: true })
-    priceSizes: PriceSize[];
+    priceSizes: PriceSize[] | PriceSizeInput[];
     @Field(() => [Int], { nullable: true })
     categories: number[];
     @Field(() => [Int], { nullable: true })
