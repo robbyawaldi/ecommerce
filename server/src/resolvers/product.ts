@@ -185,7 +185,8 @@ export class ProductResolver {
             await this.productRepository.save(product)
 
             images = await Image.find({ where: { productId: product.id } })
-            colors = await Color.find({ where: { productId: product.id } })
+            colors = await Color.find({ where: { productId: product.id }, relations: ['exceptSizes'] })
+            console.log(colors[0].exceptSizes)
             priceSizes = await PriceSize.find({ where: { productId: product.id } })
 
             return {

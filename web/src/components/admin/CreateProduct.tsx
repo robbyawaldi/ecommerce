@@ -22,6 +22,7 @@ import { ColorPicker } from './ColorPicker';
 import { priceSizeReducer } from './priceSizeReducer';
 import { PriceSize } from './PriceSize';
 import { onKeyDownSubmit } from '../../utils/onKeyDownSubmit';
+import { ProductColor } from '../../types/colors';
 
 interface CreateProductProps { }
 
@@ -76,7 +77,12 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 .map(image => ({ image: image.image as string })),
                             colors: colors
                                 .filter(color => color.code !== undefined && color.name !== undefined)
-                                .map(color => ({ id: color.id, code: color.code as string, name: color.name as string })),
+                                .map(color => ({
+                                    id: color.id,
+                                    code: color.code as string,
+                                    name: color.name as string,
+                                    exceptSizes: color.exceptSizes?.map(size => size.id as number) as number[]
+                                })),
                             priceSizes: priceSizes
                                 .filter(priceSize => priceSize.sizeId !== undefined && priceSize.price !== 0)
                                 .map(priceSize => ({ id: priceSize.id, sizeId: priceSize.sizeId as number, price: priceSize.price as number })),
@@ -218,7 +224,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                     Colors
                                     <Button size="xs" ml={3} onClick={() => colorDispatch({ type: "ADD" })}>Add Color</Button>
                                 </FormLabel>
-                                {colors.map((color, i) => (
+                                {colors.map((color: ProductColor, i: number) => (
                                     <ColorPicker
                                         key={i}
                                         color={color}

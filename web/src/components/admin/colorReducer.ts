@@ -11,7 +11,12 @@ export function colorReducer(state: Colors, action: ColorAction) {
             return {
                 colors: state.colors.map((color: ProductColor) =>
                     color.id === action.id
-                        ? { ...color, code: action?.code ?? color.code, name: action?.name ?? color.name }
+                        ? { 
+                            ...color, 
+                            code: action?.code ?? color.code, 
+                            name: action?.name ?? color.name,
+                            exceptSizes: action.exceptSizes ?? color.exceptSizes
+                        }
                         : color
                 )
             }

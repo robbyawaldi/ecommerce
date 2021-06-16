@@ -43,7 +43,7 @@ export type Color = {
   code: Scalars['String'];
   name: Scalars['String'];
   sequence: Scalars['Float'];
-  exceptSizes: Array<Size>;
+  exceptSizes?: Maybe<Array<Size>>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -438,10 +438,10 @@ export type ProductFragment = (
   )>, colors: Array<(
     { __typename?: 'Color' }
     & Pick<Color, 'id' | 'code' | 'name'>
-    & { exceptSizes: Array<(
+    & { exceptSizes?: Maybe<Array<(
       { __typename?: 'Size' }
-      & Pick<Size, 'name'>
-    )> }
+      & Pick<Size, 'id' | 'name'>
+    )>> }
   )>, categories: Array<(
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name'>
@@ -920,6 +920,7 @@ export const ProductFragmentDoc = gql`
     code
     name
     exceptSizes {
+      id
       name
     }
   }

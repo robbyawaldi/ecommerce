@@ -22,6 +22,7 @@ fragment Product on Product {
     code
     name
     exceptSizes {
+      id
       name
     }
   }

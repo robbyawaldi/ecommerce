@@ -1,7 +1,8 @@
+import { Item } from "./item"
 
 export type ColorAction =
     | { type: "ADD" }
-    | { type: "UPDATE", id: string, code?: string | undefined, name?: string | undefined }
+    | { type: "UPDATE", id: string, code?: string | undefined, name?: string | undefined, exceptSizes?: Item[] | undefined }
     | { type: "DELETE", id: string }
     | { type: "SET", colors: ProductColor[] }
 
@@ -9,6 +10,7 @@ export interface ProductColor {
     id: string;
     code: string | undefined
     name: string | undefined
+    exceptSizes?: Item[] | undefined
     __typename?: string
 }
 

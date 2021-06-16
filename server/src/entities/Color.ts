@@ -29,7 +29,7 @@ export class Color extends BaseEntity {
     @ManyToOne(() => Product, (product) => product.colors, { onDelete: "CASCADE", onUpdate: "CASCADE" })
     product: Product;
 
-    @Field(() => [Size])
+    @Field(() => [Size], { nullable: true })
     @ManyToMany(() => Size)
     @JoinTable()
     exceptSizes?: Size[];

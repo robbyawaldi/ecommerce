@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes, useState } from 'react'
+import React, { useState } from 'react'
 import { Item } from '../../types/item';
 import { Dropdown } from './Dropdown';
 
