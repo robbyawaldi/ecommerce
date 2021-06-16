@@ -22,6 +22,7 @@ import { ColorPicker } from './ColorPicker';
 import { priceSizeReducer } from './priceSizeReducer';
 import { PriceSize } from './PriceSize';
 import { ProductPriceSize } from '../../types/priceSizes';
+import { onKeyDownSubmit } from '../../utils/onKeyDownSubmit';
 
 interface EditProductProps { }
 
@@ -134,7 +135,7 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                     }
                 }}>
                 {({ isSubmitting, values, setFieldValue }) => (
-                    <Form className={form.form}>
+                    <Form onKeyDown={onKeyDownSubmit} className={form.form}>
                         <InputField
                             name="title"
                             placeholder="title"

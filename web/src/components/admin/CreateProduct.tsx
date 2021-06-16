@@ -19,10 +19,9 @@ import { LIMIT_PAGE_ADMIN } from '../../static/products';
 import { calculateDiscount } from '../../utils/discount';
 import { colorReducer } from './colorReducer';
 import { ColorPicker } from './ColorPicker';
-import { colorItem } from '../../types/colors';
 import { priceSizeReducer } from './priceSizeReducer';
-import { priceSizeItem } from '../../types/priceSizes';
 import { PriceSize } from './PriceSize';
+import { onKeyDownSubmit } from '../../utils/onKeyDownSubmit';
 
 interface CreateProductProps { }
 
@@ -68,6 +67,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                     isMalikha: false,
                 }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
+
                     const response = await product({
                         variables: {
                             ...values,
@@ -102,7 +102,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                     }
                 }}>
                 {({ isSubmitting, values, setFieldValue }) => (
-                    <Form className={form.form}>
+                    <Form onKeyDown={onKeyDownSubmit} className={form.form}>
                         <InputField
                             name="title"
                             placeholder="title"
