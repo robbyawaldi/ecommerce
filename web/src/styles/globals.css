@@ -35,7 +35,7 @@ select:focus {
 }
 
 .dot {
-    background: #000000 !important;
+    background: rgba(0,0, 0, 0.5) !important;
 }
 
 :root {
