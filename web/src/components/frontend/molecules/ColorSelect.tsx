@@ -15,7 +15,10 @@ export const ColorSelect: React.FC<ColorSelectProps> = ({ colors, value, setValu
 
     return (
         <div>
-            <div className="font-semibold">Pilih Warna</div>
+            {colors.length > 0
+                ? <div className="font-semibold">Pilih Warna</div>
+                : null
+            }
             <HStack {...group}>
                 {colors.map(({ code, name }) => {
                     const radio = getRadioProps({ value: name })

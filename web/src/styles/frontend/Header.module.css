@@ -51,7 +51,7 @@
         row-gap: 0;
         position: sticky;
         top: -70px;
-        z-index: 10;
+        z-index: 90;
         grid-template-columns: 2rem 1fr 1fr repeat(2, 6rem) 2rem;
         grid-template-rows: 1fr 1fr;
         grid-template-areas: 

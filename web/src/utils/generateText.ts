@@ -26,8 +26,8 @@ export const generateText = (items: Item[], subTotal: string): string => {
 
     let text = HEADER;
     for (const { title, size, price, qty, color } of items) {
-        text = text + `${title} ukuran ${size} warna ${color} @${price} x ${qty};;`
+        text = text + `${title} ${color} ukuran ${size} @${price} x ${qty};;`
     }
-    text = text + `;-------------------------------------------------------------;Total ${subTotal}`
+    text = text + `-------------------------------------------------------------;Total ${subTotal}`
     return (text + FOOTER).replace(/[;]/g, '%0a')
 }

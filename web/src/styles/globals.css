@@ -38,6 +38,10 @@ select:focus {
     background: rgba(0,0, 0, 0.5) !important;
 }
 
+.react-multiple-carousel__arrow {
+    z-index: 10 !important;
+}
+
 :root {
     --bgLoader1: #B38426;
     --bgLoader2: #cea34e;
