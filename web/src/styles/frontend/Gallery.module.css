@@ -9,6 +9,6 @@
 
 @media screen and (min-width: 768px) {
     .cards {
-        grid-template-columns: repeat(auto-fill, 12rem);
+        grid-template-columns: repeat(auto-fill, 16rem);
     }
 }

@@ -67,6 +67,7 @@ export class ProductResolver {
                 .concat(['product.id', 'product.createdAt'])
             )
 
+
         const relations = ['images', 'colors', 'categories', 'sizes', 'priceSizes']
         products = joinProduct(products, info, fields, relations)
 
@@ -75,8 +76,9 @@ export class ProductResolver {
 
         const total = await products.getCount();
         const start = (page - 1) * limit;
-        products = products.skip(start).take(limit);
+        
         products = await products.getMany()
+        products = products.slice(start, limit + start)
 
         products = await Promise.all(products.map(async (product) =>
         ({
@@ -186,7 +188,6 @@ export class ProductResolver {
 
             images = await Image.find({ where: { productId: product.id } })
             colors = await Color.find({ where: { productId: product.id }, relations: ['exceptSizes'] })
-            console.log(colors[0].exceptSizes)
             priceSizes = await PriceSize.find({ where: { productId: product.id } })
 
             return {

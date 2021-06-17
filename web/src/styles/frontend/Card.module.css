@@ -1,7 +1,7 @@
 .card {
     position: relative;
     overflow: hidden;
-    max-width: 10rem;
+    max-width: 16rem;
     width: 100%;
     display: grid;
     cursor: pointer;

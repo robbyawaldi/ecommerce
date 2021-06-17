@@ -11,7 +11,6 @@ import { loadingOrQueryFailed } from "../utils/loadingOrQueryFailed"
 import Head from "next/head"
 import { PageNotFound } from "../components/frontend/atoms/PageNotFound"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react"
-import { IoIosArrowForward } from "react-icons/io"
 
 const Product = () => {
     const router = useRouter()
