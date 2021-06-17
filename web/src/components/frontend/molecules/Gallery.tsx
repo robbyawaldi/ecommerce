@@ -19,8 +19,8 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
             limit: LIMIT_PAGE_WEB,
             isExclusive: router.pathname == '/exclusive' || router.query.exclusive !== undefined,
             isMalikha: router.pathname == '/malikha-indonesia',
-            isDiscount: router.query.discount !== undefined,
             categoryId: router.pathname == '/categories' ? parseInt(router.query.id as string) : 0,
+            isDiscount: router.pathname == '/promotion' || router.query.discount !== undefined,
             sortByName: router.query.sortByName as Sort ?? undefined,
             sortByPrice: router.query.sortByPrice as Sort ?? undefined,
             search: router.query.keyword as string ?? undefined

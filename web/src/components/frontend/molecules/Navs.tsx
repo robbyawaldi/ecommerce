@@ -16,6 +16,9 @@ export const Navs: React.FC<NavsProps> = ({ }) => {
                 <Link href="/">
                     <li className={`${selected == '/' ? styles.selected : ''}`}>Beranda</li>
                 </Link>
+                <Link href="/promotion">
+                    <li className={`${selected == '/promotion' ? styles.selected : ''}`}>Promo</li>
+                </Link>
                 <li><CategoryMenu /></li>
                 <Link href="/exclusive">
                     <li className={`${selected == '/exclusive' ? styles.selected : ''}`}>Koleksi Eksklusif</li>
