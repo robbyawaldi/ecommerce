@@ -5,23 +5,16 @@ import styles from '../../../styles/frontend/Layouts.module.css'
 import CartContextProvider from '../../../contexts/CartContext';
 import Head from 'next/head';
 import { SiWhatsapp } from 'react-icons/si'
-import { getGreeting } from '../../../utils/generateText';
 import { useState } from 'react';
 import { isServer } from '../../../utils/isServer';
 import { useEffect } from 'react';
-import { PHONE } from '../../../static/contacts';
+import { onWhatsappOpen } from '../../../utils/onWhatsappOpen';
 
 interface layoutProps { }
 
 export const Layouts: React.FC<layoutProps> = ({ children }) => {
     const [prevScrollPos, setScrollPos] = useState(isServer() ? 0 : window.pageYOffset)
     const [visible, setVisible] = useState(false)
-
-    const handleCall = () => {
-        const phone = PHONE
-        const text = `Selamat ${getGreeting()}`
-        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank')
-    }
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
@@ -45,7 +38,7 @@ export const Layouts: React.FC<layoutProps> = ({ children }) => {
                 <Header />
                 <main className={styles.main}>
                     {children}
-                    <div className={`${styles.popUp} ${visible ? '': styles.hidden}`} onClick={handleCall}>
+                    <div className={`${styles.popUp} ${visible ? '': styles.hidden}`} onClick={onWhatsappOpen}>
                         <SiWhatsapp />
                         Butuh Bantuan
                     </div>

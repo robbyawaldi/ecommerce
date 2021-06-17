@@ -81,12 +81,12 @@
 
  .container {
     padding: 3em 2em;
-    grid-template-columns: 1.2fr 2fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: 
     'contact about social payment'
     'address service social payment';
-    column-gap: 4em;
+    column-gap: 1rem;
     row-gap: 1.5em;
  }
 

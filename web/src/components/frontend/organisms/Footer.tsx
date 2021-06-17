@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
-import { PHONE } from '../../../static/contacts';
+import { EMAIL, PHONE } from '../../../static/contacts';
 import styles from '../../../styles/frontend/Footer.module.css'
+import { onWhatsappOpen } from '../../../utils/onWhatsappOpen';
 
 interface FooterProps { }
 
@@ -17,7 +18,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                 <address className={styles.contact}>
                     <h1>KONTAK KAMI</h1>
                     <p>
-                        Email: <a href="mailto:sitihajar@gmail.com">sitihajar@gmail.com</a>
+                        Email: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
                     </p>
                     <p>
                         Telepon: <a href={`tel:${PHONE}`}>{PHONE.replace('+62', '0')}</a>
@@ -40,7 +41,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                     <h1>IKUTI KAMI</h1>
                     <a href="">Instagram</a>
                     <a href="">Facebook</a>
-                    <a href="">Whatsapp</a>
+                    <a href="" onClick={onWhatsappOpen}>Whatsapp</a>
                 </div>
                 <div className={styles.payment}>
                     <h1>PEMBAYARAN</h1>
