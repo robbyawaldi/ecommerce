@@ -1,9 +1,10 @@
 import React from 'react'
+import InnerImageZoom from 'react-inner-image-zoom';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 import { Image } from '../../../generated/graphql';
 
-interface ProductCarouselProps { 
+interface ProductCarouselProps {
     images: Image[] | undefined
 }
 
@@ -30,11 +31,12 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({ images }) => {
     return (
         <Carousel responsive={responsive} infinite>
             {images?.map((image: Image) => (
-                <img 
-                    key={image.sequence} 
-                    src={image.url} 
-                    className="rounded-2xl object-cover w-full h-auto p-1 box-border"
-                />
+                <InnerImageZoom
+                    className="rounded-2xl"
+                    key={image.sequence}
+                    src={image.url}
+                    zoomSrc={image.url}
+                    hideHint={true} />
             ))}
         </Carousel>
     );

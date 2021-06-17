@@ -1765,6 +1765,13 @@
   dependencies:
     react-dropzone "*"
 
+"@types/react-inner-image-zoom@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-inner-image-zoom/-/react-inner-image-zoom-2.0.0.tgz#192152436088aefb0a00f82cbc187e563ff031fc"
+  integrity sha512-jf0/dvo7XYnxcI6Bgg7i/kPpNbKPNm1w6fjqFcOxKwwaC6q4nhTYgqaDEsLghk/Q1GvHeOcpYT/jK1Xyd5I7lQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-paginate@^6.2.1":
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/@types/react-paginate/-/react-paginate-6.2.1.tgz#2329088d78010ea49661559c8467a24ecd942784"
@@ -5235,6 +5242,11 @@ react-icons@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.2.0.tgz#6dda80c8a8f338ff96a1851424d63083282630d0"
   integrity sha512-rmzEDFt+AVXRzD7zDE21gcxyBizD/3NqjbX6cmViAgdqfJ2UiLer8927/QhhrXQV7dEj/1EGuOTPp7JnLYVJKQ==
+
+react-inner-image-zoom@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-inner-image-zoom/-/react-inner-image-zoom-2.0.2.tgz#430d58b4c196180934c9b91a28554f73d960e45f"
+  integrity sha512-B149FzRknDA0TK9xr1GCrUC1nh57oS1J/APkAY6bi4HEXpy/V9I9LctH7HvIOkn3MmORYXpLTAnNE8sWY3SDgA==
 
 react-is@16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
