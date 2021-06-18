@@ -40,6 +40,9 @@ export const SideBar: React.FC<SideBarProps> = ({ disclosure: { isOpen, onClose 
                             <Link href="/">
                                 <li>Beranda</li>
                             </Link>
+                            <Link href="/promotion">
+                                <li>Promo</li>
+                            </Link>
                             <li>
                                 Kategori
                                 <IconButton

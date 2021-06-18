@@ -45,7 +45,7 @@ services:
       - shopping_app
   
   web:
-    image: robbyawaldi/ecommerce_web:1.1.0
+    image: robbyawaldi/ecommerce_web:1.1.1
     restart: always
     environment: 
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
