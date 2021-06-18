@@ -27,8 +27,8 @@ export const Card: React.FC<CardProps> = ({ product }) => {
                     <div className={styles.soldOut}>Stok Kosong</div>
                 )
             }
-            <h1>{product.title}</h1>
-            <p>{textLimit(product.description)}</p>
+            <h1 className={styles.title}>{product.title}</h1>
+            <p className={styles.description}>{textLimit(product.description)}</p>
             {
                 product.isDiscount ? (
                     <div>

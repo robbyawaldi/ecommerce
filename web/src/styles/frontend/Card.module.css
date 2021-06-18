@@ -1,22 +1,23 @@
 .card {
     position: relative;
     overflow: hidden;
-    max-width: 16rem;
     width: 100%;
-    display: grid;
     cursor: pointer;
-    row-gap: .5em;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr repeat(3, .2fr);
-}
-
-.card > h1 {
-    font-weight: bold;
+    display: flex;
+    flex-direction: column;
 }
 
 .img {
     border-radius: 1em;
-    object-fit: cover;
+    object-fit: scale-down;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.img, .title, .description {
+    margin-bottom: .5rem;
 }
 
 .soldOut {
