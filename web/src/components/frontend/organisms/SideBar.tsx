@@ -16,7 +16,7 @@ import { CategoriesSidebar } from '../atoms/CategoriesSidebar';
 import { IoIosArrowDown } from 'react-icons/io'
 import Link from 'next/link';
 
-interface SideBarProps {
+export interface SideBarProps {
     disclosure: UseDisclosureReturn,
 }
 

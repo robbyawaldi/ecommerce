@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import styles from '../../../styles/frontend/Navs.module.css'
 import { CategoryMenu } from '../atoms/CategoryMenu'
 
-interface NavsProps { }
+export interface NavsProps { }
 
 export const Navs: React.FC<NavsProps> = ({ }) => {
     const router = useRouter()

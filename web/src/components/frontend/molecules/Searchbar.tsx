@@ -5,7 +5,7 @@ import React from 'react'
 import { BiSearch } from 'react-icons/bi'
 import styles from '../../../styles/frontend/Searchbar.module.css'
 
-interface SearchbarProps { }
+export interface SearchbarProps { }
 
 export const Searchbar: React.FC<SearchbarProps> = ({ }) => {
     const router = useRouter()

@@ -17,6 +17,7 @@
 }
 
 .header > :nth-child(1) {
+    width: 120px;
     grid-area: logo;
 }
 

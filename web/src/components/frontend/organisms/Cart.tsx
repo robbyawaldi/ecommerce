@@ -12,7 +12,7 @@ import { generateText } from '../../../utils/generateText';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
 import { CartItem } from '../molecules/CartItem';
 
-interface CartProps {
+export interface CartProps {
     disclosure: UseDisclosureReturn
 }
 
@@ -23,7 +23,8 @@ export const Cart: React.FC<CartProps> = ({ disclosure: { isOpen, onClose } }) =
             page: 1,
             limit: carts.length,
             ids: carts.map((cart) => cart.id)
-        }
+        },
+        skip: !isOpen
     })
     const [subTotal, setSubTotal] = useState(0)
 

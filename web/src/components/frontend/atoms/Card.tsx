@@ -6,7 +6,7 @@ import styles from '../../../styles/frontend/Card.module.css'
 import { calculateDiscount } from '../../../utils/discount';
 import { textLimit } from '../../../utils/textLimit';
 
-interface CardProps {
+export interface CardProps {
     product: Product
 }
 

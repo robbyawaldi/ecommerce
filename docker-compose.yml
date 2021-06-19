@@ -20,9 +20,7 @@ services:
       - shopping_app
        
   server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: robbyawaldi/ecommerce_server:1.1.2
     restart: always
     volumes: 
       - ./server/public/images:/usr/src/app/public/images

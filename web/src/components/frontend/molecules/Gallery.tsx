@@ -4,10 +4,12 @@ import ReactPaginate from 'react-paginate';
 import { Product, Sort, useProductsQuery } from '../../../generated/graphql';
 import { LIMIT_PAGE_WEB } from '../../../static/products';
 import { loadingOrQueryFailed } from '../../../utils/loadingOrQueryFailed';
-import { Card } from '../atoms/Card'
 import paginate from '../../../styles/frontend/Paginate.module.css'
 import { SearchNotFound } from '../atoms/SearchNotFound';
 import styles from '../../../styles/frontend/Gallery.module.css'
+import dynamic from 'next/dynamic';
+import { CardProps } from '../atoms/Card';
+const Card = dynamic(() => import('../atoms/Card').then((component) => component.Card as any), { ssr: false }) as React.ComponentType<CardProps>
 
 interface GalleryProps { }
 
@@ -25,8 +27,7 @@ export const Gallery: React.FC<GalleryProps> = ({ }) => {
             sortByPrice: router.query.sortByPrice as Sort ?? undefined,
             search: router.query.keyword as string ?? undefined
         },
-        fetchPolicy: "no-cache",
-        notifyOnNetworkStatusChange: true
+        fetchPolicy: 'cache-and-network'
     })
 
     const totalPage = Math.ceil((data?.products?.meta.total ?? 0) / LIMIT_PAGE_WEB)

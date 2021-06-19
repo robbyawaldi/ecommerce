@@ -2,7 +2,7 @@ import React from 'react'
 import { Carousel as CarouselContainer } from 'react-responsive-carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 
-interface CarouselProps { }
+export interface CarouselProps { }
 
 export const Carousel: React.FC<CarouselProps> = ({ }) => {
     return (
