@@ -3,6 +3,7 @@ import styles from '../styles/frontend/About.module.css'
 import { Header } from "../components/frontend/organisms/Header"
 import { Footer } from "../components/frontend/organisms/Footer"
 import Head from "next/head"
+import Image from "next/image"
 
 const wording = {
     about: [
@@ -36,7 +37,7 @@ const About = () => {
                 <div className="pt-6 relative mb-12">
                     <div className="bg-gold w-48 h-10 absolute top-10 z-0">
                         <div className={`w-36 absolute ${styles.logo}`}>
-                            <img src="/assets/logo-black.svg" />
+                            <Image src="/assets/logo-black.svg" alt="logo" width={200} height={90} />
                         </div>
                     </div>
                     <h1 className="font-bold text-2xl relative"><span className="text-4xl">T</span>ENTANG</h1>
@@ -45,19 +46,19 @@ const About = () => {
                     <p key={i} className="mt-6">{wording}</p>
                 ))}
                 <div className={styles.wrap}>
-                    <img src="/assets/smile.svg" />
+                    <Image src="/assets/smile.svg" alt="smile image" width={100} height={100} />
                     <div>
                         <h1 className="font-bold">{wording.text1.header}</h1>
                         <p>{wording.text1.body}</p>
                     </div>
 
-                    <img src="/assets/wind.svg" />
+                    <Image src="/assets/wind.svg" alt="wind image" width={100} height={100} />
                     <div>
                         <h1 className="font-bold">{wording.text2.header}</h1>
                         <p>{wording.text2.body}</p>
                     </div>
 
-                    <img src="/assets/lamp.svg" />
+                    <Image src="/assets/lamp.svg" alt="lamp image" width={100} height={100} />
                     <div>
                         <h1 className="font-bold">{wording.text3.header}</h1>
                         <p>{wording.text3.body}</p>
