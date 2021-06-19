@@ -5,7 +5,6 @@ import { Product } from '../../../generated/graphql';
 import styles from '../../../styles/frontend/Card.module.css'
 import { calculateDiscount } from '../../../utils/discount';
 import { textLimit } from '../../../utils/textLimit';
-import Image from 'next/image'
 
 export interface CardProps {
     product: Product
@@ -22,13 +21,7 @@ export const Card: React.FC<CardProps> = ({ product }) => {
 
     return (
         <div className={styles.card} onClick={handleClick}>
-            <Image
-                className={styles.img} src={product.images[0]?.url ?? ''}
-                width=""
-                height=""
-                objectFit="contain"
-                layout="responsive"
-            />
+            <img className={styles.img} src={product.images[0]?.url ?? ''} />
             {
                 !product.stockAvailable && (
                     <div className={styles.soldOut}>Stok Kosong</div>
