@@ -27,7 +27,6 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
                 <Image src="/assets/Logo_black.png" alt="logo" width={120} height={60} />
             </a>
             <Searchbar />
-            <Image src="/assets/line.svg" alt="line" width={4} height={42} />
             <Image src="/assets/shoppingcart.svg" alt="shopping icon" width={30} height={30} onClick={onOpenCart} />
             <Navs />
             <IconButton variant="ghost" size="xs" icon={<CgMenu size={24} />} aria-label="menu" onClick={onOpenSideBar} />

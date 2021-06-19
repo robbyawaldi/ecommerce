@@ -12,7 +12,7 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
     return (
         <footer>
             <div className={styles.footerTop}>
-                <Image src="/assets/logo-white.svg" alt="logo white" width={120} height={60}/>
+                <Image src="/assets/logo-white.svg" alt="logo white" width={120} height={60} />
                 <h1>#TrendIslami</h1>
             </div>
             <div className={styles.container}>
@@ -40,15 +40,15 @@ export const Footer: React.FC<FooterProps> = ({ }) => {
                 </div> */}
                 <div className={styles.social}>
                     <h1>IKUTI KAMI</h1>
-                    <a href="">Instagram</a>
-                    <a href="">Facebook</a>
+                    <a href="https://www.instagram.com/sitihajar.bdg" target="_blank">Instagram</a>
+                    <a href="https://www.facebook.com/sitihajar.bdg" target="_blank">Facebook</a>
                     <a href="" onClick={onWhatsappOpen}>Whatsapp</a>
                 </div>
                 <div className={styles.payment}>
                     <h1>PEMBAYARAN</h1>
-                    <Image src="/assets/bca.svg" alt="bca" width={100} height={50}/>
-                    <Image src="/assets/mandiri.svg" alt="bca" width={100} height={50}/>
-                    <Image src="/assets/bri.svg" alt="bca" width={100} height={50}/>
+                    <Image src="/assets/bca.svg" alt="bca" width={100} height={50} />
+                    <Image src="/assets/mandiri.svg" alt="bca" width={100} height={50} />
+                    <Image src="/assets/bri.svg" alt="bca" width={100} height={50} />
                 </div>
             </div>
             <div className="text-center font-bold mb-2">

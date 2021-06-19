@@ -3,21 +3,21 @@
     margin-top: 1rem;
     display: grid;
     width: 100%;
-    row-gap: 10px;
     grid-template-columns: 1rem .5fr repeat(2, 1fr) 1rem;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: 1fr 1fr;
     grid-template-areas: 
         '. logo logo cart .'
         '. menu searchbar searchbar .';
 }
 
-.header > :nth-child(even) {
+.header > :nth-child(3),
+.header > :nth-child(5) {
     justify-self: end;
     align-self: center;
 }
 
 .header > :nth-child(1) {
-    width: 120px;
+    width: 90px;
     grid-area: logo;
 }
 
@@ -26,22 +26,17 @@
 }
 
 .header > :nth-child(3) {
-    grid-area: line;
-    display: none;
-}
-
-.header > :nth-child(4) {
     grid-area: cart;
     cursor: pointer;
 }
 
-.header > :nth-child(5) {
+.header > :nth-child(4) {
     grid-area: tabs;
     display: none;
     align-self: flex-end !important;
 }
 
-.header > :nth-child(6) {
+.header > :nth-child(5) {
     grid-area: menu;
     display: flex;
     justify-self: flex-start;
@@ -49,27 +44,30 @@
 
 @media screen and (min-width: 768px) {
     .header {
-        row-gap: 0;
         position: sticky;
         top: -70px;
         z-index: 90;
         grid-template-columns: 2rem 1fr 1fr repeat(2, 6rem) 2rem;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 1fr .6fr;
         grid-template-areas: 
         '. logo searchbar line cart .'
         'tabs tabs tabs tabs tabs tabs';
+    }
+
+    .header > :nth-child(1) {
+        width: 120px;
     }
 
     .header > :nth-child(n+2) {
         justify-self: center;
         align-self: center;
     }
-
-    .header > :nth-child(3), .header > :nth-child(5) {
+ 
+    .header > :nth-child(4) {
         display: flex;
     }
 
-    .header > :nth-child(6) {
+    .header > :nth-child(5) {
         display: none;
     }
 }

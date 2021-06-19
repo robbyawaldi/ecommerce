@@ -1,9 +1,8 @@
 .wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    place-items: center;
+    display: flex;
     cursor: pointer;
     padding: .3rem;
+    align-items: center;
 }
 
 .wrapper[data-checked] {
@@ -12,6 +11,7 @@
 }
 
 .color {
+    margin-right: .5rem;
     width: 2rem;
     height: 2rem;
     border-radius: 100%;

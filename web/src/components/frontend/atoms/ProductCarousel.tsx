@@ -31,12 +31,14 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({ images }) => {
     return (
         <Carousel responsive={responsive} infinite>
             {images?.map((image: Image) => (
-                <InnerImageZoom
-                    className="rounded-2xl"
-                    key={image.sequence}
-                    src={image.url}
-                    zoomSrc={image.url}
-                    hideHint={true} />
+                <div style={{ touchAction: "none" }}>
+                    <InnerImageZoom
+                        className="rounded-2xl"
+                        key={image.sequence}
+                        src={image.url}
+                        zoomSrc={image.url}
+                        hideHint={true} />
+                </div>
             ))}
         </Carousel>
     );
