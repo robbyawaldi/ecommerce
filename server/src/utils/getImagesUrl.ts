@@ -10,5 +10,5 @@ export function getImagesUrl(images: Image[]) {
 }
 
 export function getImageUrl(filename: string) {
-    return `${__prod__ ? process.env.APP_URL : 'http://localhost:4000'}/images/${filename}`
+    return `${__prod__ ? 'http://server' : 'http://localhost:4000'}/images/${filename}`
 }
