@@ -1,4 +1,10 @@
 module.exports = {
+    images: {
+        domains: [
+            'localhost',
+            'sitihajarofficial.com'
+        ]
+    },
     async headers() {
         return [
             {
