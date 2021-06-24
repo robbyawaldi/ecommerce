@@ -18,18 +18,26 @@ export const filterProduct = async (
 ) => {
     if (categoryId && categoryId !== 0) {
         products = products.andWhere('categories.id = :categoryId', { categoryId });
+        const p = await products.getMany()
+        console.log("category", p.length)
     }
 
     if (isExclusive) {
         products = products.andWhere('product.isExclusive = :isExclusive', { isExclusive })
+        const p = await products.getMany()
+        console.log("exclusive", p.length)
     }
 
     if (isMalikha) {
         products = products.andWhere('product.isMalikha = :isMalikha', { isMalikha })
+        const p = await products.getMany()
+        console.log("is malikha", p.length)
     }
 
     if (isDiscount) {
         products = products.andWhere('product.isDiscount = :isDiscount', { isDiscount })
+        const p = await products.getMany()
+        console.log("is Discount", p.length)
     }
 
     if (sortByName)
@@ -41,6 +49,8 @@ export const filterProduct = async (
 
     if (isAdmin == undefined || !isAdmin) {
         products = products.andWhere('product.isPublish is true').limit(LIMIT)
+        const p = await products.getMany()
+        console.log("is admin", p.length)
     }
 
     if (ids) {
@@ -48,7 +58,12 @@ export const filterProduct = async (
             ids = [""]
         }
         products = products.andWhere('product.id IN (:...ids)', { ids })
+        const p = await products.getMany()
+        console.log("ids", p.length)
     }
+
+    const p = await products.getMany()
+    console.log("main", p.length)
 
     return products
 }
