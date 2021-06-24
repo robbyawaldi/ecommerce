@@ -19,10 +19,10 @@ import { Image } from "../entities/Image";
 import { Product } from "../entities/Product";
 import { Size } from "../entities/Size";
 import { isAuth } from "../middleware/isAuth";
-import { filterProduct } from "../utils/filterProduct";
+// import { filterProduct } from "../utils/filterProduct";
 import { generateSlug } from "../utils/generateSlug";
 import { getImagesUrl } from "../utils/getImagesUrl";
-import { searchProduct } from "../utils/searchProduct";
+// import { searchProduct } from "../utils/searchProduct";
 import { validateProduct } from "../utils/validateProduct";
 import { FieldError } from "./FieldError";
 import { FilterProduct } from "./FilterProduct";
@@ -71,16 +71,16 @@ export class ProductResolver {
         const relations = ['images', 'colors', 'categories', 'sizes', 'priceSizes']
         products = joinProduct(products, info, fields, relations)
 
-        products = await filterProduct(products, filter)
-        products = await searchProduct(products, filter)
+        // products = await filterProduct(products, filter)
+        // products = await searchProduct(products, filter)
 
         const total = await products.getCount();
         const start = (page - 1) * limit;
 
         products = await products.getMany()
+        console.log("---------------------------------")
         console.log("product before slice", products.length)
         products = products.slice(start, limit + start)
-        console.log("---------------------------------")
         console.log("page", page)
         console.log("limit", limit)
         console.log("length slice", (limit + start))
