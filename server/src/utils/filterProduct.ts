@@ -64,6 +64,7 @@ export const filterProduct = async (
 
     const p = await products.getMany()
     console.log("main", p.length)
+    console.log("-------------------------------------------------------------------")
 
     return products
 }
