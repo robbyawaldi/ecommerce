@@ -1,5 +1,4 @@
 import { SelectQueryBuilder } from "typeorm";
-import { LIMIT } from "../constants";
 import { Product } from "../entities/Product";
 import { FilterProduct } from "../resolvers/FilterProduct"
 
@@ -48,9 +47,9 @@ export const filterProduct = async (
         products = products.orderBy('product.createdAt', 'DESC')
 
     if (isAdmin == undefined || !isAdmin) {
-        products = products.andWhere('product.isPublish is true').limit(LIMIT)
+        products = products.andWhere('product.isPublish is true')
         const p = await products.getMany()
-        console.log("is admin", p.length)
+        console.log("is not admin", p.length)
     }
 
     if (ids) {
