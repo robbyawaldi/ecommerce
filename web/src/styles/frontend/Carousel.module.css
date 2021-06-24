@@ -1,0 +1,8 @@
+.body {
+    @apply mt-10;
+}
+
+.body div {
+    width: 100%;
+}
+

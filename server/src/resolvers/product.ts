@@ -76,9 +76,16 @@ export class ProductResolver {
 
         const total = await products.getCount();
         const start = (page - 1) * limit;
-        
+
         products = await products.getMany()
         products = products.slice(start, limit + start)
+        console.log("---------------------------------")
+        console.log("page", page)
+        console.log("limit", limit)
+        console.log("length slice", (limit + start))
+        console.log("total", total)
+        console.log("start", start)
+        console.log("product slice", products.length)
 
         products = await Promise.all(products.map(async (product) =>
         ({
