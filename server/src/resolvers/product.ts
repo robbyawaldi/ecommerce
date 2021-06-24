@@ -78,6 +78,7 @@ export class ProductResolver {
         const start = (page - 1) * limit;
 
         products = await products.getMany()
+        console.log("product before slice", products.length)
         products = products.slice(start, limit + start)
         console.log("---------------------------------")
         console.log("page", page)
