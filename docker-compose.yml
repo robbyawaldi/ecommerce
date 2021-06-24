@@ -20,7 +20,7 @@ services:
       - shopping_app
        
   server:
-    image: robbyawaldi/ecommerce_server:1.1.6-dev-3.2
+    image: robbyawaldi/ecommerce_server:1.1.6-dev-3.3
     restart: always
     volumes: 
       - ./server/public/images:/usr/src/app/public/images
