@@ -1,11 +1,11 @@
 upstream server {
     server ecommerce_server_1:4000;
-    server ecommerce_server_2:4000;
+    # server ecommerce_server_2:4000;
 }
 
 upstream web {
     server ecommerce_web_1:3000;
-    server ecommerce_web_2:3000;
+    # server ecommerce_web_2:3000;
 }
 
 server {
