@@ -1,6 +1,6 @@
 upstream server {
     server ecommerce_server_1:4000;
-    # server ecommerce_server_2:4000;
+    server ecommerce_server_2:4000;
 }
 
 upstream web {
