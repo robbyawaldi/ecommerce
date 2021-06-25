@@ -2,16 +2,16 @@
     position: relative;
     overflow: hidden;
     width: 100%;
+    max-height: 64rem;
     cursor: pointer;
     display: grid;
     row-gap: .5em;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr .1fr;
 }
 
 .img {
-    background: rgb(243, 243, 243);
-    height: 100%;
+    align-self: center;   
     border-radius: 1em;
     object-fit: contain;
 }
