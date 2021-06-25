@@ -27,18 +27,20 @@ export const Card: React.FC<CardProps> = ({ product }) => {
                     <div className={styles.soldOut}>Stok Kosong</div>
                 )
             }
-            <h1 className={styles.title}>{product.title}</h1>
-            <p className={styles.description}>{textLimit(product.description)}</p>
-            {
-                product.isDiscount ? (
-                    <div>
-                        <div className="text-xs line-through">{toRupiah(product.price, { floatingPoint: 0 })}</div>
-                        <div className="font-semibold text-gold">{toRupiah(calculateDiscount({ price: product.price, discount: product.discount }), { floatingPoint: 0 })}</div>
-                    </div>
-                ) : (
-                    <div className="font-semibold text-gold">{toRupiah(product.price, { floatingPoint: 0 })}</div>
-                )
-            }
+            <div className={styles.body}>
+                <h1 className={styles.title}>{product.title}</h1>
+                <p className={styles.description}>{textLimit(product.description)}</p>
+                {
+                    product.isDiscount ? (
+                        <div>
+                            <div className="text-xs line-through">{toRupiah(product.price, { floatingPoint: 0 })}</div>
+                            <div className="font-semibold text-gold">{toRupiah(calculateDiscount({ price: product.price, discount: product.discount }), { floatingPoint: 0 })}</div>
+                        </div>
+                    ) : (
+                        <div className="font-semibold text-gold">{toRupiah(product.price, { floatingPoint: 0 })}</div>
+                    )
+                }
+            </div>
         </div>
     );
 }

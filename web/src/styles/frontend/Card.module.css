@@ -3,20 +3,29 @@
     overflow: hidden;
     width: 100%;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    row-gap: .5em;
+    grid-template-columns: 1fr;
+    grid-template-rows: 23rem 1fr;
 }
 
 .img {
+    background: rgb(243, 243, 243);
+    height: 100%;
     border-radius: 1em;
-    object-fit: scale-down;
+    object-fit: contain;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
 }
 
 .title {
     font-weight: bold;
 }
 
-.img, .title, .description {
+.title, .description {
     margin-bottom: .5rem;
 }
 
