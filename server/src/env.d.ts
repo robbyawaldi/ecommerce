@@ -9,7 +9,12 @@ declare namespace NodeJS {
     PORT: string;
     SESSION_SECRET: string;
     DOMAIN: string;
-    APP_URL:string;
-    ADMIN_PASSWORD:string;
+    APP_URL: string;
+    ADMIN_PASSWORD: string;
+    CDN_URL: string
+    S3_ENDPOINT: string
+    S3_BUCKET: string
+    S3_ACCESS_KEY: string
+    S3_SECRET_ACCESS_KEY: string
   }
 }

@@ -1,10 +1,11 @@
-import { createWriteStream } from "fs";
 import { GraphQLUpload } from "graphql-upload";
 import { Arg, Field, Mutation, ObjectType, Resolver } from "type-graphql";
 import { Image } from "../entities/Image";
 import { Upload } from "../types";
-import { getImageUrl } from "../utils/getImagesUrl";
 import { renameFile } from "../utils/renameFile";
+import aws from 'aws-sdk'
+import { PutObjectRequest } from "aws-sdk/clients/s3";
+import { getImageUrl } from "../utils/getImagesUrl";
 
 @ObjectType()
 class ImageUploadResponse {
@@ -21,32 +22,39 @@ export class ImageResolver {
 
     @Mutation(() => ImageUploadResponse)
     async uploadImage(
-        @Arg("file", () => GraphQLUpload) { createReadStream, filename }: Upload
+        @Arg("file", () => GraphQLUpload) { filename, mimetype, createReadStream }: Upload,
     ): Promise<ImageUploadResponse> {
 
-        const fileName = renameFile(filename)
+        filename = renameFile(filename)
 
-        return new Promise(async (resolver) =>
-            createReadStream()
-                .pipe(
-                    createWriteStream(
-                        __dirname + `/../../public/images/${fileName}`
-                        , { autoClose: true }
-                    )
-                )
-                .on('finish', () => resolver({
-                    uploaded: true,
-                    url: getImageUrl(fileName),
-                    image: fileName
-                }))
-                .on("error", (error) => {
-                    console.error(error)
-                    return resolver({
-                        uploaded: false
-                    })
-                }
-                )
-        )
+        const s3 = new aws.S3({
+            endpoint: new aws.Endpoint(process.env.S3_ENDPOINT),
+            accessKeyId: process.env.S3_ACCESS_KEY,
+            secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        })
+
+        const s3Params: PutObjectRequest = {
+            Bucket: process.env.S3_BUCKET,
+            Key: 'products/' + filename,
+            ContentType: mimetype,
+            ACL: 'public-read',
+            Body: createReadStream()
+        };
+
+        try {
+            s3.upload(s3Params, function (err, _) {
+                console.log(err)
+            })
+            return {
+                uploaded: true,
+                url: getImageUrl(filename),
+                image: filename,
+            }
+        } catch (err) {
+            return {
+                uploaded: false
+            }
+        }
     }
 
     @Mutation(() => Boolean)

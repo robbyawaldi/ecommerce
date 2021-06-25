@@ -36,6 +36,7 @@
   "dependencies": {
     "apollo-server-express": "^2.22.1",
     "argon2": "^0.27.1",
+    "aws-sdk": "^2.933.0",
     "connect-redis": "^5.1.0",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
