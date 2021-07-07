@@ -1,3 +1,5 @@
+client_max_body_size 100M;
+
 upstream server {
     server ecommerce_server_1:4000;
     server ecommerce_server_2:4000;
