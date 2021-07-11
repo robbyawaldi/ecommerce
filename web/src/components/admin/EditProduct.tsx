@@ -71,19 +71,17 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
         }
     }, [data])
 
-    const errorMessage = loadingOrQueryFailed({ data, error, loading })
-    if (errorMessage) {
-        return errorMessage
-    }
+    const errors = useMemo(() => [
+        { data, error, loading },
+        { data: sizes, error: sizeError, loading: sizeLoading },
+        { data: categories, error: categoryError, loading: categoryLoading },
+    ], [data, error, loading, sizes, sizeError, sizeLoading, categories, categoryError, categoryLoading])
 
-    const errorSizeMessage = loadingOrQueryFailed({ data: sizes, error: sizeError, loading: sizeLoading })
-    if (errorSizeMessage) {
-        return errorSizeMessage
-    }
-
-    const errorCategoryMessage = loadingOrQueryFailed({ data: categories, error: categoryError, loading: categoryLoading })
-    if (errorCategoryMessage) {
-        return errorCategoryMessage
+    for (const error of errors) {
+        const errorMessage = loadingOrQueryFailed({ ...error })
+        if (errorMessage) {
+            return errorMessage
+        }
     }
 
     return (
@@ -108,15 +106,19 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                             images: images
                                 .filter(image =>
                                     image.image !== undefined
-                                    && !image.__typename)
-                                .map(image => ({ image: image.image as string })),
+                                )
+                                .map(image => ({
+                                    id: image.id,
+                                    image: image.image as string,
+                                    color: image.color ?? undefined
+                                })),
                             colors: colors
                                 .filter(color =>
                                     color.name !== undefined
                                 )
-                                .map(color => ({ 
-                                    id: color.id, 
-                                    code: color.code as string, 
+                                .map(color => ({
+                                    id: color.id,
+                                    code: color.code as string,
                                     name: color.name as string,
                                     exceptSizes: color.exceptSizes?.map(size => size.id as number) as number[]
                                 })),
@@ -280,7 +282,8 @@ export const EditProduct: React.FC<EditProductProps> = ({ }) => {
                                 <UploadImage
                                     key={i}
                                     image={image}
-                                    dispatch={imageDispatch} />
+                                    dispatch={imageDispatch}
+                                    colors={colors} />
                             ))}
                         </div>
 

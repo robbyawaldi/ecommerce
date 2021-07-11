@@ -72,12 +72,15 @@ export type Image = {
   image: Scalars['String'];
   url: Scalars['String'];
   sequence: Scalars['Float'];
+  color: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
 
 export type ImageInput = {
+  id: Scalars['String'];
   image: Scalars['String'];
+  color?: Maybe<Scalars['String']>;
 };
 
 export type ImageUploadResponse = {
@@ -434,7 +437,7 @@ export type ProductFragment = (
   & Pick<Product, 'id' | 'title' | 'slug' | 'description' | 'detail' | 'price' | 'discount' | 'stockAvailable' | 'isPublish' | 'isExclusive' | 'isMalikha' | 'isDiscount'>
   & { images: Array<(
     { __typename?: 'Image' }
-    & Pick<Image, 'id' | 'image' | 'url' | 'sequence'>
+    & Pick<Image, 'id' | 'image' | 'url' | 'sequence' | 'color'>
   )>, colors: Array<(
     { __typename?: 'Color' }
     & Pick<Color, 'id' | 'code' | 'name'>
@@ -914,6 +917,7 @@ export const ProductFragmentDoc = gql`
     image
     url
     sequence
+    color
   }
   colors {
     id

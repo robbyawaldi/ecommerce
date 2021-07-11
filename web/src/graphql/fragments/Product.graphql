@@ -16,6 +16,7 @@ fragment Product on Product {
     image
     url
     sequence
+    color
   }
   colors {
     id

@@ -74,7 +74,11 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                             ...values,
                             images: images
                                 .filter(image => image.image !== undefined)
-                                .map(image => ({ image: image.image as string })),
+                                .map(image => ({ 
+                                    id: image.id,
+                                    image: image.image as string, 
+                                    color: image.color ?? undefined
+                                })),
                             colors: colors
                                 .filter(color => color.code !== undefined && color.name !== undefined)
                                 .map(color => ({
@@ -245,7 +249,8 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
                                 <UploadImage
                                     key={i}
                                     image={image}
-                                    dispatch={imageDispatch} />
+                                    dispatch={imageDispatch} 
+                                    colors={colors}/>
                             ))}
                         </div>
 

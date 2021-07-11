@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import InnerImageZoom from 'react-inner-image-zoom';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
+import { DetailContext } from '../../../contexts/detailContext';
 import { Image } from '../../../generated/graphql';
 
 interface ProductCarouselProps {
@@ -9,7 +10,9 @@ interface ProductCarouselProps {
 }
 
 export const ProductCarousel: React.FC<ProductCarouselProps> = ({ images }) => {
-    const responsive = {
+    const { productDetail: { color } } = useContext(DetailContext)
+
+    const responsive = useMemo(() => ({
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 1500 },
             items: 1
@@ -26,15 +29,14 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({ images }) => {
             breakpoint: { max: 464, min: 0 },
             items: 1
         }
-    };
+    }), []);
 
     return (
         <Carousel responsive={responsive} infinite>
-            {images?.map((image: Image) => (
-                <div style={{ touchAction: "none" }}>
+            {images?.filter((image) => color == "" ? true : image.color == color).map((image: Image) => (
+                <div style={{ touchAction: "none" }} key={image.sequence}>
                     <InnerImageZoom
                         className="rounded-2xl"
-                        key={image.sequence}
                         src={image.url}
                         zoomSrc={image.url}
                         hideHint={true} />

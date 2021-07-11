@@ -11,6 +11,7 @@ import { calculateDiscount } from '../../../utils/discount';
 import { textLimit } from '../../../utils/textLimit';
 import { ColorSelect } from './ColorSelect';
 import { SizeSelect } from '../atoms/SizeSelect';
+import { DetailContext } from '../../../contexts/detailContext';
 
 interface ProductCardProps {
     product: Product
@@ -19,8 +20,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { dispatch } = useContext(CartContext)
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [size, setSize] = useState("")
-    const [color, setColor] = useState("")
+    const { productDetail: { size, color }, dispatch: productDispatch } = useContext(DetailContext)
 
     const router = useRouter()
 
@@ -43,6 +43,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         })
     }
 
+    const handleSetColor = (value: any) => productDispatch({ type: "UPDATE", color: value })
+    const handleSetSize = (value: any) => productDispatch({ type: "UPDATE", size: value })
+
     return (
         <div className={styles.box}>
             <div>
@@ -64,13 +67,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <ColorSelect
                 colors={product.colors.filter(color => color.exceptSizes?.find(s => s.name == size) == undefined)}
                 value={color}
-                setValue={setColor}
+                setValue={handleSetColor}
             />
 
             <SizeSelect
                 sizes={product.sizes as Size[]}
                 value={size}
-                setValue={setSize}
+                setValue={handleSetSize}
             />
             <Button
                 disabled={!product.stockAvailable}

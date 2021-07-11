@@ -8,7 +8,7 @@ import {
   PrimaryColumn,
   ManyToOne,
 } from "typeorm";
-import { ulid } from "ulid";
+import { ImageInput } from "../resolvers/ImageInput";
 import { Product } from "./Product";
 
 @ObjectType()
@@ -32,6 +32,10 @@ export class Image extends BaseEntity {
   @Column()
   productId!: string;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true, default: null })
+  color?: string;
+
   @ManyToOne(() => Product, (product) => product.images, { onDelete: "CASCADE" })
   product: Product;
 
@@ -43,22 +47,25 @@ export class Image extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  static async saveImages(images: Image[], productId: string) {
-    for (const [sequence, { image }] of images.entries()) {
+  static async saveImages(images: ImageInput[], productId: string) {
+    for (const [sequence, { id, image, color }] of images.entries()) {
+      console.log("upload gambar", image, color)
       try {
         await this
           .createQueryBuilder()
           .insert()
           .into(Image)
           .values({
-            id: ulid(),
+            id,
             image,
             sequence,
-            productId
+            productId,
+            color,
           })
+          .orUpdate({ conflict_target: ['id'], overwrite: ['color'] })
           .execute()
       } catch (err) {
-        console.log("insert image" , err)
+        console.log("insert image", err)
       }
     }
   }

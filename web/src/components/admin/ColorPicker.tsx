@@ -26,10 +26,16 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ dispatch, color: { id,
             setSelectedSizes(exceptSizes)
         }
 
-        document.body.addEventListener('mousedown', (e: MouseEvent) => {
+        const mousedown = (e: MouseEvent) => {
             const targetClassName = (e.target as HTMLDivElement).offsetParent?.className ?? ""
             if (!targetClassName.includes('ColorPicker')) setShow(false)
-        })
+        }
+
+        document.body.addEventListener('mousedown', mousedown)
+
+        return () => {
+            document.body.removeEventListener('mousedown', mousedown)
+        }
     }, [])
 
     useEffect(() => {

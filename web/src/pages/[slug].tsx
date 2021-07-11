@@ -6,11 +6,12 @@ import { withApollo } from "../utils/withApollo"
 import styles from '../styles/frontend/Product.module.css'
 import { useRouter } from "next/router"
 import { Image, Product as ProductGraphql, useProductQuery } from "../generated/graphql"
-import React, { useMemo } from "react"
+import React, { useMemo, useState } from "react"
 import { loadingOrQueryFailed } from "../utils/loadingOrQueryFailed"
 import Head from "next/head"
 import { PageNotFound } from "../components/frontend/atoms/PageNotFound"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react"
+import DetailContextProvider from "../contexts/detailContext"
 
 const Product = () => {
     const router = useRouter()
@@ -28,32 +29,34 @@ const Product = () => {
     }
 
     return (
-        <Layouts>
-            <Head>
-                <title>{data?.product ? `Jual ${data.product.title}` : '404 - Halaman tidak ditemukan'}</title>
-            </Head>
-            {data?.product == null
-                ? <PageNotFound />
-                : (
-                    <>
-                        <Breadcrumb separator={<img src="/assets/1fsxS23o.svg" className="transform rotate-90 w-6" />}>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink href="/">Beranda</BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbItem isCurrentPage>
-                                <BreadcrumbLink href="#">Detail Produk</BreadcrumbLink>
-                            </BreadcrumbItem>
-                        </Breadcrumb>
+        <DetailContextProvider>
+            <Layouts>
+                <Head>
+                    <title>{data?.product ? `Jual ${data.product.title}` : '404 - Halaman tidak ditemukan'}</title>
+                </Head>
+                {data?.product == null
+                    ? <PageNotFound />
+                    : (
+                        <>
+                            <Breadcrumb separator={<img src="/assets/1fsxS23o.svg" className="transform rotate-90 w-6" />}>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink href="/">Beranda</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbItem isCurrentPage>
+                                    <BreadcrumbLink href="#">Detail Produk</BreadcrumbLink>
+                                </BreadcrumbItem>
+                            </Breadcrumb>
 
-                        <div className={styles.box}>
-                            <ProductCarousel images={data?.product?.images as Image[]} />
-                            <ProductCard product={data?.product as ProductGraphql} />
-                            <ProductDetail product={data?.product as ProductGraphql} />
-                        </div>
-                    </>
-                )
-            }
-        </Layouts>
+                            <div className={styles.box}>
+                                <ProductCarousel images={data?.product?.images as Image[]} />
+                                <ProductCard product={data?.product as ProductGraphql} />
+                                <ProductDetail product={data?.product as ProductGraphql} />
+                            </div>
+                        </>
+                    )
+                }
+            </Layouts>
+        </DetailContextProvider>
     )
 }
 

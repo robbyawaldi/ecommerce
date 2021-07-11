@@ -4,9 +4,16 @@ import styles from '../../../styles/frontend/ColorItem.module.css'
 
 interface ColorItemProps {
     code: string
+    isDataCheckedStyles?: boolean
+    isAdmin?: boolean
 }
 
-export const ColorItem: React.FC<ColorItemProps> = ({ code, ...props }: ColorItemProps & React.PropsWithChildren<RadioProps>) => {
+export const ColorItem: React.FC<ColorItemProps> = ({
+    code,
+    isDataCheckedStyles = true,
+    isAdmin = false,
+    ...props
+}: ColorItemProps & React.PropsWithChildren<RadioProps>) => {
     const { getInputProps, getCheckboxProps } = useRadio(props)
 
     const input = getInputProps()
@@ -17,7 +24,14 @@ export const ColorItem: React.FC<ColorItemProps> = ({ code, ...props }: ColorIte
             <input {...input} />
             <div
                 {...checkbox}
-                className={styles.wrapper}
+                className={`
+                ${styles.wrapper} 
+                ${styles[isDataCheckedStyles
+                        ? isAdmin
+                            ? "forAdmin"
+                            : "withDataChecked"
+                        : ""]}
+                `}
             >
                 <div className={styles.color} style={{ backgroundColor: code }}></div>
                 {props.children}

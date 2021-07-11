@@ -11,8 +11,9 @@ export function imageReducer(state: Images, action: ImageAction) {
             return {
                 images: state.images.map((image: ProductImage) =>
                     image.id === action.id
-                        ? { ...image, image: action.image, url: action.url }
-                        : image)
+                        ? { ...image, ...action }
+                        : image
+                )
             }
         case "DELETE":
             return {
@@ -20,7 +21,13 @@ export function imageReducer(state: Images, action: ImageAction) {
             }
         case "SET":
             return {
-                images: [...action.images, { id: randomId(), image: undefined, url: undefined }]
+                images: [
+                    ...action.images, {
+                        id: randomId(),
+                        image: undefined,
+                        url: undefined,
+                        color: undefined
+                    }]
             }
         default:
             return state

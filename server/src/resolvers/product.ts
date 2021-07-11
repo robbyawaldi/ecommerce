@@ -33,6 +33,7 @@ import { Color } from "../entities/Color";
 import { PriceSize } from "../entities/PriceSize";
 import { getSizeName } from "../utils/getSizeName";
 import { ColorInput } from "./ColorInput";
+import { ImageInput } from "./ImageInput";
 
 @ObjectType()
 class ProductResponse {
@@ -138,7 +139,7 @@ export class ProductResolver {
             product.categories = await Category.findByIds(options.categories);
             product.sizes = await Size.findByIds(options.sizes);
             await this.productRepository.save(product)
-            await Image.saveImages(images as Image[], product.id)
+            await Image.saveImages(images as ImageInput[], product.id)
             await Color.saveColors(colors as ColorInput[], product.id)
             await PriceSize.savePriceSizes(priceSizes as PriceSize[], product.id)
 
@@ -175,7 +176,7 @@ export class ProductResolver {
             product.categories = await Category.findByIds(categories)
             product.sizes = await Size.findByIds(sizes)
 
-            await Image.saveImages(images as Image[], product.id)
+            await Image.saveImages(images as ImageInput[], product.id)
             await Color.saveColors(colors as ColorInput[], product.id)
             await PriceSize.savePriceSizes(priceSizes as PriceSize[], product.id)
 

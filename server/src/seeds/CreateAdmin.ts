@@ -4,6 +4,7 @@ import { ulid } from "ulid";
 import { User } from "../entities/User";
 import { Role } from "../entities/Role";
 import argon2 from 'argon2'
+import { __prod__ } from "../constants";
 
 export default class CreateAdmin implements Seeder {
     public async run(_: Factory, connection: Connection): Promise<any> {
@@ -48,7 +49,7 @@ export default class CreateAdmin implements Seeder {
                     id: ulid(),
                     name: 'admin',
                     email: 'admsitihajar@gmail.com',
-                    password: await argon2.hash(process.env.ADMIN_PASSWORD),
+                    password: await argon2.hash(__prod__ ? process.env.ADMIN_PASSWORD : "zxcasd"),
                     role: admin
                 }
             ])

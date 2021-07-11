@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import "dotenv-safe/config";
 import { __prod__, COOKIE_NAME } from "./constants";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
@@ -26,6 +25,7 @@ import { Color } from "./entities/Color";
 import { ColorResolver } from "./resolvers/color";
 import { PriceSize } from "./entities/PriceSize";
 import { PriceSizeResolver } from "./resolvers/priceSize";
+require('dotenv').config({ path: path.resolve(__dirname, __prod__ ? './env' : '../../.env') })
 
 const main = async () => {
   const conn = await createConnection({
@@ -36,7 +36,7 @@ const main = async () => {
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
     logging: false,
-    synchronize: false,
+    synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [
       User,

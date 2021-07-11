@@ -1,34 +1,37 @@
-import { HStack, RadioGroup, Stack, useRadioGroup } from '@chakra-ui/react';
+import { useRadioGroup } from '@chakra-ui/react';
 import React from 'react'
 import { Color } from '../../../generated/graphql';
+import { ProductColor } from '../../../types/colors';
 import { ColorItem } from '../atoms/ColorItem';
 
 interface ColorSelectProps {
-    colors: Color[]
-    value: string;
+    colors?: Color[] | ProductColor[]
+    value: string
     setValue: React.Dispatch<React.SetStateAction<string>>
+    isAdmin?: boolean
 }
 
-export const ColorSelect: React.FC<ColorSelectProps> = ({ colors, value, setValue }) => {
+export const ColorSelect: React.FC<ColorSelectProps> = ({ colors, value, setValue, isAdmin = false }) => {
     const { getRootProps, getRadioProps } = useRadioGroup({ name: "colors", defaultValue: value, onChange: setValue })
     const group = getRootProps()
 
+    if (colors == undefined || colors.length < 1) {
+        return null
+    }
+
     return (
         <div>
-            {colors.length > 0
-                ? <div className="font-semibold">Pilih Warna</div>
-                : null
-            }
-            <HStack {...group}>
-                {colors.map(({ code, name }) => {
+            <div className="font-semibold">Pilih Warna</div>
+            <div className="flex flex-wrap" {...group}>
+                {colors.map(({ code, name }, index) => {
                     const radio = getRadioProps({ value: name })
                     return (
-                        <ColorItem key={code} code={code} {...radio}>
+                        <ColorItem key={index} code={code ?? ""} {...radio} isAdmin={isAdmin}>
                             {name}
                         </ColorItem>
                     )
                 })}
-            </HStack>
+            </div>
         </div>
     );
 }

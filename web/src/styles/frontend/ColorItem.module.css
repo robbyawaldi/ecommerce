@@ -3,11 +3,19 @@
     cursor: pointer;
     padding: .3rem;
     align-items: center;
+    width: max-content;
 }
 
 .wrapper[data-checked] {
-    background-color: rgba(179, 132, 38, 0.3);
     border-radius: 0.5rem;
+}
+
+.wrapper[data-checked].withDataChecked {
+    background-color: rgba(179, 132, 38, 0.3);
+}
+
+.wrapper[data-checked].forAdmin {
+    background-color: rgba(18, 167, 214, 0.3);
 }
 
 .color {

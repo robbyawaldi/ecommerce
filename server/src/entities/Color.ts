@@ -1,8 +1,9 @@
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { ColorInput } from "../resolvers/ColorInput";
 import { Product } from "./Product";
 import { Size } from "./Size";
+import { Image } from "./Image"
 
 @ObjectType()
 @Entity()
@@ -28,6 +29,9 @@ export class Color extends BaseEntity {
 
     @ManyToOne(() => Product, (product) => product.colors, { onDelete: "CASCADE", onUpdate: "CASCADE" })
     product: Product;
+
+    @OneToMany(() => Image, (image) => image.color, { nullable: true })
+    images: Image[]
 
     @Field(() => [Size], { nullable: true })
     @ManyToMany(() => Size)
