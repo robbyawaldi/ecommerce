@@ -11,7 +11,7 @@ import { loadingOrQueryFailed } from "../utils/loadingOrQueryFailed"
 import Head from "next/head"
 import { PageNotFound } from "../components/frontend/atoms/PageNotFound"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react"
-import DetailContextProvider from "../contexts/detailContext"
+import DetailContextProvider from "../contexts/DetailContext"
 
 const Product = () => {
     const router = useRouter()

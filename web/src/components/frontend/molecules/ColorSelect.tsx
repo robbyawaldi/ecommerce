@@ -23,7 +23,7 @@ export const ColorSelect: React.FC<ColorSelectProps> = ({ colors, value, setValu
         <div>
             <div className="font-semibold">Pilih Warna</div>
             <div className="flex flex-wrap" {...group}>
-                {colors.map(({ code, name }, index) => {
+                {colors.map(({ code, name }: {code: string | undefined, name: string | undefined}, index: number) => {
                     const radio = getRadioProps({ value: name })
                     return (
                         <ColorItem key={index} code={code ?? ""} {...radio} isAdmin={isAdmin}>

@@ -20,7 +20,7 @@ services:
       - shopping_app
        
   server:
-    image: robbyawaldi/ecommerce_server:1.1.7
+    image: robbyawaldi/ecommerce_server:1.1.8
     restart: always
     volumes: 
       - ./server/public/images:/usr/src/app/public/images
@@ -48,7 +48,7 @@ services:
       - shopping_app
   
   web:
-    image: robbyawaldi/ecommerce_web:1.2.0
+    image: robbyawaldi/ecommerce_web:1.2.1
     restart: always
     environment: 
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}

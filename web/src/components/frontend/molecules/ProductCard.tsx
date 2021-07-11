@@ -11,7 +11,7 @@ import { calculateDiscount } from '../../../utils/discount';
 import { textLimit } from '../../../utils/textLimit';
 import { ColorSelect } from './ColorSelect';
 import { SizeSelect } from '../atoms/SizeSelect';
-import { DetailContext } from '../../../contexts/detailContext';
+import { DetailContext } from '../../../contexts/DetailContext';
 
 interface ProductCardProps {
     product: Product

@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import InnerImageZoom from 'react-inner-image-zoom';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
-import { DetailContext } from '../../../contexts/detailContext';
+import { DetailContext } from '../../../contexts/DetailContext';
 import { Image } from '../../../generated/graphql';
 
 interface ProductCarouselProps {
