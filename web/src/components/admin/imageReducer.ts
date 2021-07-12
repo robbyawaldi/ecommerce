@@ -5,7 +5,11 @@ export function imageReducer(state: Images, action: ImageAction) {
     switch (action.type) {
         case "ADD":
             return {
-                images: [...state.images, { id: randomId(), image: undefined, url: undefined }]
+                images: [
+                    ...state.images.filter(image => image.id !== "__empty"),
+                    { id: randomId(), image: action.image, url: action.url },
+                    { id: "__empty", image: undefined, url: undefined }
+                ]
             }
         case "UPDATE":
             return {
@@ -22,8 +26,9 @@ export function imageReducer(state: Images, action: ImageAction) {
         case "SET":
             return {
                 images: [
-                    ...action.images, {
-                        id: randomId(),
+                    ...action.images,
+                    {
+                        id: "__empty",
                         image: undefined,
                         url: undefined,
                         color: undefined

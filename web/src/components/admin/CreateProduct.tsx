@@ -40,7 +40,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({ }) => {
 
     const [{ images }, imageDispatch] = useReducer(imageReducer, {
         images: [
-            { id: randomId(), image: undefined, url: undefined }
+            { id: "__empty", image: undefined, url: undefined }
         ]
     });
     const [{ colors }, colorDispatch] = useReducer(colorReducer, { colors: [] })

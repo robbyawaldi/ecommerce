@@ -1,5 +1,5 @@
 export type ImageAction =
-    | { type: "ADD" }
+    | { type: "ADD", id: string, image: string, url: string }
     | { type: "UPDATE", id: string, image?: string, url?: string, color?: string }
     | { type: "DELETE", id: string }
     | { type: "SET", images: ProductImage[] }

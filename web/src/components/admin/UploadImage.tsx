@@ -7,6 +7,7 @@ import { ImageAction, ProductImage } from '../../types/images';
 import { ColorSelect } from '../frontend/molecules/ColorSelect';
 import { ProductColor } from '../../types/colors';
 import { ColorItem } from '../frontend/atoms/ColorItem';
+import { randomId } from '../../utils/randomId';
 
 interface UploadImageProps {
     dispatch: React.Dispatch<ImageAction>;
@@ -23,7 +24,7 @@ export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id,
 
         const mousedown = (e: MouseEvent) => {
             const targetClassName = (e.target as HTMLDivElement).className ?? ""
-            if (!targetClassName.match(/(ColorSelect|ColorItem)/g)) setShowColorSelect(false)
+            if (targetClassName && !targetClassName?.match(/(ColorSelect|ColorItem)/g)) setShowColorSelect(false)
         }
 
         document.body.addEventListener('mousedown', mousedown)
@@ -34,15 +35,16 @@ export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id,
     }, [])
 
     const onDrop = useCallback(
-        async ([file]) => {
-            const response = await uploadImage({
-                variables: { file }
-            })
-            if (response?.data?.uploadImage.uploaded) {
-                const url: string = response.data.uploadImage.url as string
-                const image: string = response.data.uploadImage.image as string
-                dispatch({ type: "UPDATE", id, image, url })
-                dispatch({ type: "ADD" })
+        async (files) => {
+            for (const file of files) {
+                const response = await uploadImage({
+                    variables: { file }
+                })
+                if (response?.data?.uploadImage.uploaded) {
+                    const url: string = response.data.uploadImage.url as string
+                    const image: string = response.data.uploadImage.image as string
+                    dispatch({ type: "ADD", id: randomId(), image, url })
+                }
             }
         },
         [uploadImage, id]
@@ -59,6 +61,7 @@ export const UploadImage: React.FC<UploadImageProps> = ({ dispatch, image: { id,
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
+        multiple: true,
         accept: 'image/*'
     })
 
