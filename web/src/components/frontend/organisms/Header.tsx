@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from '../../../styles/frontend/Header.module.css'
 import { IconButton } from '@chakra-ui/button'
 import { CgMenu } from 'react-icons/cg'
@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { CartProps } from './Cart'
 import { SearchbarProps } from '../molecules/Searchbar'
 import { NavsProps } from '../molecules/Navs'
+import { useRouter } from 'next/router'
 const Searchbar = dynamic(() => import('../molecules/Searchbar').then((component) => component.Searchbar as any)) as React.ComponentType<SearchbarProps>
 const Cart = dynamic(() => import('./Cart').then((component) => component.Cart as any)) as React.ComponentType<CartProps>
 const SideBar = dynamic(() => import('./SideBar').then((component) => component.SideBar as any)) as React.ComponentType<CartProps>
@@ -20,6 +21,13 @@ export const Header: React.FC<HeaderProps> = ({ }) => {
     const { onOpen: onOpenCart } = disclosureCart
     const disclosureSideBar = useDisclosure()
     const { onOpen: onOpenSideBar } = disclosureSideBar
+    const router = useRouter()
+
+    useEffect(() => {
+        if (router.query.openCart !== undefined) {
+            onOpenCart()
+        }
+    }, [router.query])
 
     return (
         <header className={styles.header}>
